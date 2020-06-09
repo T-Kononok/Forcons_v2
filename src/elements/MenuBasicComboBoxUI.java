@@ -9,7 +9,6 @@ public class MenuBasicComboBoxUI extends BasicComboBoxUI {
     @Override
     protected JButton createArrowButton() {
         JButton button = new JButton();
-        button.setPreferredSize(new Dimension(0,0));
         button.setVisible(false);
         return button;
     }

@@ -9,19 +9,25 @@ public class MainFrame extends JFrame {
 
     private static final int WIDTH = 1280;
     private static final int HEIGHT = 720;
+    private final ImagePanel panelFull;
 
     private MainFrame() {
 
         setUndecorated(true);
         setExtendedState(MAXIMIZED_BOTH);
 
-        ImagePanel panelFull = addPanelFull();
+        panelFull = addPanelFull();
         addJournalTable(panelFull);
         addMenuComboBox(panelFull);
         addCancelButton(panelFull);
 
-
         getContentPane().add(panelFull);
+        setVisible(true);
+    }
+
+    //костыль дабы не было иногда прозрачного экрана
+    public void setImageKost() {
+        panelFull.setImageFile("image/fon.jpg");
     }
 
     private ImagePanel addPanelFull() {
@@ -42,24 +48,25 @@ public class MainFrame extends JFrame {
     }
 
     private void addMenuComboBox(JPanel panel) {
-        String[] items = {"Fe", "Fi", "Fo", "Fum"};
+        String[] items = {"10 ФМ-2", "10 ФМ-3", "11 ФМ-3", "Форсоны", "Сохранить"};
         JComboBox<String> combo = new JComboBox<>(items);
         combo.setUI(new MenuBasicComboBoxUI());
         combo.setSize(100,25);
-        combo.setLocation(1100,5);
+        combo.setLocation(1060,5);
         panel.add(combo);
     }
 
     private void addCancelButton(JPanel panel) {
         JButton cancelButton = new JButton();
         cancelButton.setSize(25,25);
-        cancelButton.setLocation(WIDTH-cancelButton.getWidth()-5,5);
-        cancelButton.addActionListener(e -> dispose());
+        cancelButton.setLocation(1250,5);
+        cancelButton.addActionListener(ev -> dispose());
         panel.add(cancelButton);
     }
 
     public static void main(String[] args) {
         MainFrame frame = new MainFrame();
-        frame.setVisible(true);
+        //костыль дабы не было иногда прозрачного экрана
+        frame.setImageKost();
     }
 }

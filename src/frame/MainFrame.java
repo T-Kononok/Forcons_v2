@@ -1,5 +1,6 @@
 package frame;
 
+import elements.ForconsRenderer;
 import elements.ImagePanel;
 import elements.MenuComboBoxUI;
 
@@ -98,8 +99,9 @@ public class MainFrame extends JFrame {
         vectorForsons.forEach(forconsListModel::addElement);
 
         JList<String> forconsList = new JList<>(forconsListModel);
-//        forconsList.setCellRenderer(new ForconsRenderer());
+        forconsList.setCellRenderer(new ForconsRenderer());
         forconsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
         JScrollPane forconsListScroll = new JScrollPane(forconsList);
         forconsListScroll.getVerticalScrollBar().setUI(new MyScrollBarUI());
         forconsListScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -113,7 +115,26 @@ public class MainFrame extends JFrame {
         vectorForsons.addElement(",ba,Горшок,3,6");
         vectorForsons.addElement(",sa,АскаМисатоРей,2,12");
         vectorForsons.addElement(",in,Стив,1,2");
+        vectorForsons.addElement(",sm,Стив,1,0");
         vectorForsons.addElement(",ba,Горшок,3,6");
+        vectorForsons.addElement(",in,Аска,2,2");
+        vectorForsons.addElement(",in,Стив,1,8");
+        vectorForsons.addElement(",sa,Стив,1,11");
+        vectorForsons.addElement(",ba,Горшок,3,6");
+        vectorForsons.addElement(",sa,Аска,2,2");
+        vectorForsons.addElement(",sa,Стив,1,5");
+        vectorForsons.addElement(",sm,Стив,1,4");
+        vectorForsons.addElement(",ba,Горшок,3,6");
+        vectorForsons.addElement(",sa,Аска,2,2");
+        vectorForsons.addElement(",sa,Стив,1,5");
+        vectorForsons.addElement(",sm,Стив,1,4");
+        vectorForsons.addElement(",sa,Аска,2,2");
+        vectorForsons.addElement(",sa,Стив,1,5");
+        vectorForsons.addElement(",sm,Стив,1,4");
+        vectorForsons.addElement(",ba,Горшок,3,6");
+        vectorForsons.addElement(",sa,Аска,2,2");
+        vectorForsons.addElement(",sa,Стив,1,5");
+        vectorForsons.addElement(",sm,Стив,1,4");
     }
 
     private void addSvgCanvasClass() {

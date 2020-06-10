@@ -106,7 +106,7 @@ public class MainFrame extends JFrame {
         forconsListScroll.getVerticalScrollBar().setUI(new MyScrollBarUI());
         forconsListScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         forconsListScroll.setBorder(BorderFactory.createEmptyBorder());
-        forconsListScroll.setSize(215, 615 - 30);
+        forconsListScroll.setSize(220, 615 - 30);
         forconsListScroll.setLocation(1060,35);
         panelFull.add(forconsListScroll);
     }

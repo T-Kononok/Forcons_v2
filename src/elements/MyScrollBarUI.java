@@ -40,7 +40,7 @@ public class MyScrollBarUI extends BasicScrollBarUI {
     @Override
     protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
 
-        g.drawImage(imageTrack,-1280+22,-35, null);
+        g.drawImage(imageTrack,-1280-5+22,-35, null);
     }
 
     @Override

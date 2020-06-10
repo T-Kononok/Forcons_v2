@@ -7,28 +7,29 @@ import org.apache.batik.swing.gvt.GVTTreeRendererListener;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 public class ForconsRenderer implements ListCellRenderer<String> {
 
     private final JPanel fonBack = new JPanel();
     private final JPanel fonForeg = new JPanel();
-    private final JLabel numberLabel = new JLabel("1");
-    private final JLabel nameLabel = new JLabel("Имя");
-    private final JLabel levelLabel = new JLabel("3");
-    private final JLabel pointLabel = new JLabel("5");
-    private final JSVGCanvas classSVG = new JSVGCanvas();
+    private final JLabel numberLabel = new JLabel();
+    private final JLabel nameLabel = new JLabel();
+    private final JLabel levelLabel = new JLabel();
+    private final JLabel pointLabel = new JLabel();
     private final JSVGCanvas pointSVG = new JSVGCanvas();
+    private final Vector<JSVGCanvas> vectorClassSVG = new Vector<>();
+    private final Vector<JSVGCanvas> vectorPointSVG = new Vector<>();
+    private final Map<String, Integer> map = new HashMap<>();
 
     private final Font basicFont = new Font("Verdana", Font.BOLD, 15);
 
     public ForconsRenderer() {
-        pointSVG.setURI("file:image/svg/point3.svg");
-        classSVG.setURI("file:image/svg/ba.svg");
 
-        fonBack.setBackground(Color.ORANGE);
+        inMap();
         fonForeg.setBackground(Color.GRAY);
-
         fonForeg.setPreferredSize(new Dimension(190, 60));
         fonForeg.setLayout(null);
         addNumberLabel();
@@ -38,6 +39,13 @@ public class ForconsRenderer implements ListCellRenderer<String> {
         addPointLabel();
         addPointSVG();
         fonBack.add(fonForeg);
+    }
+
+    private void inMap() {
+        map.put("ba", 0);
+        map.put("in", 1);
+        map.put("sa", 2);
+        map.put("sm", 3);
     }
 
     private void addNumberLabel() {
@@ -52,6 +60,7 @@ public class ForconsRenderer implements ListCellRenderer<String> {
         setAlignmentAndFont(nameLabel,basicFont);
         nameLabel.setSize(80, 30);
         nameLabel.setLocation(80, 0);
+//        nameLabel.setBorder(BorderFactory.createLineBorder(Color.RED));
         fonForeg.add(nameLabel);
     }
 
@@ -59,6 +68,7 @@ public class ForconsRenderer implements ListCellRenderer<String> {
         setAlignmentAndFont(levelLabel,basicFont);
         levelLabel.setSize(30, 30);
         levelLabel.setLocation(160, 0);
+//        levelLabel.setBorder(BorderFactory.createLineBorder(Color.RED));
         fonForeg.add(levelLabel);
     }
 
@@ -76,29 +86,117 @@ public class ForconsRenderer implements ListCellRenderer<String> {
     }
 
     private void addClassSVG() {
-        classSVG.setSize(60, 60);
-        classSVG.setLocation(20,0);
-        classSVG.setBackground(new Color(0, 0, 0, 0));
-        fonForeg.add(classSVG);
-        fonBack.add(fonForeg);
+        String[] item = {"ba","in","sa","sm"};
+        for (int i = 0; i < 4; i++) {
+            vectorClassSVG.add(addOneClassSVG());
+            vectorClassSVG.get(i).setURI("file:image/svg/"+item[i]+".svg");
+        }
+    }
+
+    private JSVGCanvas addOneClassSVG() {
+        JSVGCanvas canvas = new JSVGCanvas();
+        canvas.setBackground(new Color(0, 0, 0, 0));
+        canvas.setSize(60, 60);
+        canvas.setLocation(20,0);
+        fonForeg.add(canvas);
+        return canvas;
     }
 
     private void addPointSVG() {
-        pointSVG.setBackground(new Color(0, 0, 0, 0));
-        pointSVG.setSize(110, 30);
-        pointSVG.setLocation(80, 30);
-        fonForeg.add(pointSVG);
+        for (int i = 0; i < 8; i++) {
+            vectorPointSVG.add(addOnePointSVG());
+            vectorPointSVG.get(i).setURI("file:image/svg/point"+i+".svg");
+        }
+    }
+
+    private JSVGCanvas addOnePointSVG() {
+        JSVGCanvas canvas = new JSVGCanvas();
+        canvas.setBackground(new Color(0, 0, 0, 0));
+        canvas.setSize(110, 30);
+        canvas.setLocation(80, 30);
+        fonForeg.add(canvas);
+        return canvas;
     }
 
 
     @Override
-    public Component getListCellRendererComponent(JList<? extends String> jList, String s, int i, boolean b, boolean b1) {
+    public Component getListCellRendererComponent(JList<? extends String> jList, String s, int index, boolean isSelected, boolean cellHasFocus) {
 
         String[] subStr = s.split(",");
 
-//        numberLabel.setText(subStr[0]);
-        numberLabel.setText("4");
+        numberLabel.setText(index+"");
+        rendClass(subStr[1]);
+        rendName(subStr[2]);
+        rendLevel(subStr[3]);
+        rendPoint(subStr[4]);
+        Color fonFors;
+        if (isSelected)
+            fonFors = new Color(218, 165, 32);
+        else
+            fonFors = new Color(192, 192, 192);
+        fonBack.setBackground(fonFors);
 
         return fonBack;
     }
+
+    private void rendClass(String string) {
+        if (map.containsKey(string)) {
+            for (int i = 0; i < 4; i++) {
+                vectorClassSVG.get(i).setVisible(false);
+            }
+            vectorClassSVG.get(map.get(string)).setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null,
+                    "Не правильно написано название класса форсона!",
+                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void rendName(String string) {
+        nameLabel.setText(string);
+
+        double textWidth = nameLabel.getFontMetrics(basicFont).stringWidth(nameLabel.getText());
+
+        if (textWidth > nameLabel.getWidth()) {
+            int newFontSize = (int) (basicFont.getSize() * nameLabel.getWidth() / (textWidth+10));
+            nameLabel.setFont(new Font(basicFont.getName(), Font.BOLD, newFontSize));
+        } else
+            nameLabel.setFont(basicFont);
+    }
+
+    private void rendLevel(String string) {
+        switch (string) {
+            case ("1"):
+                levelLabel.setText("I");
+                break;
+            case ("2"):
+                levelLabel.setText("II");
+                break;
+            case ("3"):
+                levelLabel.setText("III");
+                break;
+            default:
+                JOptionPane.showMessageDialog(null, "Не правильно написан уровень!",
+                        "Ошибка", JOptionPane.ERROR_MESSAGE);
+                break;
+        }
+    }
+
+    private void rendPoint(String string) {
+        int pointInt = Integer.parseInt(string);
+        if (pointInt >= 0) {
+            for (int i = 0; i < 8; i++)
+                vectorPointSVG.get(i).setVisible(false);
+            if (pointInt < 8) {
+                vectorPointSVG.get(pointInt).setVisible(true);
+                pointLabel.setText("");
+            } else
+                pointLabel.setText(string + " о. д.");
+        } else {
+            JOptionPane.showMessageDialog(null,
+                    "Не правильно написано кол-во действий!",
+                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
 }

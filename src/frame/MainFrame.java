@@ -4,13 +4,17 @@ import elements.ImagePanel;
 import elements.MenuBasicComboBoxUI;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Vector;
+import org.apache.batik.swing.JSVGCanvas;
 
 public class MainFrame extends JFrame {
 
     private static final int WIDTH = 1280;
     private static final int HEIGHT = 720;
     private ImagePanel panelFull;
+    private int xFirstButton;
+    private int xLastButton;
 
     private MainFrame() {
 
@@ -23,7 +27,11 @@ public class MainFrame extends JFrame {
         addSortButtons();
         addCancelButton();
         addForconsList();
+        addSvgCanvasClass();
+
         addSkillButtons();
+        addNameLabel();
+        addSvgCanvasPoint();
 
 
         getContentPane().add(panelFull);
@@ -52,7 +60,7 @@ public class MainFrame extends JFrame {
     }
 
     private void addMenuComboBox() {
-        String[] items = {"10 ФМ-2", "10 ФМ-3", "11 ФМ-3", "Форсоны", "Сохранить"};
+        String[] items = {"10 ФМ-2", "10 ФМ-3", "11 ФМ-3", "Форсоны","Отменить", "Сохранить"};
         JComboBox<String> combo = new JComboBox<>(items);
         combo.setUI(new MenuBasicComboBoxUI());
         combo.setSize(100,25);
@@ -103,17 +111,66 @@ public class MainFrame extends JFrame {
         panelFull.add(forconsListScroll);
     }
 
+    private void addSvgCanvasClass() {
+        JSVGCanvas svgCanvasClass = new JSVGCanvas();
+        svgCanvasClass.setSize(90,90);
+        svgCanvasClass.setLocation(5,625);
+        svgCanvasClass.setBackground(new Color(0,0,0,0));
+        svgCanvasClass.setURI("file:image/svg/ba.svg");
+        panelFull.add(svgCanvasClass);
+    }
+
     private void addSkillButtons() {
         Vector<JButton> skillButtonsVector = new Vector<>();
         int size = 60;
         int strut = 40;
-        int x = (WIDTH - size*6 - strut*5)/2;
+        xFirstButton = (WIDTH - size*6 - strut*5)/2;
+        int x = xFirstButton;
         for (int i = 0; i < 6; i++) {
             skillButtonsVector.add(addOneSkillButton(x,size));
             x += size+strut;
         }
+        xLastButton = x - strut;
         skillButtonsVector.get(0).addActionListener(ev -> dispose());
+    }
 
+    private void addNameLabel() {
+        JLabel nameLabel = new JLabel("Имечко");
+        Font fontName = new Font("Verdana", Font.BOLD, 30);
+        nameLabel.setFont(fontName);
+        nameLabel.setVerticalAlignment(JLabel.CENTER);
+        nameLabel.setHorizontalAlignment(JLabel.CENTER);
+        nameLabel.setSize(xFirstButton-105,50);
+        nameLabel.setLocation(100,670-(nameLabel.getHeight()/2));
+
+//        nameLabel.setBorder(BorderFactory.createLineBorder(Color.RED));
+        panelFull.add(nameLabel);
+    }
+
+    private void addSvgCanvasPoint() {
+        JSVGCanvas svgCanvasPoint = new JSVGCanvas();
+        int widthPoint = WIDTH - xLastButton - 10;
+        svgCanvasPoint.setSize(widthPoint, 90);
+        svgCanvasPoint.setLocation(xLastButton + 5,670-(svgCanvasPoint.getHeight()/2));
+        svgCanvasPoint.setBackground(new Color(0,0,0,0));
+        svgCanvasPoint.setURI("file:image/svg/point3.svg");
+        addLabelPoint(svgCanvasPoint);
+        panelFull.add(svgCanvasPoint);
+    }
+
+    private void addLabelPoint(JSVGCanvas svgCanvasPoint) {
+        JLabel lebelPoint = new JLabel("Очки поинтов");
+        lebelPoint.setSize(svgCanvasPoint.getSize());
+        lebelPoint.setLocation(svgCanvasPoint.getLocation());
+
+        Font fontPoint = new Font("Verdana", Font.BOLD, 30);
+        lebelPoint.setFont(fontPoint);
+        lebelPoint.setVerticalAlignment(JLabel.CENTER);
+        lebelPoint.setHorizontalAlignment(JLabel.CENTER);
+
+//        lebelPoint.setBorder(BorderFactory.createLineBorder(Color.RED));
+
+        panelFull.add(lebelPoint);
     }
 
     private JButton addOneSkillButton(int x, int size) {

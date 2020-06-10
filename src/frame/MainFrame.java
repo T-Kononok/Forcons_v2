@@ -1,11 +1,13 @@
 package frame;
 
 import elements.ImagePanel;
-import elements.MenuBasicComboBoxUI;
+import elements.MenuComboBoxUI;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
+
+import elements.MyScrollBarUI;
 import org.apache.batik.swing.JSVGCanvas;
 
 public class MainFrame extends JFrame {
@@ -62,7 +64,7 @@ public class MainFrame extends JFrame {
     private void addMenuComboBox() {
         String[] items = {"10 ФМ-2", "10 ФМ-3", "11 ФМ-3", "Форсоны","Отменить", "Сохранить"};
         JComboBox<String> combo = new JComboBox<>(items);
-        combo.setUI(new MenuBasicComboBoxUI());
+        combo.setUI(new MenuComboBoxUI());
         combo.setSize(100,25);
         combo.setLocation(1060,5);
         panelFull.add(combo);
@@ -91,11 +93,7 @@ public class MainFrame extends JFrame {
 
     private void addForconsList() {
         Vector<String> vectorForsons = new Vector<>();
-        //
-        vectorForsons.addElement(",ba,Горшок,3,6");
-        vectorForsons.addElement(",sa,АскаМисатоРей,2,12");
-        vectorForsons.addElement(",in,Стив,1,2");
-        //
+        addInVector(vectorForsons);
         DefaultListModel<String> forconsListModel = new DefaultListModel<>();
         vectorForsons.forEach(forconsListModel::addElement);
 
@@ -103,12 +101,19 @@ public class MainFrame extends JFrame {
 //        forconsList.setCellRenderer(new ForconsRenderer());
         forconsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane forconsListScroll = new JScrollPane(forconsList);
-//        forconsListScroll.getVerticalScrollBar().setUI(new MyScrollbarUI());
+        forconsListScroll.getVerticalScrollBar().setUI(new MyScrollBarUI());
         forconsListScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         forconsListScroll.setBorder(BorderFactory.createEmptyBorder());
         forconsListScroll.setSize(215, 615 - 30);
         forconsListScroll.setLocation(1060,35);
         panelFull.add(forconsListScroll);
+    }
+
+    private void addInVector(Vector<String> vectorForsons) {
+        vectorForsons.addElement(",ba,Горшок,3,6");
+        vectorForsons.addElement(",sa,АскаМисатоРей,2,12");
+        vectorForsons.addElement(",in,Стив,1,2");
+        vectorForsons.addElement(",ba,Горшок,3,6");
     }
 
     private void addSvgCanvasClass() {

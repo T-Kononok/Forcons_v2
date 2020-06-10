@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.awt.*;
 
-public class MenuBasicComboBoxUI extends BasicComboBoxUI {
+public class MenuComboBoxUI extends BasicComboBoxUI {
 
     @Override
     protected JButton createArrowButton() {

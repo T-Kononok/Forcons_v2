@@ -1,5 +1,7 @@
 package frame;
 
+import data.ForconsList;
+import data.SortForconsVector;
 import elements.ForconsRenderer;
 import elements.ImagePanel;
 import elements.MenuComboBoxUI;
@@ -8,7 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
 
-import elements.MyScrollBarUI;
+import elements.ImageScrollBarUI;
 import org.apache.batik.swing.JSVGCanvas;
 
 public class MainFrame extends JFrame {
@@ -27,9 +29,9 @@ public class MainFrame extends JFrame {
         addPanelFull();
         addJournalTable();
         addMenuComboBox();
-        addSortButtons();
         addCancelButton();
-        addForconsList();
+        ForconsList forconsList = addForconsList();
+        addSortButtons(forconsList);
         addSvgCanvasClass();
 
         addSkillButtons();
@@ -71,19 +73,6 @@ public class MainFrame extends JFrame {
         panelFull.add(combo);
     }
 
-    private void addSortButtons() {
-        JButton sortPointButton = new JButton();
-        sortPointButton.setSize(40,25);
-        sortPointButton.setLocation(1165,10);
-//        sortPointButton.addActionListener(ev -> );
-        panelFull.add(sortPointButton);
-        JButton sortClassButton = new JButton();
-        sortClassButton.setSize(40,25);
-        sortClassButton.setLocation(1205,10);
-//        sortClassButton.addActionListener(ev -> );
-        panelFull.add(sortClassButton);
-    }
-
     private void addCancelButton() {
         JButton cancelButton = new JButton();
         cancelButton.setSize(25,25);
@@ -92,49 +81,51 @@ public class MainFrame extends JFrame {
         panelFull.add(cancelButton);
     }
 
-    private void addForconsList() {
-        Vector<String> vectorForsons = new Vector<>();
-        addInVector(vectorForsons);
-        DefaultListModel<String> forconsListModel = new DefaultListModel<>();
-        vectorForsons.forEach(forconsListModel::addElement);
+    private ForconsList addForconsList() {
 
-        JList<String> forconsList = new JList<>(forconsListModel);
-        forconsList.setCellRenderer(new ForconsRenderer());
-        forconsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        ForconsList forconsList = new ForconsList();
+        addInVector(forconsList);
 
-        JScrollPane forconsListScroll = new JScrollPane(forconsList);
-        forconsListScroll.getVerticalScrollBar().setUI(new MyScrollBarUI());
+        JScrollPane forconsListScroll = new JScrollPane(forconsList.getList());
+        forconsListScroll.getVerticalScrollBar().setUI(new ImageScrollBarUI());
         forconsListScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         forconsListScroll.setBorder(BorderFactory.createEmptyBorder());
         forconsListScroll.setSize(220, 615 - 30);
         forconsListScroll.setLocation(1060,35);
         panelFull.add(forconsListScroll);
+        return forconsList;
     }
 
-    private void addInVector(Vector<String> vectorForsons) {
-        vectorForsons.addElement(",ba,Горшок,3,6");
-        vectorForsons.addElement(",sa,АскаМисатоРей,2,12");
-        vectorForsons.addElement(",in,Стив,1,2");
-        vectorForsons.addElement(",sm,Стив,1,0");
-        vectorForsons.addElement(",ba,Горшок,3,6");
-        vectorForsons.addElement(",in,Аска,2,2");
-        vectorForsons.addElement(",in,Стив,1,8");
-        vectorForsons.addElement(",sa,Стив,1,11");
-        vectorForsons.addElement(",ba,Горшок,3,6");
-        vectorForsons.addElement(",sa,Аска,2,2");
-        vectorForsons.addElement(",sa,Стив,1,5");
-        vectorForsons.addElement(",sm,Стив,1,4");
-        vectorForsons.addElement(",ba,Горшок,3,6");
-        vectorForsons.addElement(",sa,Аска,2,2");
-        vectorForsons.addElement(",sa,Стив,1,5");
-        vectorForsons.addElement(",sm,Стив,1,4");
-        vectorForsons.addElement(",sa,Аска,2,2");
-        vectorForsons.addElement(",sa,Стив,1,5");
-        vectorForsons.addElement(",sm,Стив,1,4");
-        vectorForsons.addElement(",ba,Горшок,3,6");
-        vectorForsons.addElement(",sa,Аска,2,2");
-        vectorForsons.addElement(",sa,Стив,1,5");
-        vectorForsons.addElement(",sm,Стив,1,4");
+    private void addInVector(ForconsList forconsList) {
+        forconsList.getVector().addElement(",ba,Горшок,3,6");
+        forconsList.getVector().addElement(",sa,АскаМисатоРей,2,12");
+        forconsList.getVector().addElement(",in,Стив,1,2");
+        forconsList.getVector().addElement(",sm,Стив,1,0");
+        forconsList.getVector().addElement(",ba,Горшок,3,6");
+        forconsList.getVector().addElement(",in,Аска,2,2");
+        forconsList.getVector().addElement(",in,Стив,1,8");
+        forconsList.getVector().addElement(",sa,Стив,1,11");
+        forconsList.getVector().addElement(",ba,Горшок,3,0");
+        for (int i = 0; i < 5; i++) {
+            forconsList.getVector().addElement(",sa,Аска,2,2");
+            forconsList.getVector().addElement(",sa,Стив,1,5");
+            forconsList.getVector().addElement(",sm,Стив,1,4");
+            forconsList.getVector().addElement(",ba,Горшок,3,6");
+        }
+        forconsList.sortClass();
+    }
+
+    private void addSortButtons(ForconsList forconsList) {
+        JButton sortPointButton = new JButton();
+        sortPointButton.setSize(40,25);
+        sortPointButton.setLocation(1165,10);
+        sortPointButton.addActionListener(ev -> forconsList.sortPoint());
+        panelFull.add(sortPointButton);
+        JButton sortClassButton = new JButton();
+        sortClassButton.setSize(40,25);
+        sortClassButton.setLocation(1205,10);
+        sortClassButton.addActionListener(ev -> forconsList.sortClass());
+        panelFull.add(sortClassButton);
     }
 
     private void addSvgCanvasClass() {

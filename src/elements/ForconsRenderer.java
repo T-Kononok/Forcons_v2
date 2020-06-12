@@ -123,7 +123,6 @@ public class ForconsRenderer implements ListCellRenderer<String> {
     public Component getListCellRendererComponent(JList<? extends String> jList, String s, int index, boolean isSelected, boolean cellHasFocus) {
 
         String[] subStr = s.split(",");
-
         numberLabel.setText(index+"");
         rendClass(subStr[1]);
         rendName(subStr[2]);

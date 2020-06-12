@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 
-public class MyScrollBarUI extends BasicScrollBarUI {
+public class ImageScrollBarUI extends BasicScrollBarUI {
 
     private final Image imageTumb = new ImageIcon("image/tumb.jpg").getImage();
     private final Image imageTrack = new ImageIcon("image/fon.jpg").getImage();

@@ -1,12 +1,11 @@
 package frame;
 
 import data.ForconsList;
-import data.SortForconsVector;
 import elements.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import org.apache.batik.swing.JSVGCanvas;
 
@@ -81,7 +80,7 @@ public class MainFrame extends JFrame {
     private ForconsList addForconsList() {
 
         ForconsList forconsList = new ForconsList();
-        addInVector(forconsList);
+        addInArray(forconsList);
 
         JScrollPane forconsListScroll = new JScrollPane(forconsList.getList());
         forconsListScroll.getVerticalScrollBar().setUI(new ImageScrollBarUI());
@@ -93,22 +92,22 @@ public class MainFrame extends JFrame {
         return forconsList;
     }
 
-    private void addInVector(ForconsList forconsList) {
-        forconsList.getVector().addElement("ba,Горшок,3,0");
-        forconsList.getVector().addElement("ba,Горшок,3,6");
-        forconsList.getVector().addElement("sa,АскаМисатоРей,2,12");
-        forconsList.getVector().addElement("in,Стив,1,2");
-        forconsList.getVector().addElement("sm,Стив,1,0");
-        forconsList.getVector().addElement("ba,АскаМисатоРейАскаМисатоРей,3,6");
-        forconsList.getVector().addElement("in,Аска,2,2");
-        forconsList.getVector().addElement("in,Стив,1,8");
-        forconsList.getVector().addElement("sa,Стив,1,11");
-        forconsList.getVector().addElement("ba,Горшок,3,0");
+    private void addInArray(ForconsList forconsList) {
+        forconsList.getArray().add("ba,Горшок,3,0");
+        forconsList.getArray().add("ba,Горшок,3,6");
+        forconsList.getArray().add("sa,АскаМисатоРей,2,12");
+        forconsList.getArray().add("in,Стив,1,2");
+        forconsList.getArray().add("sm,Стив,1,0");
+        forconsList.getArray().add("ba,АскаМисатоРейАскаМисатоРей,3,6");
+        forconsList.getArray().add("in,Аска,2,2");
+        forconsList.getArray().add("in,Стив,1,8");
+        forconsList.getArray().add("sa,Стив,1,11");
+        forconsList.getArray().add("ba,Горшок,3,0");
         for (int i = 0; i < 5; i++) {
-            forconsList.getVector().addElement("sa,Аска,2,2");
-            forconsList.getVector().addElement("sa,Стив,1,5");
-            forconsList.getVector().addElement("sm,Стив,1,4");
-            forconsList.getVector().addElement("ba,Горшок,3,6");
+            forconsList.getArray().add("sa,Аска,2,2");
+            forconsList.getArray().add("sa,Стив,1,5");
+            forconsList.getArray().add("sm,Стив,1,4");
+            forconsList.getArray().add("ba,Горшок,3,6");
         }
         forconsList.sortClass();
     }
@@ -142,25 +141,25 @@ public class MainFrame extends JFrame {
     }
 
     private void addSkillButtons(ForconsList forconsList) {
-        Vector<JSVGCanvas> skillSVGVector = new Vector<>();
-        Vector<JButton> skillButtonsVector = new Vector<>();
+        ArrayList<JSVGCanvas> skillSVGArray = new ArrayList<>();
+        ArrayList<JButton> skillButtonsArray = new ArrayList<>();
         int size = 60;
         int strut = 40;
         xFirstButton = (WIDTH - size*6 - strut*5)/2;
         int x = xFirstButton;
         for (int i = 0; i < 6; i++) {
-            skillSVGVector.add(addOneSkillSVG(size));
-            skillButtonsVector.add(addOneSkillButton(x,size,skillSVGVector.get(i)));
+            skillSVGArray.add(addOneSkillSVG(size));
+            skillButtonsArray.add(addOneSkillButton(x,size,skillSVGArray.get(i)));
             x += size+strut;
         }
         xLastButton = x - strut;
-        skillButtonsVector.get(0).addActionListener(ev -> dispose());
+        skillButtonsArray.get(0).addActionListener(ev -> dispose());
         forconsList.getList().addListSelectionListener(evt -> {
             if (!evt.getValueIsAdjusting() && forconsList.getList().getSelectedIndex() != -1) {
                 String val = forconsList.getList().getSelectedValue();
                 String[] subStr = val.split(",");
                 for (int i = 0; i < 6; i++) {
-                    skillSVGVector.get(i).setURI(
+                    skillSVGArray.get(i).setURI(
                             "file:/D:/Джава/Forcons_v2/image/svg/" + subStr[0] + "Skill" + (i+1) + ".svg");
                 }
             }

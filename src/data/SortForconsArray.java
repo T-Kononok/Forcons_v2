@@ -1,14 +1,14 @@
 package data;
 
+import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Vector;
 
-public class SortForconsVector {
+public class SortForconsArray {
 
-    private final Vector<String> vector  = new Vector<>();
+    private final ArrayList<String> array  = new ArrayList <>();
 
-    public Vector<String> getVector() {
-        return vector;
+    public ArrayList <String> getArray() {
+        return array;
     }
 
     public void sortPoint() {
@@ -23,7 +23,7 @@ public class SortForconsVector {
             else
                 return 1;
         };
-        vector.sort(comparatorPoint);
+        array.sort(comparatorPoint);
     }
 
     public void sortClass() {
@@ -61,6 +61,6 @@ public class SortForconsVector {
                         return 1;
             }
         };
-        vector.sort(comparatorClass);
+        array.sort(comparatorClass);
     }
 }

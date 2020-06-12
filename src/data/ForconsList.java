@@ -3,10 +3,10 @@ package data;
 import elements.ForconsRenderer;
 
 import javax.swing.*;
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class ForconsList {
-    private final SortForconsVector vectorForsons = new SortForconsVector();
+    private final SortForconsArray arrayForsons = new SortForconsArray();
     private final DefaultListModel<String> forconsListModel = new DefaultListModel<>();
     private final JList<String> forconsList = new JList<>();
 
@@ -16,8 +16,8 @@ public class ForconsList {
         forconsList.setCellRenderer(new ForconsRenderer());
     }
 
-    public Vector<String> getVector() {
-        return vectorForsons.getVector();
+    public ArrayList<String> getArray() {
+        return arrayForsons.getArray();
     }
 
     public JList<String> getList(){
@@ -27,15 +27,15 @@ public class ForconsList {
     public void sortPoint() {
         forconsList.clearSelection();
         forconsListModel.clear();
-        vectorForsons.sortPoint();
-        vectorForsons.getVector().forEach(forconsListModel::addElement);
+        arrayForsons.sortPoint();
+        arrayForsons.getArray().forEach(forconsListModel::addElement);
     }
 
     public void  sortClass() {
         forconsList.clearSelection();
         forconsListModel.clear();
-        vectorForsons.sortClass();
-        vectorForsons.getVector().forEach(forconsListModel::addElement);
+        arrayForsons.sortClass();
+        arrayForsons.getArray().forEach(forconsListModel::addElement);
     }
 
 }

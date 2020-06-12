@@ -97,20 +97,21 @@ public class MainFrame extends JFrame {
     }
 
     private void addInVector(ForconsList forconsList) {
-        forconsList.getVector().addElement(",ba,Горшок,3,6");
-        forconsList.getVector().addElement(",sa,АскаМисатоРей,2,12");
-        forconsList.getVector().addElement(",in,Стив,1,2");
-        forconsList.getVector().addElement(",sm,Стив,1,0");
-        forconsList.getVector().addElement(",ba,Горшок,3,6");
-        forconsList.getVector().addElement(",in,Аска,2,2");
-        forconsList.getVector().addElement(",in,Стив,1,8");
-        forconsList.getVector().addElement(",sa,Стив,1,11");
-        forconsList.getVector().addElement(",ba,Горшок,3,0");
+        forconsList.getVector().addElement("ba,Горшок,3,0");
+        forconsList.getVector().addElement("ba,Горшок,3,6");
+        forconsList.getVector().addElement("sa,АскаМисатоРей,2,12");
+        forconsList.getVector().addElement("in,Стив,1,2");
+        forconsList.getVector().addElement("sm,Стив,1,0");
+        forconsList.getVector().addElement("ba,Горшок,3,6");
+        forconsList.getVector().addElement("in,Аска,2,2");
+        forconsList.getVector().addElement("in,Стив,1,8");
+        forconsList.getVector().addElement("sa,Стив,1,11");
+        forconsList.getVector().addElement("ba,Горшок,3,0");
         for (int i = 0; i < 5; i++) {
-            forconsList.getVector().addElement(",sa,Аска,2,2");
-            forconsList.getVector().addElement(",sa,Стив,1,5");
-            forconsList.getVector().addElement(",sm,Стив,1,4");
-            forconsList.getVector().addElement(",ba,Горшок,3,6");
+            forconsList.getVector().addElement("sa,Аска,2,2");
+            forconsList.getVector().addElement("sa,Стив,1,5");
+            forconsList.getVector().addElement("sm,Стив,1,4");
+            forconsList.getVector().addElement("ba,Горшок,3,6");
         }
         forconsList.sortClass();
     }

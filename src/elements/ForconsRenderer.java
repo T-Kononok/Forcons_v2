@@ -19,7 +19,6 @@ public class ForconsRenderer implements ListCellRenderer<String> {
     private final JLabel nameLabel = new JLabel();
     private final JLabel levelLabel = new JLabel();
     private final JLabel pointLabel = new JLabel();
-    private final JSVGCanvas pointSVG = new JSVGCanvas();
     private final Vector<JSVGCanvas> vectorClassSVG = new Vector<>();
     private final Vector<JSVGCanvas> vectorPointSVG = new Vector<>();
     private final Map<String, Integer> map = new HashMap<>();
@@ -123,11 +122,11 @@ public class ForconsRenderer implements ListCellRenderer<String> {
     public Component getListCellRendererComponent(JList<? extends String> jList, String s, int index, boolean isSelected, boolean cellHasFocus) {
 
         String[] subStr = s.split(",");
-        numberLabel.setText(index+"");
-        rendClass(subStr[1]);
-        rendName(subStr[2]);
-        rendLevel(subStr[3]);
-        rendPoint(subStr[4]);
+        numberLabel.setText((index+1)+"");
+        rendClass(subStr[0]);
+        rendName(subStr[1]);
+        rendLevel(subStr[2]);
+        rendPoint(subStr[3]);
         Color fonFors;
         if (isSelected)
             fonFors = new Color(218, 165, 32);

@@ -2,12 +2,16 @@ package frame;
 
 import data.ForconsList;
 import data.JournalTableModel;
+import data.MainData;
 import elements.*;
 
 import javax.swing.*;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 import org.apache.batik.swing.JSVGCanvas;
 
@@ -18,6 +22,7 @@ public class MainFrame extends JFrame {
     private ImagePanel panelFull;
     private int xFirstButton;
     private int xLastButton;
+    private MainData mainData = new MainData();
     private JFileChooser fileChooser = null;
 
     private MainFrame() {
@@ -26,14 +31,14 @@ public class MainFrame extends JFrame {
         setExtendedState(MAXIMIZED_BOTH);
 
         addPanelFull();
-        addJournalTable();
+        JTable table = addJournalTable();
         addMenuComboBox();
         addCancelButton();
         ForconsList forconsList = addForconsList();
         addSortButtons(forconsList);
 
         addSvgCanvasClass(forconsList);
-        addSkillButtons(forconsList);
+        addSkillButtons(forconsList, table);
         addNameLabel(forconsList);
         addSvgCanvasPoint(forconsList);
 
@@ -54,13 +59,22 @@ public class MainFrame extends JFrame {
         panelFull.setLocation(0,0);
     }
 
-    private void addJournalTable() {
-        JTable journalTable = new JTable(new JournalTableModel(null));
+    private JTable addJournalTable() {
+        JTable journalTable = new JTable(new JournalTableModel());
         journalTable.setTableHeader(null);
         journalTable.setBorder(BorderFactory.createEmptyBorder());
+        journalTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        TableColumnModel columnModel = journalTable.getColumnModel();
+        journalTable.setRowHeight(21);
+        Enumeration<TableColumn> e = columnModel.getColumns();
+        while (e.hasMoreElements()) {
+            TableColumn column = e.nextElement();
+            column.setPreferredWidth(21);
+        }
         journalTable.setSize(1050,615);
         journalTable.setLocation(5,5);
         panelFull.add(journalTable);
+        return journalTable;
     }
 
     private void addMenuComboBox() {
@@ -143,7 +157,7 @@ public class MainFrame extends JFrame {
         });
     }
 
-    private void addSkillButtons(ForconsList forconsList) {
+    private void addSkillButtons(ForconsList forconsList, JTable table) {
         ArrayList<JSVGCanvas> skillSVGArray = new ArrayList<>();
         ArrayList<JButton> skillButtonsArray = new ArrayList<>();
         int size = 60;
@@ -157,6 +171,15 @@ public class MainFrame extends JFrame {
         }
         xLastButton = x - strut;
         skillButtonsArray.get(0).addActionListener(ev -> dispose());
+        skillButtonsArray.get(1).addActionListener(ev -> {
+            if (fileChooser==null) {
+                fileChooser = new JFileChooser();
+                fileChooser.setCurrentDirectory(new File("."));
+            }
+            if (fileChooser.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
+                mainData.readTable(table,fileChooser.getSelectedFile().getPath());
+            }
+        });
 
         forconsList.getList().addListSelectionListener(evt -> {
             if (!evt.getValueIsAdjusting() && forconsList.getList().getSelectedIndex() != -1) {
@@ -174,10 +197,10 @@ public class MainFrame extends JFrame {
         JButton skillButton = new JButton();
         skillButton.setSize(size,size);
         skillButton.setLocation(x,HEIGHT - skillButton.getHeight() - 20);
-        skillButton.setBorderPainted(false);
-        skillButton.setContentAreaFilled(false);
-        skillButton.setLayout(null);
-        skillButton.add(canvas);
+//        skillButton.setBorderPainted(false);
+//        skillButton.setContentAreaFilled(false);
+//        skillButton.setLayout(null);
+//        skillButton.add(canvas);
         panelFull.add(skillButton);
         return skillButton;
     }

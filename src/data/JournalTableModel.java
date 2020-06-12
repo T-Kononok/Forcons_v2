@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 public class JournalTableModel extends AbstractTableModel {
 
-    private final ArrayList<ArrayList<String>> matrix;
+    private ArrayList<ArrayList<String>> matrix;
 
-    public JournalTableModel(ArrayList<ArrayList<String>> matrix) {
+    public void setMatrix(ArrayList<ArrayList<String>> matrix) {
         this.matrix = matrix;
     }
 

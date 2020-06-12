@@ -2,15 +2,12 @@ package frame;
 
 import data.ForconsList;
 import data.SortForconsVector;
-import elements.ForconsRenderer;
-import elements.ImagePanel;
-import elements.MenuComboBoxUI;
+import elements.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
 
-import elements.ImageScrollBarUI;
 import org.apache.batik.swing.JSVGCanvas;
 
 public class MainFrame extends JFrame {
@@ -32,11 +29,11 @@ public class MainFrame extends JFrame {
         addCancelButton();
         ForconsList forconsList = addForconsList();
         addSortButtons(forconsList);
-        addSvgCanvasClass();
 
-        addSkillButtons();
-        addNameLabel();
-        addSvgCanvasPoint();
+        addSvgCanvasClass(forconsList);
+        addSkillButtons(forconsList);
+        addNameLabel(forconsList);
+        addSvgCanvasPoint(forconsList);
 
 
         getContentPane().add(panelFull);
@@ -102,7 +99,7 @@ public class MainFrame extends JFrame {
         forconsList.getVector().addElement("sa,АскаМисатоРей,2,12");
         forconsList.getVector().addElement("in,Стив,1,2");
         forconsList.getVector().addElement("sm,Стив,1,0");
-        forconsList.getVector().addElement("ba,Горшок,3,6");
+        forconsList.getVector().addElement("ba,АскаМисатоРейАскаМисатоРей,3,6");
         forconsList.getVector().addElement("in,Аска,2,2");
         forconsList.getVector().addElement("in,Стив,1,8");
         forconsList.getVector().addElement("sa,Стив,1,11");
@@ -129,16 +126,22 @@ public class MainFrame extends JFrame {
         panelFull.add(sortClassButton);
     }
 
-    private void addSvgCanvasClass() {
+    private void addSvgCanvasClass(ForconsList forconsList) {
         JSVGCanvas svgCanvasClass = new JSVGCanvas();
         svgCanvasClass.setSize(90,90);
         svgCanvasClass.setLocation(5,625);
         svgCanvasClass.setBackground(new Color(0,0,0,0));
-        svgCanvasClass.setURI("file:image/svg/ba.svg");
         panelFull.add(svgCanvasClass);
+        forconsList.getList().addListSelectionListener(evt -> {
+            if (!evt.getValueIsAdjusting() && forconsList.getList().getSelectedIndex() != -1) {
+                    String val = forconsList.getList().getSelectedValue();
+                    String[] subStr = val.split(",");
+                    svgCanvasClass.setURI("file:/D:/Джава/Forcons_v2/image/svg/" + subStr[0] + ".svg");
+            }
+        });
     }
 
-    private void addSkillButtons() {
+    private void addSkillButtons(ForconsList forconsList) {
         Vector<JButton> skillButtonsVector = new Vector<>();
         int size = 60;
         int strut = 40;
@@ -152,8 +155,16 @@ public class MainFrame extends JFrame {
         skillButtonsVector.get(0).addActionListener(ev -> dispose());
     }
 
-    private void addNameLabel() {
-        JLabel nameLabel = new JLabel("Имечко");
+    private JButton addOneSkillButton(int x, int size) {
+        JButton skillButton = new JButton();
+        skillButton.setSize(size,size);
+        skillButton.setLocation(x,HEIGHT - skillButton.getHeight() - 20);
+        panelFull.add(skillButton);
+        return skillButton;
+    }
+
+    private void addNameLabel(ForconsList forconsList) {
+        ReSizeLabel nameLabel = new ReSizeLabel();
         Font fontName = new Font("Verdana", Font.BOLD, 30);
         nameLabel.setFont(fontName);
         nameLabel.setVerticalAlignment(JLabel.CENTER);
@@ -163,9 +174,17 @@ public class MainFrame extends JFrame {
 
 //        nameLabel.setBorder(BorderFactory.createLineBorder(Color.RED));
         panelFull.add(nameLabel);
+
+        forconsList.getList().addListSelectionListener(evt -> {
+            if (!evt.getValueIsAdjusting() && forconsList.getList().getSelectedIndex() != -1) {
+                String val = forconsList.getList().getSelectedValue();
+                String[] subStr = val.split(",");
+                nameLabel.setTextReSize(subStr[1],fontName);
+            }
+        });
     }
 
-    private void addSvgCanvasPoint() {
+    private void addSvgCanvasPoint(ForconsList forconsList) {
         JSVGCanvas svgCanvasPoint = new JSVGCanvas();
         int widthPoint = WIDTH - xLastButton - 10;
         svgCanvasPoint.setSize(widthPoint, 90);
@@ -189,14 +208,6 @@ public class MainFrame extends JFrame {
 //        lebelPoint.setBorder(BorderFactory.createLineBorder(Color.RED));
 
         panelFull.add(lebelPoint);
-    }
-
-    private JButton addOneSkillButton(int x, int size) {
-        JButton skillButton = new JButton();
-        skillButton.setSize(size,size);
-        skillButton.setLocation(x,HEIGHT - skillButton.getHeight() - 20);
-        panelFull.add(skillButton);
-        return skillButton;
     }
 
     public static void main(String[] args) {

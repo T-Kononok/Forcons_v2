@@ -16,7 +16,7 @@ public class ForconsRenderer implements ListCellRenderer<String> {
     private final JPanel fonBack = new JPanel();
     private final JPanel fonForeg = new JPanel();
     private final JLabel numberLabel = new JLabel();
-    private final JLabel nameLabel = new JLabel();
+    private final ReSizeLabel nameLabel = new ReSizeLabel();
     private final JLabel levelLabel = new JLabel();
     private final JLabel pointLabel = new JLabel();
     private final Vector<JSVGCanvas> vectorClassSVG = new Vector<>();
@@ -124,7 +124,7 @@ public class ForconsRenderer implements ListCellRenderer<String> {
         String[] subStr = s.split(",");
         numberLabel.setText((index+1)+"");
         rendClass(subStr[0]);
-        rendName(subStr[1]);
+        nameLabel.setTextReSize(subStr[1],basicFont);
         rendLevel(subStr[2]);
         rendPoint(subStr[3]);
         Color fonFors;
@@ -148,18 +148,6 @@ public class ForconsRenderer implements ListCellRenderer<String> {
                     "Не правильно написано название класса форсона!",
                     "Ошибка", JOptionPane.ERROR_MESSAGE);
         }
-    }
-
-    private void rendName(String string) {
-        nameLabel.setText(string);
-
-        double textWidth = nameLabel.getFontMetrics(basicFont).stringWidth(nameLabel.getText());
-
-        if (textWidth > nameLabel.getWidth()) {
-            int newFontSize = (int) (basicFont.getSize() * nameLabel.getWidth() / (textWidth+10));
-            nameLabel.setFont(new Font(basicFont.getName(), Font.BOLD, newFontSize));
-        } else
-            nameLabel.setFont(basicFont);
     }
 
     private void rendLevel(String string) {

@@ -1,10 +1,12 @@
 package frame;
 
 import data.ForconsList;
+import data.JournalTableModel;
 import elements.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 
 import org.apache.batik.swing.JSVGCanvas;
@@ -16,6 +18,7 @@ public class MainFrame extends JFrame {
     private ImagePanel panelFull;
     private int xFirstButton;
     private int xLastButton;
+    private JFileChooser fileChooser = null;
 
     private MainFrame() {
 
@@ -52,7 +55,7 @@ public class MainFrame extends JFrame {
     }
 
     private void addJournalTable() {
-        JTable journalTable = new JTable();
+        JTable journalTable = new JTable(new JournalTableModel(null));
         journalTable.setTableHeader(null);
         journalTable.setBorder(BorderFactory.createEmptyBorder());
         journalTable.setSize(1050,615);
@@ -154,6 +157,7 @@ public class MainFrame extends JFrame {
         }
         xLastButton = x - strut;
         skillButtonsArray.get(0).addActionListener(ev -> dispose());
+
         forconsList.getList().addListSelectionListener(evt -> {
             if (!evt.getValueIsAdjusting() && forconsList.getList().getSelectedIndex() != -1) {
                 String val = forconsList.getList().getSelectedValue();

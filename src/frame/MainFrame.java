@@ -142,25 +142,49 @@ public class MainFrame extends JFrame {
     }
 
     private void addSkillButtons(ForconsList forconsList) {
+        Vector<JSVGCanvas> skillSVGVector = new Vector<>();
         Vector<JButton> skillButtonsVector = new Vector<>();
         int size = 60;
         int strut = 40;
         xFirstButton = (WIDTH - size*6 - strut*5)/2;
         int x = xFirstButton;
         for (int i = 0; i < 6; i++) {
-            skillButtonsVector.add(addOneSkillButton(x,size));
+            skillSVGVector.add(addOneSkillSVG(size));
+            skillButtonsVector.add(addOneSkillButton(x,size,skillSVGVector.get(i)));
             x += size+strut;
         }
         xLastButton = x - strut;
         skillButtonsVector.get(0).addActionListener(ev -> dispose());
+        forconsList.getList().addListSelectionListener(evt -> {
+            if (!evt.getValueIsAdjusting() && forconsList.getList().getSelectedIndex() != -1) {
+                String val = forconsList.getList().getSelectedValue();
+                String[] subStr = val.split(",");
+                for (int i = 0; i < 6; i++) {
+                    skillSVGVector.get(i).setURI(
+                            "file:/D:/Джава/Forcons_v2/image/svg/" + subStr[0] + "Skill" + (i+1) + ".svg");
+                }
+            }
+        });
     }
 
-    private JButton addOneSkillButton(int x, int size) {
+    private JButton addOneSkillButton(int x, int size, JSVGCanvas canvas) {
         JButton skillButton = new JButton();
         skillButton.setSize(size,size);
         skillButton.setLocation(x,HEIGHT - skillButton.getHeight() - 20);
+        skillButton.setBorderPainted(false);
+        skillButton.setContentAreaFilled(false);
+        skillButton.setLayout(null);
+        skillButton.add(canvas);
         panelFull.add(skillButton);
         return skillButton;
+    }
+
+    private JSVGCanvas addOneSkillSVG(int size) {
+        JSVGCanvas canvas = new JSVGCanvas();
+        canvas.setBackground(new Color(0, 0, 0, 0));
+        canvas.setSize(size, size);
+        canvas.setLocation(0,0);
+        return canvas;
     }
 
     private void addNameLabel(ForconsList forconsList) {
@@ -190,17 +214,33 @@ public class MainFrame extends JFrame {
         svgCanvasPoint.setSize(widthPoint, 90);
         svgCanvasPoint.setLocation(xLastButton + 5,670-(svgCanvasPoint.getHeight()/2));
         svgCanvasPoint.setBackground(new Color(0,0,0,0));
-        svgCanvasPoint.setURI("file:image/svg/point3.svg");
-        addLabelPoint(svgCanvasPoint);
+        JLabel label = addLabelPoint(svgCanvasPoint);
         panelFull.add(svgCanvasPoint);
+
+        forconsList.getList().addListSelectionListener(evt -> {
+            if (!evt.getValueIsAdjusting() && forconsList.getList().getSelectedIndex() != -1) {
+                String val = forconsList.getList().getSelectedValue();
+                String[] subStr = val.split(",");
+
+                int pointInt = Integer.parseInt(subStr[3]);
+                if (pointInt < 8) {
+                    svgCanvasPoint.setURI("file:/D:/Джава/Forcons_v2/image/svg/point" + subStr[3] + ".svg");
+                    svgCanvasPoint.setVisible(true);
+                    label.setText("");
+                } else {
+                    svgCanvasPoint.setVisible(false);
+                    label.setText(subStr[3] + " о. д.");
+                }
+            }
+        });
     }
 
-    private void addLabelPoint(JSVGCanvas svgCanvasPoint) {
-        JLabel lebelPoint = new JLabel("Очки поинтов");
+    private JLabel addLabelPoint(JSVGCanvas svgCanvasPoint) {
+        JLabel lebelPoint = new JLabel("");
         lebelPoint.setSize(svgCanvasPoint.getSize());
         lebelPoint.setLocation(svgCanvasPoint.getLocation());
 
-        Font fontPoint = new Font("Verdana", Font.BOLD, 30);
+        Font fontPoint = new Font("Verdana", Font.BOLD, 40);
         lebelPoint.setFont(fontPoint);
         lebelPoint.setVerticalAlignment(JLabel.CENTER);
         lebelPoint.setHorizontalAlignment(JLabel.CENTER);
@@ -208,6 +248,7 @@ public class MainFrame extends JFrame {
 //        lebelPoint.setBorder(BorderFactory.createLineBorder(Color.RED));
 
         panelFull.add(lebelPoint);
+        return lebelPoint;
     }
 
     public static void main(String[] args) {

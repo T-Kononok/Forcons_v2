@@ -40,43 +40,66 @@ public class HSSFData {
 
     public ArrayList<ArrayList<String>> readHSSFJournal(String filename) {
         HSSFWorkbook workbook = readWorkbook(filename);
-        if (workbook != null) {
-
-            ArrayList<ArrayList<String>> matrix = new ArrayList<>();
-            HSSFSheet sheet = workbook.getSheet("3 четверть"); //////
-            Iterator<Row> rowIter = sheet.rowIterator();
-            rowIter.next();
-            int countRow = 0;
-            while (countRow < 24) {
-                countRow++;
-                HSSFRow row = (HSSFRow) rowIter.next();
-                Iterator<Cell> cellIter = row.cellIterator();
-                ArrayList<String> arr = new ArrayList<>();
-                cellIter.next();
-                cellIter.next();
-                int countCell = 0;
-                while (cellIter.hasNext() && countCell < 40) {
-                    countCell++;
-                    HSSFCell cell = (HSSFCell) cellIter.next();
-                    while (arr.size() + 2 < cell.getColumnIndex() && countCell < 40) {
-                        countCell++;
-                        String str = "";
-                        arr.add(str);
-                    }
-                    String str;
-                    if (cell.getCellType() == CellType.NUMERIC)
-                        str = (int) cell.getNumericCellValue() + "";
-                    else if (cell.getCellType() == CellType.STRING)
-                        str = cell.getStringCellValue();
-                    else
-                        str = "(F)";
-                    arr.add(str);
-                }
-                matrix.add(arr);
-            }
-            return matrix;
-
+        if (workbook == null)
+            return null;
+        ArrayList<ArrayList<String>> matrix = new ArrayList<>();
+        HSSFSheet sheet = workbook.getSheet("3 четверть"); //////
+        int countCell = findSizeRowSheet(sheet);
+        int countRow = findSizeColumnSheet(sheet);
+        System.out.println(countCell + "_" + countRow);
+        for (int i = 1; i < countRow; i++) {
+            HSSFRow row = sheet.getRow(i);
+            matrix.add(readHSSFRow(row,countCell));
         }
-        return null;
+        return matrix;
+    }
+
+    public int findSizeRowSheet(HSSFSheet sheet) {
+        //11 потому что оценки 13 не может быть
+        HSSFRow row = sheet.getRow(13);
+        int countCell = 2;
+        String cellValue;
+        do {
+            HSSFCell cell = row.getCell(countCell);
+            cellValue = readCell(cell);
+            countCell++;
+        } while (!cellValue.equals("13") && countCell < 70);
+        if (countCell != 60)
+            return countCell-3;
+        return 0;
+    }
+
+    public int findSizeColumnSheet(HSSFSheet sheet) {
+        int countRow = 1;
+        String cellValue;
+        do {
+            HSSFRow row = sheet.getRow(countRow);
+            HSSFCell cell = row.getCell(0);
+            cellValue = readCell(cell);
+            countRow++;
+            System.out.println(cellValue + "_" + countRow);
+        } while (!cellValue.equals("") && countRow < 27);
+        if (countRow != 27)
+            return countRow-1;
+        return 0;
+    }
+
+    public ArrayList<String> readHSSFRow(HSSFRow row, int countCell) {
+        ArrayList<String> arr = new ArrayList<>();
+        for (int i = 2; i < countCell+2; i++) {
+            HSSFCell cell = row.getCell(i);
+            arr.add(readCell(cell));
+        }
+        return arr;
+    }
+
+    public String readCell(HSSFCell cell) {
+        if (cell == null)
+            return "";
+        if (cell.getCellType() == CellType.NUMERIC)
+            return (int) cell.getNumericCellValue() + "";
+        if (cell.getCellType() == CellType.STRING)
+            return cell.getStringCellValue();
+        return "(F)";
     }
 }

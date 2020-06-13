@@ -8,6 +8,7 @@ import elements.*;
 import javax.swing.*;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import javax.swing.text.TableView;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
@@ -64,13 +65,6 @@ public class MainFrame extends JFrame {
         journalTable.setTableHeader(null);
         journalTable.setBorder(BorderFactory.createEmptyBorder());
         journalTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        TableColumnModel columnModel = journalTable.getColumnModel();
-        journalTable.setRowHeight(21);
-        Enumeration<TableColumn> e = columnModel.getColumns();
-        while (e.hasMoreElements()) {
-            TableColumn column = e.nextElement();
-            column.setPreferredWidth(21);
-        }
         journalTable.setSize(1050,615);
         journalTable.setLocation(5,5);
         panelFull.add(journalTable);
@@ -178,6 +172,7 @@ public class MainFrame extends JFrame {
             }
             if (fileChooser.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
                 mainData.readTable(table,fileChooser.getSelectedFile().getPath());
+                table.repaint();
             }
         });
 

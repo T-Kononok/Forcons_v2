@@ -46,13 +46,14 @@ public class HSSFData {
         HSSFSheet sheet = workbook.getSheet("3 четверть"); //////
         int countCell = findSizeRowSheet(sheet);
         int countRow = findSizeColumnSheet(sheet);
-        System.out.println(countCell + "_" + countRow);
         for (int i = 1; i < countRow; i++) {
             HSSFRow row = sheet.getRow(i);
             matrix.add(readHSSFRow(row,countCell));
         }
         return matrix;
     }
+
+    //                System.out.println(cell.getCellStyle().getFillForegroundColorColor().getHexString() + " " + cellValue);
 
     public int findSizeRowSheet(HSSFSheet sheet) {
         //11 потому что оценки 13 не может быть
@@ -77,7 +78,6 @@ public class HSSFData {
             HSSFCell cell = row.getCell(0);
             cellValue = readCell(cell);
             countRow++;
-            System.out.println(cellValue + "_" + countRow);
         } while (!cellValue.equals("") && countRow < 27);
         if (countRow != 27)
             return countRow-1;

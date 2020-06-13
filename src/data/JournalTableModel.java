@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 public class JournalTableModel extends AbstractTableModel {
 
-    private ArrayList<ArrayList<String>> matrix;
+    private ArrayList<ArrayList<Mark>> matrix;
 
-    public void setMatrix(ArrayList<ArrayList<String>> matrix) {
+    public void setMatrix(ArrayList<ArrayList<Mark>> matrix) {
         this.matrix = matrix;
     }
 
@@ -26,7 +26,7 @@ public class JournalTableModel extends AbstractTableModel {
     public Object getValueAt(int row, int col) {
         if (matrix == null)
             return 0;
-        return matrix.get(row).get(col);
+        return matrix.get(row).get(col).toString();
     }
 
     public String getColumnName(int col) {

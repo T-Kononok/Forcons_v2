@@ -2,8 +2,8 @@ package data;
 
 public class Mark {
 
-    private int mark = -1;
-    private String string = "";
+    private int mark = 0;
+    private String string = "int";
     private int bites = 0;
     private String bodyBag = "";
     private boolean bomb = false;
@@ -44,7 +44,9 @@ public class Mark {
     public void setBodyBag(String bodyBag) {
         this.bodyBag = bodyBag;
     }
+
     public void setString(String string) {
+        mark = 0;
         this.string = string;
     }
 
@@ -52,8 +54,10 @@ public class Mark {
         this.bites = inRange(bites,0,3);
     }
 
-    public void set(int mark) {
+    public boolean set(int mark) {
+        string = "int";
         this.mark = inRange(mark,0,10);
+        return mark == this.mark;
     }
 
     public void plus(int plusValue) {
@@ -70,6 +74,12 @@ public class Mark {
     public void bite() {
         if (bites < 3)
             bites++;
+    }
+
+    public String toString() {
+        if (string.equals("int"))
+            return mark + "";
+        return string;
     }
 
     private int inRange(int value, int min, int max) {

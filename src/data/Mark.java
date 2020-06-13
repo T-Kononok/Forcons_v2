@@ -2,13 +2,16 @@ package data;
 
 public class Mark {
 
-    private int mark = 0;
+    private int mark = -1;
     private String string = "int";
     private int bites = 0;
     private String bodyBag = "";
     private boolean bomb = false;
     private boolean poison = false;
     private boolean review = false;
+    private boolean cr = false;
+    private boolean kr = false;
+    private boolean lr = false;
 
     public boolean isBomb() {
         return bomb;
@@ -18,6 +21,15 @@ public class Mark {
     }
     public boolean isReview() {
         return review;
+    }
+    public boolean isCr() {
+        return cr;
+    }
+    public boolean isKr() {
+        return kr;
+    }
+    public boolean isLr() {
+        return lr;
     }
     public int get() {
         return mark;
@@ -41,13 +53,23 @@ public class Mark {
     public void setReview(boolean review) {
         this.review = review;
     }
+    public void setCr(boolean cr) {
+        this.cr = cr;
+    }
+    public void setKr(boolean kr) {
+        this.kr = kr;
+    }
+    public void setLr(boolean lr) {
+        this.lr = lr;
+    }
+
     public void setBodyBag(String bodyBag) {
         this.bodyBag = bodyBag;
     }
 
     public void setString(String string) {
-        mark = 0;
         this.string = string;
+        mark = findNumber();
     }
 
     public void setBites(int bites) {
@@ -88,6 +110,14 @@ public class Mark {
         else
             value = Math.max(value, min);
         return value;
+    }
+
+    private int findNumber() {
+        for (int i = 0; i <= 10; i++) {
+            if (string.contains(i+""))
+                return i;
+        }
+        return -1;
     }
 
 }

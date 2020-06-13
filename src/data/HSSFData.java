@@ -53,8 +53,6 @@ public class HSSFData {
         return matrix;
     }
 
-    //                System.out.println(cell.getCellStyle().getFillForegroundColorColor().getHexString() + " " + cellValue);
-
     public int findSizeRowSheet(HSSFSheet sheet) {
         //13 потому что оценки 13 не может быть
         HSSFRow row = sheet.getRow(13);
@@ -99,6 +97,7 @@ public class HSSFData {
             mark.setString("");
             return mark;
         }
+        readColorCell(cell,mark);
         if (cell.getCellType() == CellType.NUMERIC) {
             if (!mark.set((int)cell.getNumericCellValue()))
                 mark.setString("end");
@@ -110,5 +109,28 @@ public class HSSFData {
         }
         mark.setString("(f)");
         return mark;
+    }
+
+    private void readColorCell(HSSFCell cell, Mark mark) {
+        switch (cell.getCellStyle().getFillForegroundColorColor().getHexString()) {
+            case ("6666:FFFF:FFFF"): // голубой
+                mark.setCr(true);
+                break;
+            case ("FFFF:9999:9999"): // розовый
+                mark.setKr(true);
+                break;
+            case ("9999:FFFF:6666"): // салатовый
+                mark.setLr(true);
+                break;
+            case ("0:CCCC:0"): // зеленый
+                mark.setBites(1);
+                break;
+            case ("FFFF:FFFF:0"): // желтый
+                mark.setBites(2);
+                break;
+            case ("FFFF:0:0"): // красный
+                mark.setBites(3);
+                break;
+        }
     }
 }

@@ -163,11 +163,12 @@ public class MainFrame extends JFrame {
         xFirstButton = (WIDTH - size*6 - strut*5)/2;
         int x = xFirstButton;
         for (int i = 0; i < 6; i++) {
-            skillSVGArray.add(addOneSkillSVG(size));
-            skillButtonsArray.add(addOneSkillButton(x,size,skillSVGArray.get(i)));
+            skillButtonsArray.add(addOneSkillButton(x,size));
+            skillSVGArray.add(addOneSkillSVG(x,size));
             x += size+strut;
         }
         xLastButton = x - strut;
+
         skillButtonsArray.get(0).addActionListener(ev -> dispose());
         skillButtonsArray.get(1).addActionListener(ev -> {
             if (fileChooser==null) {
@@ -194,23 +195,22 @@ public class MainFrame extends JFrame {
         });
     }
 
-    private JButton addOneSkillButton(int x, int size, JSVGCanvas canvas) {
+    private JButton addOneSkillButton(int x, int size) {
         JButton skillButton = new JButton();
         skillButton.setSize(size,size);
         skillButton.setLocation(x,HEIGHT - skillButton.getHeight() - 23);
-//        skillButton.setBorderPainted(false);
-//        skillButton.setContentAreaFilled(false);
-//        skillButton.setLayout(null);
-//        skillButton.add(canvas);
+        skillButton.setBorderPainted(false);
+        skillButton.setContentAreaFilled(false);
         panelFull.add(skillButton);
         return skillButton;
     }
 
-    private JSVGCanvas addOneSkillSVG(int size) {
+    private JSVGCanvas addOneSkillSVG(int x, int size) {
         JSVGCanvas canvas = new JSVGCanvas();
         canvas.setBackground(new Color(0, 0, 0, 0));
         canvas.setSize(size, size);
-        canvas.setLocation(0,0);
+        canvas.setLocation(x,HEIGHT - canvas.getHeight() - 23);
+        panelFull.add(canvas);
         return canvas;
     }
 

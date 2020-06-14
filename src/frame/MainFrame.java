@@ -143,7 +143,7 @@ public class MainFrame extends JFrame {
     private void addSvgCanvasClass(ForconsList forconsList) {
         JSVGCanvas svgCanvasClass = new JSVGCanvas();
         svgCanvasClass.setSize(90,90);
-        svgCanvasClass.setLocation(5,625);
+        svgCanvasClass.setLocation(5,623);
         svgCanvasClass.setBackground(new Color(0,0,0,0));
         panelFull.add(svgCanvasClass);
         forconsList.getList().addListSelectionListener(evt -> {
@@ -197,7 +197,7 @@ public class MainFrame extends JFrame {
     private JButton addOneSkillButton(int x, int size, JSVGCanvas canvas) {
         JButton skillButton = new JButton();
         skillButton.setSize(size,size);
-        skillButton.setLocation(x,HEIGHT - skillButton.getHeight() - 20);
+        skillButton.setLocation(x,HEIGHT - skillButton.getHeight() - 23);
 //        skillButton.setBorderPainted(false);
 //        skillButton.setContentAreaFilled(false);
 //        skillButton.setLayout(null);
@@ -221,7 +221,7 @@ public class MainFrame extends JFrame {
         nameLabel.setVerticalAlignment(JLabel.CENTER);
         nameLabel.setHorizontalAlignment(JLabel.CENTER);
         nameLabel.setSize(xFirstButton-105,50);
-        nameLabel.setLocation(100,670-(nameLabel.getHeight()/2));
+        nameLabel.setLocation(100,667-(nameLabel.getHeight()/2));
 
 //        nameLabel.setBorder(BorderFactory.createLineBorder(Color.RED));
         panelFull.add(nameLabel);
@@ -239,7 +239,7 @@ public class MainFrame extends JFrame {
         JSVGCanvas svgCanvasPoint = new JSVGCanvas();
         int widthPoint = WIDTH - xLastButton - 10;
         svgCanvasPoint.setSize(widthPoint, 90);
-        svgCanvasPoint.setLocation(xLastButton + 5,670-(svgCanvasPoint.getHeight()/2));
+        svgCanvasPoint.setLocation(xLastButton + 5,667-(svgCanvasPoint.getHeight()/2));
         svgCanvasPoint.setBackground(new Color(0,0,0,0));
         JLabel label = addLabelPoint(svgCanvasPoint);
         panelFull.add(svgCanvasPoint);

@@ -68,7 +68,6 @@ public class MainFrame extends JFrame {
         journalTable.setBackground(new Color(0,0,0,0));
         journalTable.setShowVerticalLines(false);
         journalTable.setShowHorizontalLines(false);
-//        journalTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         journalTable.setRowSelectionAllowed(false);
         journalTable.setSize(1050,580);
         journalTable.setLocation(5,35);
@@ -177,10 +176,7 @@ public class MainFrame extends JFrame {
             }
             if (fileChooser.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
                 mainData.readTable(table,fileChooser.getSelectedFile().getPath());
-                int cellSize = table.getWidth() / table.getColumnCount();
-                table.setRowHeight(cellSize);
-                table.setSize(1050,cellSize*table.getRowCount());
-                table.setLocation(5,325-table.getHeight()/2);
+                int cellSize = resizeTable(table);
                 table.setDefaultRenderer(Mark.class, new JournalTableCellRenderer(cellSize));
                 table.repaint();
             }
@@ -280,6 +276,21 @@ public class MainFrame extends JFrame {
 
         panelFull.add(lebelPoint);
         return lebelPoint;
+    }
+
+    private int resizeTable(JTable table){
+        int cellSize;
+        if (table.getColumnCount() > table.getRowCount() * 1050 / 580) {
+            cellSize = 1050 / table.getColumnCount();
+            table.setSize(1050, cellSize * table.getRowCount());
+            table.setLocation(5, 325 - table.getHeight() / 2);
+        } else {
+            cellSize = 580 / table.getRowCount();
+            table.setSize(cellSize * table.getColumnCount(), 580);
+            table.setLocation(530 - table.getWidth() / 2, 35);
+        }
+        table.setRowHeight(cellSize);
+        return cellSize;
     }
 
     public static void main(String[] args) {

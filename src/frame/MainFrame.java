@@ -3,6 +3,7 @@ package frame;
 import data.ForconsList;
 import data.JournalTableModel;
 import data.MainData;
+import data.Mark;
 import elements.*;
 
 import javax.swing.*;
@@ -64,9 +65,13 @@ public class MainFrame extends JFrame {
         JTable journalTable = new JTable(new JournalTableModel());
         journalTable.setTableHeader(null);
         journalTable.setBorder(BorderFactory.createEmptyBorder());
-        journalTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        journalTable.setSize(1050,615);
-        journalTable.setLocation(5,5);
+        journalTable.setBackground(new Color(0,0,0,0));
+        journalTable.setShowVerticalLines(false);
+        journalTable.setShowHorizontalLines(false);
+//        journalTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        journalTable.setRowSelectionAllowed(false);
+        journalTable.setSize(1050,580);
+        journalTable.setLocation(5,35);
         panelFull.add(journalTable);
         return journalTable;
     }
@@ -97,7 +102,7 @@ public class MainFrame extends JFrame {
         forconsListScroll.getVerticalScrollBar().setUI(new ImageScrollBarUI());
         forconsListScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         forconsListScroll.setBorder(BorderFactory.createEmptyBorder());
-        forconsListScroll.setSize(220, 615 - 30);
+        forconsListScroll.setSize(220, 580);
         forconsListScroll.setLocation(1060,35);
         panelFull.add(forconsListScroll);
         return forconsList;
@@ -172,6 +177,11 @@ public class MainFrame extends JFrame {
             }
             if (fileChooser.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
                 mainData.readTable(table,fileChooser.getSelectedFile().getPath());
+                int cellSize = table.getWidth() / table.getColumnCount();
+                table.setRowHeight(cellSize);
+                table.setSize(1050,cellSize*table.getRowCount());
+                table.setLocation(5,325-table.getHeight()/2);
+                table.setDefaultRenderer(Mark.class, new JournalTableCellRenderer(cellSize));
                 table.repaint();
             }
         });

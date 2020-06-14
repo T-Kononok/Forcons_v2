@@ -26,7 +26,7 @@ public class JournalTableModel extends AbstractTableModel {
     public Object getValueAt(int row, int col) {
         if (matrix == null)
             return 0;
-        return matrix.get(row).get(col).toString();
+        return matrix.get(row).get(col);
     }
 
     public String getColumnName(int col) {
@@ -34,7 +34,7 @@ public class JournalTableModel extends AbstractTableModel {
     }
 
     public Class<?> getColumnClass(int col) {
-        return String.class;
+        return Mark.class;
     }
 
 }

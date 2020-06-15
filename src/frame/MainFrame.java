@@ -37,7 +37,9 @@ public class MainFrame extends JFrame {
         addMenuComboBox();
         addCancelButton();
         ForconsList forconsList = addForconsList();
-        addSortButtons(forconsList);
+        addListButton(addForconsListScroll(forconsList),
+                addSortPointButtons(forconsList),
+                addSortClassButtons(forconsList));
 
         addSvgCanvasClass(forconsList);
         addSkillButtons(forconsList, table);
@@ -96,15 +98,19 @@ public class MainFrame extends JFrame {
 
         ForconsList forconsList = new ForconsList();
         addInArray(forconsList);
+        return forconsList;
+    }
 
-        JScrollPane forconsListScroll = new JScrollPane(forconsList.getList());
+    private JScrollPane addForconsListScroll(ForconsList list) {
+        JScrollPane forconsListScroll = new JScrollPane(list.getList());
         forconsListScroll.getVerticalScrollBar().setUI(new ImageScrollBarUI());
         forconsListScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         forconsListScroll.setBorder(BorderFactory.createEmptyBorder());
         forconsListScroll.setSize(220, 580);
         forconsListScroll.setLocation(1060,35);
+        forconsListScroll.setVisible(false);
         panelFull.add(forconsListScroll);
-        return forconsList;
+        return forconsListScroll;
     }
 
     private void addInArray(ForconsList forconsList) {
@@ -127,17 +133,39 @@ public class MainFrame extends JFrame {
         forconsList.sortClass();
     }
 
-    private void addSortButtons(ForconsList forconsList) {
+    private JButton addSortPointButtons(ForconsList forconsList) {
         JButton sortPointButton = new JButton();
         sortPointButton.setSize(40,25);
         sortPointButton.setLocation(1165,10);
         sortPointButton.addActionListener(ev -> forconsList.sortPoint());
+        sortPointButton.setVisible(false);
         panelFull.add(sortPointButton);
+        return sortPointButton;
+    }
+
+    private JButton addSortClassButtons(ForconsList forconsList) {
         JButton sortClassButton = new JButton();
         sortClassButton.setSize(40,25);
         sortClassButton.setLocation(1205,10);
         sortClassButton.addActionListener(ev -> forconsList.sortClass());
+        sortClassButton.setVisible(false);
         panelFull.add(sortClassButton);
+        return sortClassButton;
+    }
+
+    private void addListButton(JScrollPane pane, JButton pointButton, JButton classButton) {
+        JButton listButton = new JButton();
+        listButton.setSize(100,50);
+        int x = pane.getX()+(pane.getWidth()-listButton.getWidth())/2;
+        int y = pane.getY()+(pane.getHeight()-listButton.getHeight())/2;
+        listButton.setLocation(x,y);
+        listButton.addActionListener(ev -> {
+            pane.setVisible(true);
+            pointButton.setVisible(true);
+            classButton.setVisible(true);
+            listButton.setVisible(false);
+        });
+        panelFull.add(listButton);
     }
 
     private void addSvgCanvasClass(ForconsList forconsList) {

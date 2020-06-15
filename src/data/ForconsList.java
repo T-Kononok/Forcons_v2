@@ -3,7 +3,10 @@ package data;
 import elements.ForconsRenderer;
 
 import javax.swing.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class ForconsList {
     private final SortForconsArray arrayForsons = new SortForconsArray();
@@ -31,11 +34,23 @@ public class ForconsList {
         arrayForsons.getArray().forEach(forconsListModel::addElement);
     }
 
-    public void  sortClass() {
+    public void sortClass() {
         forconsList.clearSelection();
         forconsListModel.clear();
         arrayForsons.sortClass();
         arrayForsons.getArray().forEach(forconsListModel::addElement);
+    }
+
+    public void read(String filename) {
+        try {
+            Scanner scanner = new Scanner(new File(filename));
+            while (scanner.hasNextLine())
+                getArray().add(scanner.nextLine());
+            sortPoint();
+            sortClass();
+        } catch (FileNotFoundException e) {
+            System.out.println("Ошибка чтения списка форсонов");
+        }
     }
 
 }

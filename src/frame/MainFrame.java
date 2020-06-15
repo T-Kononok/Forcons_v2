@@ -12,6 +12,7 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.text.TableView;
 import java.awt.*;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
@@ -37,7 +38,8 @@ public class MainFrame extends JFrame {
         addMenuComboBox();
         addCancelButton();
         ForconsList forconsList = addForconsList();
-        addListButton(addForconsListScroll(forconsList),
+        addListButton(forconsList,
+                addForconsListScroll(forconsList),
                 addSortPointButtons(forconsList),
                 addSortClassButtons(forconsList));
 
@@ -97,7 +99,7 @@ public class MainFrame extends JFrame {
     private ForconsList addForconsList() {
 
         ForconsList forconsList = new ForconsList();
-        addInArray(forconsList);
+//        forconsList.addInArray();
         return forconsList;
     }
 
@@ -111,26 +113,6 @@ public class MainFrame extends JFrame {
         forconsListScroll.setVisible(false);
         panelFull.add(forconsListScroll);
         return forconsListScroll;
-    }
-
-    private void addInArray(ForconsList forconsList) {
-        forconsList.getArray().add("ba,Горшок,3,0");
-        forconsList.getArray().add("ba,Горшок,3,6");
-        forconsList.getArray().add("sa,АскаМисатоРей,2,12");
-        forconsList.getArray().add("in,Стив,1,2");
-        forconsList.getArray().add("sm,Стив,1,0");
-        forconsList.getArray().add("ba,АскаМисатоРейАскаМисатоРей,3,6");
-        forconsList.getArray().add("in,Аска,2,2");
-        forconsList.getArray().add("in,Стив,1,8");
-        forconsList.getArray().add("sa,Стив,1,11");
-        forconsList.getArray().add("ba,Горшок,3,0");
-        for (int i = 0; i < 5; i++) {
-            forconsList.getArray().add("sa,Аска,2,2");
-            forconsList.getArray().add("sa,Стив,1,5");
-            forconsList.getArray().add("sm,Стив,1,4");
-            forconsList.getArray().add("ba,Горшок,3,6");
-        }
-        forconsList.sortClass();
     }
 
     private JButton addSortPointButtons(ForconsList forconsList) {
@@ -153,13 +135,21 @@ public class MainFrame extends JFrame {
         return sortClassButton;
     }
 
-    private void addListButton(JScrollPane pane, JButton pointButton, JButton classButton) {
+    private void addListButton(ForconsList list,JScrollPane pane, JButton pointButton, JButton classButton) {
         JButton listButton = new JButton();
         listButton.setSize(100,50);
         int x = pane.getX()+(pane.getWidth()-listButton.getWidth())/2;
         int y = pane.getY()+(pane.getHeight()-listButton.getHeight())/2;
         listButton.setLocation(x,y);
         listButton.addActionListener(ev -> {
+            list.read("D:\\Джава\\Forcons_v2\\Список форсонов.txt");
+//            if (fileChooser==null) {
+//                fileChooser = new JFileChooser();
+//                fileChooser.setCurrentDirectory(new File("."));
+//            }
+//            if (fileChooser.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
+//                list.read(fileChooser.getSelectedFile().getPath());
+//            }
             pane.setVisible(true);
             pointButton.setVisible(true);
             classButton.setVisible(true);

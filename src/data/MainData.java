@@ -12,7 +12,6 @@ public class MainData {
     private ArrayList<Boolean> light = new ArrayList<>();
 
     public void readTable(JTable table, String filename) {
-        table.setModel(new DefaultTableModel());
         matrix = hssfData.readHSSFJournal(filename);
         for (int i = 0; i < matrix.size(); i++)
             light.add(false);

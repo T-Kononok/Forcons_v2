@@ -7,14 +7,9 @@ import data.Mark;
 import elements.*;
 
 import javax.swing.*;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
-import javax.swing.text.TableView;
 import java.awt.*;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 
 import org.apache.batik.swing.JSVGCanvas;
 
@@ -30,11 +25,8 @@ public class MainFrame extends JFrame {
 
     private MainFrame() {
 
-        setUndecorated(true);
-        setExtendedState(MAXIMIZED_BOTH);
-
         addPanelFull();
-        JTable table = addJournalTable();
+        addTableButton(addJournalTable());
         addMenuComboBox();
         addCancelButton();
         ForconsList forconsList = addForconsList();
@@ -44,13 +36,11 @@ public class MainFrame extends JFrame {
                 addSortClassButtons(forconsList));
 
         addSvgCanvasClass(forconsList);
-        addSkillButtons(forconsList, table);
+        addSkillButtons(forconsList);
         addNameLabel(forconsList);
         addSvgCanvasPoint(forconsList);
 
-
         getContentPane().add(panelFull);
-        setVisible(true);
     }
 
     //костыль дабы не было иногда прозрачного экрана
@@ -73,10 +63,31 @@ public class MainFrame extends JFrame {
         journalTable.setShowVerticalLines(false);
         journalTable.setShowHorizontalLines(false);
         journalTable.setRowSelectionAllowed(false);
+        journalTable.setVisible(false);
         journalTable.setSize(1050,580);
         journalTable.setLocation(5,35);
         panelFull.add(journalTable);
         return journalTable;
+    }
+
+    private void addTableButton(JTable table) {
+        JButton tableButton = new JButton();
+        tableButton.setSize(100,50);
+        locationInCenter(tableButton,table);
+        tableButton.addActionListener(ev -> {
+            mainData.readTable(table,selectionFile());
+            int cellSize = resizeTable(table);
+            table.setDefaultRenderer(Mark.class, new JournalTableCellRenderer(cellSize));
+            table.setVisible(true);
+            tableButton.setVisible(false);
+        });
+        panelFull.add(tableButton);
+    }
+
+    private void locationInCenter(JComponent component, JComponent componentIn) {
+        int x = componentIn.getX()+(componentIn.getWidth()-component.getWidth())/2;
+        int y = componentIn.getY()+(componentIn.getHeight()-component.getHeight())/2;
+        component.setLocation(x,y);
     }
 
     private void addMenuComboBox() {
@@ -138,18 +149,10 @@ public class MainFrame extends JFrame {
     private void addListButton(ForconsList list,JScrollPane pane, JButton pointButton, JButton classButton) {
         JButton listButton = new JButton();
         listButton.setSize(100,50);
-        int x = pane.getX()+(pane.getWidth()-listButton.getWidth())/2;
-        int y = pane.getY()+(pane.getHeight()-listButton.getHeight())/2;
-        listButton.setLocation(x,y);
+        locationInCenter(listButton,pane);
         listButton.addActionListener(ev -> {
-            list.read("D:\\Джава\\Forcons_v2\\Список форсонов.txt");
-//            if (fileChooser==null) {
-//                fileChooser = new JFileChooser();
-//                fileChooser.setCurrentDirectory(new File("."));
-//            }
-//            if (fileChooser.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
-//                list.read(fileChooser.getSelectedFile().getPath());
-//            }
+//            list.read("D:\\Джава\\Forcons_v2\\Список форсонов.txt");
+            list.read(selectionFile());
             pane.setVisible(true);
             pointButton.setVisible(true);
             classButton.setVisible(true);
@@ -173,7 +176,7 @@ public class MainFrame extends JFrame {
         });
     }
 
-    private void addSkillButtons(ForconsList forconsList, JTable table) {
+    private void addSkillButtons(ForconsList forconsList) {
         ArrayList<JSVGCanvas> skillSVGArray = new ArrayList<>();
         ArrayList<JButton> skillButtonsArray = new ArrayList<>();
         int size = 60;
@@ -188,18 +191,6 @@ public class MainFrame extends JFrame {
         xLastButton = x - strut;
 
         skillButtonsArray.get(0).addActionListener(ev -> dispose());
-        skillButtonsArray.get(1).addActionListener(ev -> {
-            if (fileChooser==null) {
-                fileChooser = new JFileChooser();
-                fileChooser.setCurrentDirectory(new File("."));
-            }
-            if (fileChooser.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
-                mainData.readTable(table,fileChooser.getSelectedFile().getPath());
-                int cellSize = resizeTable(table);
-                table.setDefaultRenderer(Mark.class, new JournalTableCellRenderer(cellSize));
-                table.repaint();
-            }
-        });
 
         forconsList.getList().addListSelectionListener(evt -> {
             if (!evt.getValueIsAdjusting() && forconsList.getList().getSelectedIndex() != -1) {
@@ -211,6 +202,17 @@ public class MainFrame extends JFrame {
                 }
             }
         });
+    }
+
+    private String selectionFile() {
+        if (fileChooser==null) {
+            fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(new File("."));
+        }
+        if (fileChooser.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
+            return fileChooser.getSelectedFile().getPath();
+        }
+        return null;
     }
 
     private JButton addOneSkillButton(int x, int size) {
@@ -313,6 +315,10 @@ public class MainFrame extends JFrame {
 
     public static void main(String[] args) {
         MainFrame frame = new MainFrame();
+
+        frame.setUndecorated(true);
+        frame.setExtendedState(MAXIMIZED_BOTH);
+        frame.setVisible(true);
         //костыль дабы не было иногда прозрачного экрана
         frame.setImageKost();
     }

@@ -22,6 +22,7 @@ public class MainFrame extends JFrame {
     private int xLastButton;
     private MainData mainData = new MainData();
     private JFileChooser fileChooser = null;
+    private JournalTableCellRenderer journalTableCellRenderer = new JournalTableCellRenderer();
 
     private MainFrame() {
 
@@ -57,6 +58,7 @@ public class MainFrame extends JFrame {
 
     private JTable addJournalTable() {
         JTable journalTable = new JTable(new JournalTableModel());
+        journalTable.setDefaultRenderer(Mark.class, journalTableCellRenderer);
         journalTable.setTableHeader(null);
         journalTable.setBorder(BorderFactory.createEmptyBorder());
         journalTable.setBackground(new Color(0,0,0,0));
@@ -77,7 +79,8 @@ public class MainFrame extends JFrame {
         tableButton.addActionListener(ev -> {
             mainData.readTable(table,selectionFile());
             int cellSize = resizeTable(table);
-            table.setDefaultRenderer(Mark.class, new JournalTableCellRenderer(cellSize));
+            journalTableCellRenderer.setSize(cellSize);
+            mainData.readTable(table,selectionFile());
             table.setVisible(true);
             tableButton.setVisible(false);
         });

@@ -17,7 +17,7 @@ public class MainFrame extends JFrame {
 
     private static final int WIDTH = 1280;
     private static final int HEIGHT = 720;
-    private ImagePanel panelFull;
+    private final ImagePanel panelFull = new ImagePanel();
     private int xFirstButton;
     private int xLastButton;
     private MainData mainData = new MainData();
@@ -26,9 +26,11 @@ public class MainFrame extends JFrame {
 
     private MainFrame() {
 
-        addPanelFull();
-        addMenuComboBox();
+        panelFull.setSize(WIDTH,HEIGHT);
+        panelFull.setLayout(null);
+
         addCancelButton();
+        addCancelButton2();
 
         ForconsList forconsList = new ForconsList();
         addOpenButton(addJournalTable(),
@@ -45,44 +47,85 @@ public class MainFrame extends JFrame {
         getContentPane().add(panelFull);
     }
 
-    private void addPanelFull() {
-        panelFull = new ImagePanel("image/fon.jpg");
-        panelFull.setLayout(null);
-        panelFull.setSize(WIDTH,HEIGHT);
-        panelFull.setLocation(0,0);
-    }
-
-    private void addMenuComboBox() {
-        String[] items = {"Сохранить"};
-        JComboBox<String> combo = new JComboBox<>(items);
-        combo.setUI(new MenuComboBoxUI());
-        combo.setSize(100,25);
-        combo.setLocation(1060,5);
-        panelFull.add(combo);
-    }
-
     private void addCancelButton() {
         JButton cancelButton = new JButton();
-        cancelButton.setSize(25,25);
-        cancelButton.setLocation(1250,5);
+        toPlace(cancelButton,25,25,1250,5);
+        cancelButton.setBorderPainted(false);
+//        cancelButton.setContentAreaFilled(false);
         cancelButton.addActionListener(ev -> dispose());
-        panelFull.add(cancelButton);
+    }
+
+    private void addCancelButton2() {
+        JButton cancelButton = new JButton();
+        toPlace(cancelButton,25,25,1047,5);
+        cancelButton.setBorderPainted(false);
+//        cancelButton.setContentAreaFilled(false);
+        cancelButton.addActionListener(ev -> dispose());
     }
 
     private JTable addJournalTable() {
         JTable journalTable = new JTable(new JournalTableModel());
         journalTable.setDefaultRenderer(Mark.class, renderer);
+        toPlace(journalTable,1050,580,5,35);
+        journalTable.setVisible(false);
         journalTable.setTableHeader(null);
         journalTable.setBorder(BorderFactory.createEmptyBorder());
         journalTable.setBackground(new Color(0,0,0,0));
-        journalTable.setShowVerticalLines(false);
-        journalTable.setShowHorizontalLines(false);
+        journalTable.setGridColor(Color.BLACK);
+//        journalTable.setShowVerticalLines(false);
+//        journalTable.setShowHorizontalLines(false);
         journalTable.setRowSelectionAllowed(false);
-        journalTable.setVisible(false);
-        journalTable.setSize(1050,580);
-        journalTable.setLocation(5,35);
-        panelFull.add(journalTable);
         return journalTable;
+    }
+
+    private JScrollPane addForconsListScroll(ForconsList list) {
+        JScrollPane forconsListScroll = new JScrollPane(list.getList());
+        toPlace(forconsListScroll,220,580,1060,35);
+        forconsListScroll.setVisible(false);
+        forconsListScroll.setBorder(BorderFactory.createEmptyBorder());
+        forconsListScroll.getVerticalScrollBar().setUI(new ImageScrollBarUI());
+        forconsListScroll.getVerticalScrollBar().setPreferredSize(new Dimension(18,580));
+        forconsListScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        return forconsListScroll;
+    }
+
+    private JButton addSortPointButtons(ForconsList forconsList) {
+        JButton sortPointButton = new JButton();
+        toPlace(sortPointButton,84,25,1077,10);
+        sortPointButton.setVisible(false);
+//        sortPointButton.setBorderPainted(false);
+//        sortPointButton.setContentAreaFilled(false);
+        sortPointButton.addActionListener(ev -> forconsList.sortPoint());
+        return sortPointButton;
+    }
+
+    private JButton addSortClassButtons(ForconsList forconsList) {
+        JButton sortClassButton = new JButton();
+        toPlace(sortClassButton,84,25,1161,10);
+        sortClassButton.setVisible(false);
+        sortClassButton.setBorderPainted(false);
+//        sortClassButton.setContentAreaFilled(false);
+        sortClassButton.addActionListener(ev -> forconsList.sortClass());
+        return sortClassButton;
+    }
+
+    private void addOpenButton(JTable table, JScrollPane pane, JButton pointButton,
+                               JButton classButton, ForconsList list) {
+        JButton openButton = new JButton();
+
+        toPlace(openButton,100,50,
+                (WIDTH-100)/2,(HEIGHT-50)/2);
+        openButton.addActionListener(ev -> {
+            mainData.readTable(table,selectionFile("Открыть жунал"));
+            int cellSize = resizeTable(table);
+            renderer.setSize(cellSize);
+            list.read(selectionFile("Открыть форсонов"));
+            table.setVisible(true);
+            pane.setVisible(true);
+            pointButton.setVisible(true);
+            classButton.setVisible(true);
+            openButton.setVisible(false);
+        });
     }
 
     private int resizeTable(JTable table){
@@ -100,72 +143,16 @@ public class MainFrame extends JFrame {
         return cellSize;
     }
 
-//    private ForconsList addForconsList() {
-//
-//        ForconsList forconsList = new ForconsList();
-////        forconsList.addInArray();
-//        return forconsList;
-//    }
-
-    private JScrollPane addForconsListScroll(ForconsList list) {
-        JScrollPane forconsListScroll = new JScrollPane(list.getList());
-        forconsListScroll.getVerticalScrollBar().setUI(new ImageScrollBarUI());
-        forconsListScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        forconsListScroll.setBorder(BorderFactory.createEmptyBorder());
-        forconsListScroll.setSize(220, 580);
-        forconsListScroll.setLocation(1060,35);
-        forconsListScroll.setVisible(false);
-        panelFull.add(forconsListScroll);
-        return forconsListScroll;
-    }
-
-    private JButton addSortPointButtons(ForconsList forconsList) {
-        JButton sortPointButton = new JButton();
-        sortPointButton.setSize(40,25);
-        sortPointButton.setLocation(1165,10);
-        sortPointButton.addActionListener(ev -> forconsList.sortPoint());
-        sortPointButton.setVisible(false);
-        panelFull.add(sortPointButton);
-        return sortPointButton;
-    }
-
-    private JButton addSortClassButtons(ForconsList forconsList) {
-        JButton sortClassButton = new JButton();
-        sortClassButton.setSize(40,25);
-        sortClassButton.setLocation(1205,10);
-        sortClassButton.addActionListener(ev -> forconsList.sortClass());
-        sortClassButton.setVisible(false);
-        panelFull.add(sortClassButton);
-        return sortClassButton;
-    }
-
-    private void addOpenButton(JTable table, JScrollPane pane, JButton pointButton,
-                               JButton classButton, ForconsList list) {
-        JButton openButton = new JButton();
-        openButton.setSize(100,50);
-        openButton.setLocation((WIDTH-openButton.getWidth())/2,
-                (HEIGHT-openButton.getHeight())/2);
-        openButton.addActionListener(ev -> {
-            mainData.readTable(table,selectionFile("Открыть жунал"));
-            int cellSize = resizeTable(table);
-            renderer.setSize(cellSize);
-//            list.read("D:\\Джава\\Forcons_v2\\Список форсонов.txt");
-            list.read(selectionFile("Открыть форсонов"));
-            table.setVisible(true);
-            pane.setVisible(true);
-            pointButton.setVisible(true);
-            classButton.setVisible(true);
-            openButton.setVisible(false);
-        });
-        panelFull.add(openButton);
+    private void toPlace(JComponent component,int width, int height, int x, int y) {
+        component.setSize(width,height);
+        component.setLocation(x,y);
+        panelFull.add(component);
     }
 
     private void addSvgCanvasClass(ForconsList forconsList) {
         JSVGCanvas svgCanvasClass = new JSVGCanvas();
-        svgCanvasClass.setSize(90,90);
-        svgCanvasClass.setLocation(5,623);
+        toPlace(svgCanvasClass,90,90,5,622);
         svgCanvasClass.setBackground(new Color(0,0,0,0));
-        panelFull.add(svgCanvasClass);
         forconsList.getList().addListSelectionListener(evt -> {
             if (!evt.getValueIsAdjusting() && forconsList.getList().getSelectedIndex() != -1) {
                     String val = forconsList.getList().getSelectedValue();
@@ -178,8 +165,8 @@ public class MainFrame extends JFrame {
     private void addSkillButtons(ForconsList forconsList) {
         ArrayList<JSVGCanvas> skillSVGArray = new ArrayList<>();
         ArrayList<JButton> skillButtonsArray = new ArrayList<>();
-        int size = 60;
-        int strut = 40;
+        int size = 90;
+        int strut = 10;
         xFirstButton = (WIDTH - size*6 - strut*5)/2;
         int x = xFirstButton;
         for (int i = 0; i < 6; i++) {
@@ -217,20 +204,16 @@ public class MainFrame extends JFrame {
 
     private JButton addOneSkillButton(int x, int size) {
         JButton skillButton = new JButton();
-        skillButton.setSize(size,size);
-        skillButton.setLocation(x,HEIGHT - skillButton.getHeight() - 23);
+        toPlace(skillButton,size,size,x,HEIGHT - size - 8);
         skillButton.setBorderPainted(false);
         skillButton.setContentAreaFilled(false);
-        panelFull.add(skillButton);
         return skillButton;
     }
 
     private JSVGCanvas addOneSkillSVG(int x, int size) {
         JSVGCanvas canvas = new JSVGCanvas();
+        toPlace(canvas,size,size,x,HEIGHT - size - 8);
         canvas.setBackground(new Color(0, 0, 0, 0));
-        canvas.setSize(size, size);
-        canvas.setLocation(x,HEIGHT - canvas.getHeight() - 23);
-        panelFull.add(canvas);
         return canvas;
     }
 
@@ -240,11 +223,9 @@ public class MainFrame extends JFrame {
         nameLabel.setFont(fontName);
         nameLabel.setVerticalAlignment(JLabel.CENTER);
         nameLabel.setHorizontalAlignment(JLabel.CENTER);
-        nameLabel.setSize(xFirstButton-105,50);
-        nameLabel.setLocation(100,667-(nameLabel.getHeight()/2));
+        toPlace(nameLabel,xFirstButton-105,50,100,667-(50/2));
 
 //        nameLabel.setBorder(BorderFactory.createLineBorder(Color.RED));
-        panelFull.add(nameLabel);
 
         forconsList.getList().addListSelectionListener(evt -> {
             if (!evt.getValueIsAdjusting() && forconsList.getList().getSelectedIndex() != -1) {
@@ -257,12 +238,10 @@ public class MainFrame extends JFrame {
 
     private void addSvgCanvasPoint(ForconsList forconsList) {
         JSVGCanvas svgCanvasPoint = new JSVGCanvas();
-        int widthPoint = WIDTH - xLastButton - 10;
-        svgCanvasPoint.setSize(widthPoint, 90);
-        svgCanvasPoint.setLocation(xLastButton + 5,667-(svgCanvasPoint.getHeight()/2));
+        toPlace(svgCanvasPoint,WIDTH - xLastButton - 10,90,
+                xLastButton + 5,667-(90/2));
         svgCanvasPoint.setBackground(new Color(0,0,0,0));
         JLabel label = addLabelPoint(svgCanvasPoint);
-        panelFull.add(svgCanvasPoint);
 
         forconsList.getList().addListSelectionListener(evt -> {
             if (!evt.getValueIsAdjusting() && forconsList.getList().getSelectedIndex() != -1) {

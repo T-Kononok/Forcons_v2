@@ -9,10 +9,6 @@ public class ImagePanel extends JPanel {
     private String imageFile;
     private boolean error;
 
-    public ImagePanel(String imageFile) {
-        setImageFile(imageFile);
-    }
-
     public void setImageFile(String imageFile) {
         File file = new File(imageFile);
         if(file.exists()) {

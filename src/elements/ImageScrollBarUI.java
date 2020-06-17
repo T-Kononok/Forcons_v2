@@ -8,39 +8,30 @@ public class ImageScrollBarUI extends BasicScrollBarUI {
 
     private final Image imageTumb = new ImageIcon("image/tumb.jpg").getImage();
     private final Image imageTrack = new ImageIcon("image/fon.jpg").getImage();
-    private final ImageIcon upArrow = new ImageIcon("image/upArrow.png");
-    private final ImageIcon downArrow = new ImageIcon("image/downArrow.png");
+    private final int SIZE = 18;
 
     @Override
     protected JButton createDecreaseButton(int orientation) {
-        JButton decreaseButton = new JButton(getAppropriateIcon(orientation)) {
-            @Override
-            public Dimension getPreferredSize() {
-                return new Dimension(22, 22);
-            }
-        };
+        JButton decreaseButton = new JButton();
+        decreaseButton.setPreferredSize(new Dimension(SIZE, SIZE));
         decreaseButton.setBorderPainted(false);
-        decreaseButton.setContentAreaFilled(false);
+//        decreaseButton.setContentAreaFilled(false);
         return decreaseButton;
     }
 
     @Override
     protected JButton createIncreaseButton(int orientation) {
-        JButton increaseButton = new JButton(getAppropriateIcon(orientation)){
-            @Override
-            public Dimension getPreferredSize() {
-                return new Dimension(22, 22);
-            }
-        };
+        JButton increaseButton = new JButton();
+        increaseButton.setPreferredSize(new Dimension(SIZE, SIZE));
         increaseButton.setBorderPainted(false);
-        increaseButton.setContentAreaFilled(false);
+//        increaseButton.setContentAreaFilled(false);
         return increaseButton;
     }
 
     @Override
     protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
 
-        g.drawImage(imageTrack,-1280-5+22,-35, null);
+        g.drawImage(imageTrack,-1280+SIZE,-35, null);
     }
 
     @Override
@@ -55,12 +46,5 @@ public class ImageScrollBarUI extends BasicScrollBarUI {
         sb.setBorder(BorderFactory.createEmptyBorder());
         sb.setOpaque(true);
         super.layoutHScrollbar(sb);
-    }
-
-    private ImageIcon getAppropriateIcon(int orientation) {
-        if (orientation == SwingConstants.SOUTH) {
-            return downArrow;
-        }
-        return upArrow;
     }
 }

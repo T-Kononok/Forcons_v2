@@ -7,7 +7,7 @@ import java.awt.*;
 public class ImageScrollBarUI extends BasicScrollBarUI {
 
     private final Image imageTumb = new ImageIcon("image/tumb.jpg").getImage();
-    private final Image imageTrack = new ImageIcon("image/fon.jpg").getImage();
+    private final Image imageTrack = new ImageIcon("image/fon2.jpg").getImage();
     private final int SIZE = 18;
 
     @Override
@@ -15,7 +15,7 @@ public class ImageScrollBarUI extends BasicScrollBarUI {
         JButton decreaseButton = new JButton();
         decreaseButton.setPreferredSize(new Dimension(SIZE, SIZE));
         decreaseButton.setBorderPainted(false);
-//        decreaseButton.setContentAreaFilled(false);
+        decreaseButton.setContentAreaFilled(false);
         return decreaseButton;
     }
 
@@ -24,7 +24,7 @@ public class ImageScrollBarUI extends BasicScrollBarUI {
         JButton increaseButton = new JButton();
         increaseButton.setPreferredSize(new Dimension(SIZE, SIZE));
         increaseButton.setBorderPainted(false);
-//        increaseButton.setContentAreaFilled(false);
+        increaseButton.setContentAreaFilled(false);
         return increaseButton;
     }
 

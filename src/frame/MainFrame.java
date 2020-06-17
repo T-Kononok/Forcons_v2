@@ -22,19 +22,20 @@ public class MainFrame extends JFrame {
     private int xLastButton;
     private MainData mainData = new MainData();
     private JFileChooser fileChooser = null;
-    private JournalTableCellRenderer journalTableCellRenderer = new JournalTableCellRenderer();
+    private final JournalTableCellRenderer renderer = new JournalTableCellRenderer();
 
     private MainFrame() {
 
         addPanelFull();
-        addTableButton(addJournalTable());
         addMenuComboBox();
         addCancelButton();
-        ForconsList forconsList = addForconsList();
-        addListButton(forconsList,
+
+        ForconsList forconsList = new ForconsList();
+        addOpenButton(addJournalTable(),
                 addForconsListScroll(forconsList),
                 addSortPointButtons(forconsList),
-                addSortClassButtons(forconsList));
+                addSortClassButtons(forconsList),
+                forconsList);
 
         addSvgCanvasClass(forconsList);
         addSkillButtons(forconsList);
@@ -44,11 +45,6 @@ public class MainFrame extends JFrame {
         getContentPane().add(panelFull);
     }
 
-    //костыль дабы не было иногда прозрачного экрана
-    public void setImageKost() {
-        panelFull.setImageFile("image/fon.jpg");
-    }
-
     private void addPanelFull() {
         panelFull = new ImagePanel("image/fon.jpg");
         panelFull.setLayout(null);
@@ -56,45 +52,8 @@ public class MainFrame extends JFrame {
         panelFull.setLocation(0,0);
     }
 
-    private JTable addJournalTable() {
-        JTable journalTable = new JTable(new JournalTableModel());
-        journalTable.setDefaultRenderer(Mark.class, journalTableCellRenderer);
-        journalTable.setTableHeader(null);
-        journalTable.setBorder(BorderFactory.createEmptyBorder());
-        journalTable.setBackground(new Color(0,0,0,0));
-        journalTable.setShowVerticalLines(false);
-        journalTable.setShowHorizontalLines(false);
-        journalTable.setRowSelectionAllowed(false);
-        journalTable.setVisible(false);
-        journalTable.setSize(1050,580);
-        journalTable.setLocation(5,35);
-        panelFull.add(journalTable);
-        return journalTable;
-    }
-
-    private void addTableButton(JTable table) {
-        JButton tableButton = new JButton();
-        tableButton.setSize(100,50);
-        locationInCenter(tableButton,table);
-        tableButton.addActionListener(ev -> {
-            mainData.readTable(table,selectionFile());
-            int cellSize = resizeTable(table);
-            journalTableCellRenderer.setSize(cellSize);
-            mainData.readTable(table,selectionFile());
-            table.setVisible(true);
-            tableButton.setVisible(false);
-        });
-        panelFull.add(tableButton);
-    }
-
-    private void locationInCenter(JComponent component, JComponent componentIn) {
-        int x = componentIn.getX()+(componentIn.getWidth()-component.getWidth())/2;
-        int y = componentIn.getY()+(componentIn.getHeight()-component.getHeight())/2;
-        component.setLocation(x,y);
-    }
-
     private void addMenuComboBox() {
-        String[] items = {"10 ФМ-2", "10 ФМ-3", "11 ФМ-3", "Форсоны","Отменить", "Сохранить"};
+        String[] items = {"Сохранить"};
         JComboBox<String> combo = new JComboBox<>(items);
         combo.setUI(new MenuComboBoxUI());
         combo.setSize(100,25);
@@ -110,12 +69,43 @@ public class MainFrame extends JFrame {
         panelFull.add(cancelButton);
     }
 
-    private ForconsList addForconsList() {
-
-        ForconsList forconsList = new ForconsList();
-//        forconsList.addInArray();
-        return forconsList;
+    private JTable addJournalTable() {
+        JTable journalTable = new JTable(new JournalTableModel());
+        journalTable.setDefaultRenderer(Mark.class, renderer);
+        journalTable.setTableHeader(null);
+        journalTable.setBorder(BorderFactory.createEmptyBorder());
+        journalTable.setBackground(new Color(0,0,0,0));
+        journalTable.setShowVerticalLines(false);
+        journalTable.setShowHorizontalLines(false);
+        journalTable.setRowSelectionAllowed(false);
+        journalTable.setVisible(false);
+        journalTable.setSize(1050,580);
+        journalTable.setLocation(5,35);
+        panelFull.add(journalTable);
+        return journalTable;
     }
+
+    private int resizeTable(JTable table){
+        int cellSize;
+        if (table.getColumnCount() > table.getRowCount() * 1050 / 580) {
+            cellSize = 1050 / table.getColumnCount();
+            table.setSize(1050, cellSize * table.getRowCount());
+            table.setLocation(5, 325 - table.getHeight() / 2);
+        } else {
+            cellSize = 580 / table.getRowCount();
+            table.setSize(cellSize * table.getColumnCount(), 580);
+            table.setLocation(530 - table.getWidth() / 2, 35);
+        }
+        table.setRowHeight(cellSize);
+        return cellSize;
+    }
+
+//    private ForconsList addForconsList() {
+//
+//        ForconsList forconsList = new ForconsList();
+////        forconsList.addInArray();
+//        return forconsList;
+//    }
 
     private JScrollPane addForconsListScroll(ForconsList list) {
         JScrollPane forconsListScroll = new JScrollPane(list.getList());
@@ -149,19 +139,25 @@ public class MainFrame extends JFrame {
         return sortClassButton;
     }
 
-    private void addListButton(ForconsList list,JScrollPane pane, JButton pointButton, JButton classButton) {
-        JButton listButton = new JButton();
-        listButton.setSize(100,50);
-        locationInCenter(listButton,pane);
-        listButton.addActionListener(ev -> {
+    private void addOpenButton(JTable table, JScrollPane pane, JButton pointButton,
+                               JButton classButton, ForconsList list) {
+        JButton openButton = new JButton();
+        openButton.setSize(100,50);
+        openButton.setLocation((WIDTH-openButton.getWidth())/2,
+                (HEIGHT-openButton.getHeight())/2);
+        openButton.addActionListener(ev -> {
+            mainData.readTable(table,selectionFile("Открыть жунал"));
+            int cellSize = resizeTable(table);
+            renderer.setSize(cellSize);
 //            list.read("D:\\Джава\\Forcons_v2\\Список форсонов.txt");
-            list.read(selectionFile());
+            list.read(selectionFile("Открыть форсонов"));
+            table.setVisible(true);
             pane.setVisible(true);
             pointButton.setVisible(true);
             classButton.setVisible(true);
-            listButton.setVisible(false);
+            openButton.setVisible(false);
         });
-        panelFull.add(listButton);
+        panelFull.add(openButton);
     }
 
     private void addSvgCanvasClass(ForconsList forconsList) {
@@ -207,11 +203,12 @@ public class MainFrame extends JFrame {
         });
     }
 
-    private String selectionFile() {
+    private String selectionFile(String string) {
         if (fileChooser==null) {
             fileChooser = new JFileChooser();
             fileChooser.setCurrentDirectory(new File("."));
         }
+        fileChooser.setDialogTitle(string);
         if (fileChooser.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
             return fileChooser.getSelectedFile().getPath();
         }
@@ -301,21 +298,6 @@ public class MainFrame extends JFrame {
         return lebelPoint;
     }
 
-    private int resizeTable(JTable table){
-        int cellSize;
-        if (table.getColumnCount() > table.getRowCount() * 1050 / 580) {
-            cellSize = 1050 / table.getColumnCount();
-            table.setSize(1050, cellSize * table.getRowCount());
-            table.setLocation(5, 325 - table.getHeight() / 2);
-        } else {
-            cellSize = 580 / table.getRowCount();
-            table.setSize(cellSize * table.getColumnCount(), 580);
-            table.setLocation(530 - table.getWidth() / 2, 35);
-        }
-        table.setRowHeight(cellSize);
-        return cellSize;
-    }
-
     public static void main(String[] args) {
         MainFrame frame = new MainFrame();
 
@@ -324,5 +306,10 @@ public class MainFrame extends JFrame {
         frame.setVisible(true);
         //костыль дабы не было иногда прозрачного экрана
         frame.setImageKost();
+    }
+
+    //костыль дабы не было иногда прозрачного экрана
+    public void setImageKost() {
+        panelFull.setImageFile("image/fon.jpg");
     }
 }

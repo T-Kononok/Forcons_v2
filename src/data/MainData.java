@@ -1,15 +1,17 @@
 package data;
 
+import elements.JournalTableCellRenderer;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
 public class MainData {
 
-    private HSSFData hssfData = new HSSFData();
-    private JournalTableModel model = new JournalTableModel();
+    private final HSSFData hssfData = new HSSFData();
+    private final JournalTableModel model = new JournalTableModel();
     private ArrayList<ArrayList<Mark>> matrix = null;
-    private ArrayList<Boolean> light = new ArrayList<>();
+    private final ArrayList<Boolean> light = new ArrayList<>();
 
     public void readTable(JTable table, String filename) {
         matrix = hssfData.readHSSFJournal(filename);

@@ -32,7 +32,8 @@ public class MainFrame extends JFrame {
         addCancelButton();
 
         ForconsList forconsList = new ForconsList();
-        addOpenButton(addJournalTable(),
+        addOpenButton(addKostTable(),
+                addJournalTable(),
                 addForconsListScroll(forconsList),
                 addSortPointButtons(forconsList),
                 addSortClassButtons(forconsList),
@@ -54,18 +55,29 @@ public class MainFrame extends JFrame {
         cancelButton.addActionListener(ev -> dispose());
     }
 
+    private JTable addKostTable() {
+        //прозрачная таблица поверх таблицы даюе нельзя была нажимать,
+        // ибо обычное отключение не помогает
+        JTable kostTable = new JTable();
+        toPlace(kostTable, 1050, 580, 5, 35);
+        kostTable.setBorder(BorderFactory.createEmptyBorder());
+        kostTable.setBackground(new Color(0, 0, 0, 0));
+        kostTable.setVisible(false);
+        return kostTable;
+    }
+
     private JTable addJournalTable() {
         JTable journalTable = new JTable(new JournalTableModel());
         journalTable.setDefaultRenderer(Mark.class, renderer);
         toPlace(journalTable,1050,580,5,35);
         journalTable.setVisible(false);
         journalTable.setTableHeader(null);
-        journalTable.setBorder(BorderFactory.createEmptyBorder());
+//        journalTable.setBorder(BorderFactory.createEmptyBorder());
+        journalTable.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         journalTable.setBackground(new Color(0,0,0,0));
         journalTable.setGridColor(Color.BLACK);
-        journalTable.setShowVerticalLines(false);
-        journalTable.setShowHorizontalLines(false);
-        journalTable.setRowSelectionAllowed(false);
+//        journalTable.setShowVerticalLines(false);
+//        journalTable.setShowHorizontalLines(false);
         return journalTable;
     }
 
@@ -100,7 +112,7 @@ public class MainFrame extends JFrame {
         return sortClassButton;
     }
 
-    private void addOpenButton(JTable table, JScrollPane pane, JButton pointButton,
+    private void addOpenButton(JTable kostTable, JTable table, JScrollPane pane, JButton pointButton,
                                JButton classButton, ForconsList list) {
         JButton openButton = new JButton();
 
@@ -111,6 +123,7 @@ public class MainFrame extends JFrame {
             int cellSize = resizeTable(table);
             renderer.setSize(cellSize);
             list.read(selectionFile("Открыть форсонов"));
+            kostTable.setVisible(true);
             table.setVisible(true);
             pane.setVisible(true);
             pointButton.setVisible(true);

@@ -8,6 +8,7 @@ public class ImagePanel extends JPanel {
 
     private String imageFile;
     private boolean error;
+    private boolean resize;
 
     public void setImageFile(String imageFile) {
         File file = new File(imageFile);
@@ -21,13 +22,22 @@ public class ImagePanel extends JPanel {
         repaint();
     }
 
-    public void paintComponent(Graphics g)
-    {
+    public void setResize(boolean resize) {
+        this.resize = resize;
+    }
+
+    public void paintComponent(Graphics g) {
         if (error) {
             g.setColor(Color.RED);
             g.fillRect(0, 0, getWidth(), getHeight());
-        } else
-            g.drawImage(new ImageIcon(imageFile).getImage(), 0, 0, null);
+        } else {
+            if (resize) {
+                ImageIcon icon = new ImageIcon(new ImageIcon(imageFile).getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH));
+                g.drawImage(icon.getImage(), 0, 0, null);
+            } else {
+                g.drawImage(new ImageIcon(imageFile).getImage(), 0, 0, null);
+            }
+        }
     }
 
 }

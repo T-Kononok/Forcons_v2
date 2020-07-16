@@ -7,6 +7,7 @@ import data.Mark;
 import elements.*;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
@@ -29,10 +30,9 @@ public class MainFrame extends JFrame {
         panelFull.setSize(WIDTH,HEIGHT);
         panelFull.setLayout(null);
 
-        addCancelButton();
-
         ForconsList forconsList = new ForconsList();
-        addOpenButton(addKostTable(),
+        addOpenButton(addCancelButton(),
+                addKostTable(),
                 addJournalTable(),
                 addForconsListScroll(forconsList),
                 addSortPointButtons(forconsList),
@@ -47,12 +47,14 @@ public class MainFrame extends JFrame {
         getContentPane().add(panelFull);
     }
 
-    private void addCancelButton() {
+    private JButton addCancelButton() {
         JButton cancelButton = new JButton();
         toPlace(cancelButton,25,25,1250,5);
+        cancelButton.setVisible(false);
         cancelButton.setBorderPainted(false);
-        cancelButton.setContentAreaFilled(false);
+//        cancelButton.setContentAreaFilled(false);
         cancelButton.addActionListener(ev -> dispose());
+        return cancelButton;
     }
 
     private JTable addKostTable() {
@@ -61,6 +63,7 @@ public class MainFrame extends JFrame {
         JTable kostTable = new JTable();
         toPlace(kostTable, 1050, 580, 5, 35);
         kostTable.setBorder(BorderFactory.createEmptyBorder());
+//        kostTable.setBorder(BorderFactory.createLineBorder(Color.RED));
         kostTable.setBackground(new Color(0, 0, 0, 0));
         kostTable.setVisible(false);
         return kostTable;
@@ -76,8 +79,6 @@ public class MainFrame extends JFrame {
         journalTable.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         journalTable.setBackground(new Color(0,0,0,0));
         journalTable.setGridColor(Color.BLACK);
-//        journalTable.setShowVerticalLines(false);
-//        journalTable.setShowHorizontalLines(false);
         return journalTable;
     }
 
@@ -97,7 +98,7 @@ public class MainFrame extends JFrame {
         toPlace(sortPointButton,84,25,1077,10);
         sortPointButton.setVisible(false);
         sortPointButton.setBorderPainted(false);
-        sortPointButton.setContentAreaFilled(false);
+//        sortPointButton.setContentAreaFilled(false);
         sortPointButton.addActionListener(ev -> forconsList.sortPoint());
         return sortPointButton;
     }
@@ -107,30 +108,42 @@ public class MainFrame extends JFrame {
         toPlace(sortClassButton,84,25,1161,10);
         sortClassButton.setVisible(false);
         sortClassButton.setBorderPainted(false);
-        sortClassButton.setContentAreaFilled(false);
+//        sortClassButton.setContentAreaFilled(false);
         sortClassButton.addActionListener(ev -> forconsList.sortClass());
         return sortClassButton;
     }
 
-    private void addOpenButton(JTable kostTable, JTable table, JScrollPane pane, JButton pointButton,
+    private void addOpenButton(JButton cancelButton, JTable kostTable, JTable table, JScrollPane pane, JButton pointButton,
                                JButton classButton, ForconsList list) {
-        JButton openButton = new JButton();
-
-        toPlace(openButton,100,100,
-                (WIDTH-100)/2,(HEIGHT-100)/2);
+        Color zeroColor = new Color(0,0,0,0);
+        OvalButton openButton = new OvalButton(OvalButton.SHAPE_OVAL,OvalButton.VERTICAL,zeroColor,zeroColor,zeroColor,zeroColor);
+        toPlace(openButton,210,235,
+                537,260);
+        openButton.setPanel(panelFull);
+        openButton.setMessageImage(addBeginMessageImage());
         openButton.addActionListener(ev -> {
             mainData.readTable(table,selectionFile("Открыть жунал"));
             int cellSize = resizeTable(table);
             renderer.setSize(cellSize);
             list.read(selectionFile("Открыть форсонов"));
+            cancelButton.setVisible(true);
             kostTable.setVisible(true);
             table.setVisible(true);
             pane.setVisible(true);
             pointButton.setVisible(true);
             classButton.setVisible(true);
             openButton.setVisible(false);
+            openButton.setPanel(null);
             panelFull.setImageFile("image/fon2.jpg");
         });
+    }
+
+    private ImagePanel addBeginMessageImage() {
+        ImagePanel messageImage = new ImagePanel();
+        messageImage.setImageFile("image/begin_fon_message.png");
+        messageImage.setResize(true);
+        toPlace(messageImage,450,250,720,70);
+        return messageImage;
     }
 
     private int resizeTable(JTable table){
@@ -146,12 +159,6 @@ public class MainFrame extends JFrame {
         }
         table.setRowHeight(cellSize);
         return cellSize;
-    }
-
-    private void toPlace(JComponent component,int width, int height, int x, int y) {
-        component.setSize(width,height);
-        component.setLocation(x,y);
-        panelFull.add(component);
     }
 
     private void addSvgCanvasClass(ForconsList forconsList) {
@@ -293,6 +300,12 @@ public class MainFrame extends JFrame {
         return lebelPoint;
     }
 
+    private void toPlace(JComponent component,int width, int height, int x, int y) {
+        component.setSize(width,height);
+        component.setLocation(x,y);
+        panelFull.add(component);
+    }
+
     public static void main(String[] args) {
         MainFrame frame = new MainFrame();
 
@@ -305,6 +318,6 @@ public class MainFrame extends JFrame {
 
     //костыль дабы не было иногда прозрачного экрана
     public void setImageKost() {
-        panelFull.setImageFile("image/fon.jpg");
+        panelFull.setImageFile("image/begin_fon.jpg");
     }
 }

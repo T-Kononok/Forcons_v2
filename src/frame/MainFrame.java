@@ -9,7 +9,9 @@ import elements.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 
 import org.apache.batik.swing.JSVGCanvas;
@@ -242,21 +244,28 @@ public class MainFrame extends JFrame {
 
     private void addNameLabel(ForconsList forconsList) {
         ReSizeLabel nameLabel = new ReSizeLabel();
-        Font fontName = new Font("Verdana", Font.BOLD, 30);
-        nameLabel.setFont(fontName);
-        nameLabel.setVerticalAlignment(JLabel.CENTER);
-        nameLabel.setHorizontalAlignment(JLabel.CENTER);
-        toPlace(nameLabel,xFirstButton-105,50,100,667-(50/2));
+        try {
+            Font font = Font.createFont(Font.TRUETYPE_FONT, new BufferedInputStream(
+                    new FileInputStream("Fortuna Gothic FlorishC.ttf"))).
+                    deriveFont(Font.PLAIN, 50);
+            nameLabel.setFont(font);
+            nameLabel.setForeground(Color.BLACK);
+            nameLabel.setVerticalAlignment(JLabel.CENTER);
+            nameLabel.setHorizontalAlignment(JLabel.CENTER);
+            toPlace(nameLabel,xFirstButton-105,50,100,667-(50/2));
 
-//        nameLabel.setBorder(BorderFactory.createLineBorder(Color.RED));
+    //        nameLabel.setBorder(BorderFactory.createLineBorder(Color.RED));
 
-        forconsList.getList().addListSelectionListener(evt -> {
-            if (!evt.getValueIsAdjusting() && forconsList.getList().getSelectedIndex() != -1) {
-                String val = forconsList.getList().getSelectedValue();
-                String[] subStr = val.split(",");
-                nameLabel.setTextReSize(subStr[1],fontName);
-            }
-        });
+            forconsList.getList().addListSelectionListener(evt -> {
+                if (!evt.getValueIsAdjusting() && forconsList.getList().getSelectedIndex() != -1) {
+                    String val = forconsList.getList().getSelectedValue();
+                    String[] subStr = val.split(",");
+                    nameLabel.setTextReSize(subStr[1],font);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void addSvgCanvasPoint(ForconsList forconsList) {
@@ -264,37 +273,43 @@ public class MainFrame extends JFrame {
         toPlace(svgCanvasPoint,WIDTH - xLastButton - 10,90,
                 xLastButton + 5,667-(90/2));
         svgCanvasPoint.setBackground(new Color(0,0,0,0));
-        JLabel label = addLabelPoint(svgCanvasPoint);
+        ReSizeLabel label = addLabelPoint(svgCanvasPoint);
+        try {
+            Font font = Font.createFont(Font.TRUETYPE_FONT, new BufferedInputStream(
+                    new FileInputStream("Fortuna Gothic FlorishC.ttf"))).
+                    deriveFont(Font.PLAIN, 50);
+            label.setFont(font);
+            label.setTextReSize("", font);
 
-        forconsList.getList().addListSelectionListener(evt -> {
-            if (!evt.getValueIsAdjusting() && forconsList.getList().getSelectedIndex() != -1) {
-                String val = forconsList.getList().getSelectedValue();
-                String[] subStr = val.split(",");
+            forconsList.getList().addListSelectionListener(evt -> {
+                if (!evt.getValueIsAdjusting() && forconsList.getList().getSelectedIndex() != -1) {
+                    String val = forconsList.getList().getSelectedValue();
+                    String[] subStr = val.split(",");
 
-                int pointInt = Integer.parseInt(subStr[3]);
-                if (pointInt < 8) {
-                    svgCanvasPoint.setURI("file:/D:/Джава/Forcons_v2/image/svg/point" + subStr[3] + ".svg");
-                    svgCanvasPoint.setVisible(true);
-                    label.setText("");
-                } else {
-                    svgCanvasPoint.setVisible(false);
-                    label.setText(subStr[3] + " о. д.");
+                    int pointInt = Integer.parseInt(subStr[3]);
+                    if (pointInt < 8) {
+                        svgCanvasPoint.setURI("file:/D:/Джава/Forcons_v2/image/svg/point" + subStr[3] + ".svg");
+                        svgCanvasPoint.setVisible(true);
+                        label.setTextReSize("",font);
+                    } else {
+                        svgCanvasPoint.setVisible(false);
+                        label.setTextReSize(subStr[3] + " о. д.",font);
+                    }
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private JLabel addLabelPoint(JSVGCanvas svgCanvasPoint) {
-        JLabel lebelPoint = new JLabel("");
-        lebelPoint.setSize(svgCanvasPoint.getSize());
-        lebelPoint.setLocation(svgCanvasPoint.getLocation());
-
-        Font fontPoint = new Font("Verdana", Font.BOLD, 40);
-        lebelPoint.setFont(fontPoint);
+    private ReSizeLabel addLabelPoint(JSVGCanvas svgCanvasPoint) {
+        ReSizeLabel lebelPoint = new ReSizeLabel();
+        lebelPoint.setForeground(Color.BLACK);
         lebelPoint.setVerticalAlignment(JLabel.CENTER);
         lebelPoint.setHorizontalAlignment(JLabel.CENTER);
-
-//        lebelPoint.setBorder(BorderFactory.createLineBorder(Color.RED));
+        lebelPoint.setSize(svgCanvasPoint.getSize());
+        lebelPoint.setLocation(svgCanvasPoint.getLocation());
+//      lebelPoint.setBorder(BorderFactory.createLineBorder(Color.RED));
 
         panelFull.add(lebelPoint);
         return lebelPoint;

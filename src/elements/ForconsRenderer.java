@@ -7,6 +7,8 @@ import org.apache.batik.swing.gvt.GVTTreeRendererListener;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -23,9 +25,17 @@ public class ForconsRenderer implements ListCellRenderer<String> {
     private final Vector<JSVGCanvas> vectorPointSVG = new Vector<>();
     private final Map<String, Integer> map = new HashMap<>();
 
-    private final Font basicFont = new Font("Verdana", Font.BOLD, 15);
+    private Font basicFont;
+
 
     public ForconsRenderer() {
+        try {
+            basicFont = Font.createFont(Font.TRUETYPE_FONT, new BufferedInputStream(
+                    new FileInputStream("American TextC Regular.ttf"))).
+                    deriveFont(Font.PLAIN, 20);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         inMap();
         fonForeg.setBackground(Color.GRAY);
@@ -48,7 +58,15 @@ public class ForconsRenderer implements ListCellRenderer<String> {
     }
 
     private void addNumberLabel() {
-        Font fontN = new Font("Verdana", Font.BOLD, 10);
+        Font fontN = null;
+        try {
+            fontN = Font.createFont(Font.TRUETYPE_FONT, new BufferedInputStream(
+                    new FileInputStream("American TextC Regular.ttf"))).
+                    deriveFont(Font.PLAIN, 10);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        numberLabel.setForeground(Color.BLACK);
         setAlignmentAndFont(numberLabel,fontN);
         numberLabel.setSize(20, 60);
         numberLabel.setLocation(0, 0);
@@ -56,6 +74,7 @@ public class ForconsRenderer implements ListCellRenderer<String> {
     }
 
     private void addNameLabel() {
+        nameLabel.setForeground(Color.BLACK);
         setAlignmentAndFont(nameLabel,basicFont);
         nameLabel.setSize(80, 30);
         nameLabel.setLocation(80, 0);
@@ -64,6 +83,7 @@ public class ForconsRenderer implements ListCellRenderer<String> {
     }
 
     private void addLevelLabel() {
+        levelLabel.setForeground(Color.BLACK);
         setAlignmentAndFont(levelLabel,basicFont);
         levelLabel.setSize(30, 30);
         levelLabel.setLocation(160, 0);
@@ -72,6 +92,7 @@ public class ForconsRenderer implements ListCellRenderer<String> {
     }
 
     private void addPointLabel() {
+        pointLabel.setForeground(Color.BLACK);
         setAlignmentAndFont(pointLabel,basicFont);
         pointLabel.setSize(110, 30);
         pointLabel.setLocation(80, 30);

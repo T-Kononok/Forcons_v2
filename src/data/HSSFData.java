@@ -1,9 +1,6 @@
 package data;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -15,17 +12,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class HSSFData {
-
-    private HSSFWorkbook readWorkbook(String filename) {
-        try {
-            POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(filename));
-            return new HSSFWorkbook(fs);
-        }
-        catch (Exception e) {
-            System.out.println("Ошибка в readWorkbook");
-            return null;
-        }
-    }
 
     private void writeWorkbook(HSSFWorkbook wb, String fileName) {
         try {
@@ -53,16 +39,27 @@ public class HSSFData {
         return matrix;
     }
 
+    private HSSFWorkbook readWorkbook(String filename) {
+        try {
+            POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(filename));
+            return new HSSFWorkbook(fs);
+        }
+        catch (Exception e) {
+            System.out.println("Ошибка в readWorkbook");
+            return null;
+        }
+    }
+
     public int findSizeRowSheet(HSSFSheet sheet) {
         //13 потому что оценки 13 не может быть
         HSSFRow row = sheet.getRow(13);
         int countCell = 2;
-        String cellValue;
+        Mark mark;
         do {
             HSSFCell cell = row.getCell(countCell);
-            cellValue = readCell(cell).toString();
+            mark = readCell(cell);
             countCell++;
-        } while (!cellValue.equals("end") && countCell < 70);
+        } while (mark.isSetBoolean() && countCell < 70);
         if (countCell != 60)
             return countCell-3;
         return 0;
@@ -70,13 +67,13 @@ public class HSSFData {
 
     public int findSizeColumnSheet(HSSFSheet sheet) {
         int countRow = 1;
-        String cellValue;
+        Mark mark;
         do {
             HSSFRow row = sheet.getRow(countRow);
             HSSFCell cell = row.getCell(0);
-            cellValue = readCell(cell).toString();
+            mark = readCell(cell);
             countRow++;
-        } while (!cellValue.equals("") && countRow < 27);
+        } while (!mark.toStyle().equals("cell") && countRow < 27);
         if (countRow != 27)
             return countRow-1;
         return 0;
@@ -92,45 +89,28 @@ public class HSSFData {
     }
 
     public Mark readCell(HSSFCell cell) {
-        Mark mark = new Mark();
-        if (cell == null) {
-            mark.setString("");
-            return mark;
+        if (cell != null) {
+            System.out.println(cell.getCellType() + "_" + cell.getRowIndex() + ":" + cell.getColumnIndex());
+        } else {
+            System.out.println("null");
         }
-        readColorCell(cell,mark);
+
+        Mark mark = new Mark();
+
+        if (cell == null || cell.getCellType() == CellType.BLANK)
+            return mark;
+
+        mark.setStyle(cell.getCellStyle().getParentStyle().getUserStyleName());
+
         if (cell.getCellType() == CellType.NUMERIC) {
-            if (!mark.set((int)cell.getNumericCellValue()))
-                mark.setString("end");
+            mark.set((int)cell.getNumericCellValue());
             return mark;
         }
         if (cell.getCellType() == CellType.STRING) {
             mark.setString(cell.getStringCellValue());
             return mark;
         }
-        mark.setString("(f)");
+        mark.setString("?");
         return mark;
-    }
-
-    private void readColorCell(HSSFCell cell, Mark mark) {
-        switch (cell.getCellStyle().getFillForegroundColorColor().getHexString()) {
-            case ("6666:FFFF:FFFF"): // голубой
-                mark.setCr(true);
-                break;
-            case ("FFFF:9999:9999"): // розовый
-                mark.setKr(true);
-                break;
-            case ("9999:FFFF:6666"): // салатовый
-                mark.setLr(true);
-                break;
-            case ("0:CCCC:0"): // зеленый
-                mark.setBites(1);
-                break;
-            case ("FFFF:FFFF:0"): // желтый
-                mark.setBites(2);
-                break;
-            case ("FFFF:0:0"): // красный
-                mark.setBites(3);
-                break;
-        }
     }
 }

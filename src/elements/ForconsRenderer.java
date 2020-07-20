@@ -1,6 +1,5 @@
 package elements;
 
-import org.apache.batik.dom.svg.SVGOMDocument;
 import org.apache.batik.swing.JSVGCanvas;
 import org.apache.batik.swing.gvt.GVTTreeRendererEvent;
 import org.apache.batik.swing.gvt.GVTTreeRendererListener;

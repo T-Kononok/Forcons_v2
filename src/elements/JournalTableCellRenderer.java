@@ -8,13 +8,13 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
-import java.util.ArrayList;
-import java.util.Vector;
+import java.util.*;
 
 public class JournalTableCellRenderer implements TableCellRenderer {
 
     private final JPanel panel = new JPanel();
-    private ArrayList<ArrayList<JSVGCanvas>> matrixSVG = null;
+    private ArrayList<JSVGCanvas> arraySVG = new ArrayList<>();
+    private Map<String, JSVGCanvas> mapSVG = new HashMap<>();
     private int countRow = 0;
     private int countColumn = 0;
     private final JLabel label = new JLabel();
@@ -35,84 +35,83 @@ public class JournalTableCellRenderer implements TableCellRenderer {
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setLocation(0,0);
         panel.add(label);
+        addSVG();
     }
 
-    private void addMatrixSVG() {
-        ArrayList<ArrayList<JSVGCanvas>> matrix = new ArrayList<>();
-        for (int i = 0; i < countRow; i++) {
-            ArrayList<JSVGCanvas> arr = new ArrayList<>();
-            for (int j = 0; j < countColumn; j++) {
-                arr.add(addOneSVG());
-            }
-            matrix.add(arr);
+    private void addSVG() {
+        mapSVG.put("cell", addOneSVG());
+        mapSVG.put("cellBite0", addOneSVG());
+        mapSVG.put("cellBite0Bad", addOneSVG());
+        mapSVG.put("cellBite0BodyBag", addOneSVG());
+        mapSVG.put("cellBite0Bomb", addOneSVG());
+        mapSVG.put("cellBite1", addOneSVG());
+        mapSVG.put("cellBite1Bad", addOneSVG());
+        mapSVG.put("cellBite1BodyBag", addOneSVG());
+        mapSVG.put("cellBite1Bomb", addOneSVG());
+        mapSVG.put("cellBite2", addOneSVG());
+        mapSVG.put("cellBite2Bad", addOneSVG());
+        mapSVG.put("cellBite2BodyBag", addOneSVG());
+        mapSVG.put("cellBite2Bomb", addOneSVG());
+        mapSVG.put("cellBite3", addOneSVG());
+        mapSVG.put("cellBite3Bad", addOneSVG());
+        mapSVG.put("cellBite3BodyBag", addOneSVG());
+        mapSVG.put("cellBite3Bomb", addOneSVG());
+        mapSVG.put("cellBite4", addOneSVG());
+        mapSVG.put("cellBite4Bad", addOneSVG());
+        mapSVG.put("cellBite4BodyBag", addOneSVG());
+        mapSVG.put("cellBite4Bomb", addOneSVG());
+        mapSVG.put("cellCr", addOneSVG());
+        mapSVG.put("cellKr", addOneSVG());
+        mapSVG.put("cellLr", addOneSVG());
+        mapSVG.put("cellPoison", addOneSVG());
+
+        for(Map.Entry<String, JSVGCanvas> entry: mapSVG.entrySet()) {
+            mapSVG.get(entry.getKey()).setURI("file:image/svg/"+entry.getKey()+".svg");
         }
-        matrixSVG = matrix;
     }
 
     private JSVGCanvas addOneSVG() {
         JSVGCanvas canvas = new JSVGCanvas();
         canvas.setBackground(new Color(0, 0, 0, 0));
+        canvas.setSize(5, 5);
         canvas.setLocation(0,0);
-        canvas.setURI("file:image/svg/cell.svg");
         panel.add(canvas);
+        canvas.setVisible(false);
         return canvas;
     }
 
     public void setSize(int size) {
-        for (int i = 0; i < countRow; i++) {
-            for (int j = 0; j < countColumn; j++) {
-                matrixSVG.get(i).get(j).setSize(size,size);
-            }
+        for(Map.Entry<String, JSVGCanvas> entry: mapSVG.entrySet()) {
+            mapSVG.get(entry.getKey()).setSize(size,size);
         }
         label.setSize(size,size);
     }
 
-    public void setMatrixSize(int row, int column) {
-        countRow = row;
-        countColumn = column;
-        addMatrixSVG();
-        setSize(15);
-    }
+//    public void setMatrixSize(int row, int column) {
+//        countRow = row;
+//        countColumn = column;
+//        addMatrixSVG();
+//        setSize(15);
+//    }
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
                                                    boolean hasFocus, int row, int col) {
         Mark mark = (Mark) value;
-
-//        matrixSVG.get(row).get(col).setURI("file:image/svg/"+ mark.toStyle() +".svg");
-//        matrixSVG.get(row).get(col).repaint();
-//        panel.repaint();
-
-//        switch (mark.getString()) {
-//            case (""):
-//                showCanvas(0);
-//                label.setText("");
-//                break;
-//            case ("int"):
-//                showCanvas(1);
-//                label.setText(mark.get()+"");
-//                break;
-//            case ("(f)"):
-//                showCanvas(2);
-//                label.setText("(f)");
-//                break;
-//            default:
-//                showCanvas(3);
-//                label.setText("н");
-//                break;
-//        }
-
+        falseVisible();
+        showCanvas(mark.toStyle());
+        label.setText(mark.toString());
         return panel;
     }
 
-//    private void showCanvas(int number) {
-//        falseVisible();
-//        vectorClassSVG.get(number).setVisible(true);
-//    }
-//
-//    private void falseVisible() {
-//        for (int i = 0; i < 4; i++) {
-//            vectorClassSVG.get(i).setVisible(false);
-//        }
-//    }
+    private void showCanvas(String string) {
+        falseVisible();
+        mapSVG.get(string).setVisible(true);
+    }
+
+    private void falseVisible() {
+        for(Map.Entry<String, JSVGCanvas> entry: mapSVG.entrySet()) {
+            mapSVG.get(entry.getKey()).setVisible(false);
+        }
+    }
 }

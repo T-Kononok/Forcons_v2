@@ -97,11 +97,13 @@ public class HSSFData {
 
         Mark mark = new Mark();
 
-        if (cell == null || cell.getCellType() == CellType.BLANK)
+        if (cell == null)
             return mark;
 
         mark.setStyle(cell.getCellStyle().getParentStyle().getUserStyleName());
-
+        if (cell.getCellType() == CellType.BLANK) {
+            return mark;
+        }
         if (cell.getCellType() == CellType.NUMERIC) {
             mark.set((int)cell.getNumericCellValue());
             return mark;

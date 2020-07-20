@@ -77,8 +77,8 @@ public class MainFrame extends JFrame {
         toPlace(journalTable,1050,580,5,35);
         journalTable.setVisible(false);
         journalTable.setTableHeader(null);
-//        journalTable.setBorder(BorderFactory.createEmptyBorder());
-        journalTable.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        journalTable.setBorder(BorderFactory.createEmptyBorder());
+//        journalTable.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         journalTable.setBackground(new Color(0,0,0,0));
         journalTable.setGridColor(Color.BLACK);
         journalTable.setShowGrid(false);
@@ -127,7 +127,6 @@ public class MainFrame extends JFrame {
         openButton.addActionListener(ev -> {
             mainData.readTable(table,selectionFile("Открыть жунал"));
             int cellSize = resizeTable(table);
-            renderer.setMatrixSize(table.getRowCount(),table.getColumnCount());
             renderer.setSize(cellSize);
             list.read(selectionFile("Открыть форсонов"));
             cancelButton.setVisible(true);

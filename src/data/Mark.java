@@ -145,7 +145,7 @@ public class Mark {
             style += "Lr";
 
         if (style.equals("cell")) {
-            if (mark != 0)
+            if (mark != 0 || !string.equals(""))
                 style += "Bite" + bites;
 
             if (isBad())

@@ -26,7 +26,7 @@ public class MainFrame extends JFrame {
     private final ImagePanel panelFull = new ImagePanel();
     private int xFirstButton;
     private int xLastButton;
-    private MainData mainData = new MainData();
+    private MainData mainData = null;
     private JFileChooser fileChooser = null;
     private final JournalTableCellRenderer renderer = new JournalTableCellRenderer();
 
@@ -36,9 +36,12 @@ public class MainFrame extends JFrame {
         panelFull.setLayout(null);
 
         ForconsList forconsList = new ForconsList();
+        JTable kostTable = addKostTable();
+        JTable table = addJournalTable();
+        mainData = new MainData(table);
         addOpenButton(addCancelButton(),
-                addKostTable(),
-                addJournalTable(),
+                kostTable,
+                table,
                 addForconsListScroll(forconsList),
                 addSortPointButtons(forconsList),
                 addSortClassButtons(forconsList),

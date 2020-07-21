@@ -1,6 +1,9 @@
 package data;
 
+import data.skills.BardBalladSkill;
+import data.skills.SimpleAttackSkill;
 import data.skills.Skill;
+import frame.MainFrame;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -10,21 +13,48 @@ import java.util.Map;
 public class MainData {
 
     private final HSSFData hssfData = new HSSFData();
-    private final JournalTableModel model = new JournalTableModel();
+    private JournalTableModel model = new JournalTableModel();
     private ArrayList<ArrayList<Mark>> matrix = null;
-    private final ArrayList<Boolean> light = new ArrayList<>();
+    private ArrayList<Boolean> light = null;
+    private JTable table;
     Map<String, Map<Integer, Skill>> allSkillMap = new HashMap<>();
 
-    public MainData() {
-        addSkillMap();
+    public MainData(JTable table) {
+        this.table = table;
+    }
+
+    public ArrayList<Boolean> getLight() {
+        return light;
+    }
+
+    public void setRowLight(int row, Boolean value) {
+        if (light != null)
+            light.set(row,value);
+    }
+
+    public ArrayList<ArrayList<Mark>> getMatrix() {
+        return matrix;
+    }
+
+    public void setMark(int row, int column, Mark mark) {
+        if (matrix != null)
+            matrix.get(row).set(column,mark);
     }
 
     public void readTable(JTable table, String filename) {
         matrix = hssfData.readHSSFJournal(filename);
+        light = new ArrayList<>();
         for (int i = 0; i < matrix.size(); i++)
             light.add(false);
         model.setMatrix(matrix);
         table.setModel(model);
+        addSkillMap();
+    }
+
+    public void repaintTable() {
+        table.setVisible(false);
+        model.setMatrix(matrix);
+        table.setVisible(true);
     }
 
 //    ///для проверок
@@ -42,8 +72,8 @@ public class MainData {
 
     private void addSkillMap() {
         Map<Integer, Skill> baSkillMap = new HashMap<>();
-        baSkillMap.put(1,null);
-        baSkillMap.put(2,null);
+        baSkillMap.put(1,new SimpleAttackSkill(table,matrix,this));
+        baSkillMap.put(2,new BardBalladSkill(table,matrix,this));
         baSkillMap.put(3,null);
         baSkillMap.put(4,null);
         baSkillMap.put(5,null);

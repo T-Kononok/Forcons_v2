@@ -9,10 +9,13 @@ import elements.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.batik.swing.JSVGCanvas;
 
@@ -141,6 +144,18 @@ public class MainFrame extends JFrame {
         });
     }
 
+    private String selectionFile(String string) {
+        if (fileChooser==null) {
+            fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(new File("."));
+        }
+        fileChooser.setDialogTitle(string);
+        if (fileChooser.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
+            return fileChooser.getSelectedFile().getPath();
+        }
+        return null;
+    }
+
     private ImagePanel addBeginMessageImage() {
         ImagePanel messageImage = new ImagePanel();
         messageImage.setImageFile("image/begin_fon_message.png");
@@ -190,8 +205,16 @@ public class MainFrame extends JFrame {
             x += size+strut;
         }
         xLastButton = x - strut;
+        addForconsListListener(forconsList,skillSVGArray,skillButtonsArray);
+    }
 
-        skillButtonsArray.get(0).addActionListener(ev -> dispose());
+    private void addForconsListListener(ForconsList forconsList, ArrayList<JSVGCanvas> skillSVGArray,
+                                        ArrayList<JButton> skillButtonsArray) {
+        ArrayList<SkillButtonActionListener> actionListenerArray = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            actionListenerArray.add(new SkillButtonActionListener());
+            skillButtonsArray.get(i).addActionListener(actionListenerArray.get(i));
+        }
 
         forconsList.getList().addListSelectionListener(evt -> {
             if (!evt.getValueIsAdjusting() && forconsList.getList().getSelectedIndex() != -1) {
@@ -199,6 +222,7 @@ public class MainFrame extends JFrame {
                 String[] subStr = val.split(",");
                 for (int i = 0; i < 6; i++) {
                     skillSVGArray.get(i).setVisible(false);
+                    skillButtonsArray.get(i).setVisible(false);
                 }
                 int countSkill = 0;
                 if (subStr[2].equals("1"))
@@ -209,23 +233,13 @@ public class MainFrame extends JFrame {
                     countSkill = 6;
                 for (int i = 0; i < countSkill; i++) {
                     skillSVGArray.get(i).setVisible(true);
+                    skillButtonsArray.get(i).setVisible(true);
                     skillSVGArray.get(i).setURI(
                             "file:/D:/Джава/Forcons_v2/image/svg/" + subStr[0] + "Skill" + (i+1) + ".svg");
+                    actionListenerArray.get(i).setSkill(mainData.getSkill(subStr[0],(i+1)));
                 }
             }
         });
-    }
-
-    private String selectionFile(String string) {
-        if (fileChooser==null) {
-            fileChooser = new JFileChooser();
-            fileChooser.setCurrentDirectory(new File("."));
-        }
-        fileChooser.setDialogTitle(string);
-        if (fileChooser.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
-            return fileChooser.getSelectedFile().getPath();
-        }
-        return null;
     }
 
     private JButton addOneSkillButton(int x, int size) {

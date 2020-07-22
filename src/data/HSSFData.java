@@ -89,11 +89,11 @@ public class HSSFData {
     }
 
     public Mark readCell(HSSFCell cell) {
-        if (cell != null) {
-            System.out.println(cell.getCellType() + "_" + cell.getRowIndex() + ":" + cell.getColumnIndex());
-        } else {
-            System.out.println("null");
-        }
+//        if (cell != null) {
+//            System.out.println(cell.getCellType() + "_" + cell.getRowIndex() + ":" + cell.getColumnIndex());
+//        } else {
+//            System.out.println("null");
+//        }
 
         Mark mark = new Mark();
 

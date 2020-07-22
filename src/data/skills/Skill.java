@@ -2,27 +2,30 @@ package data.skills;
 
 import data.MainData;
 import data.Mark;
+import javafx.util.Pair;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Skill {
 
-    protected static JTable table;
-    protected static ArrayList<ArrayList<Mark>> matrix;
-    protected static MainData mainData;
+    protected  JTable table;
+    protected  ArrayList<ArrayList<Mark>> matrix;
+    protected  MainData mainData;
     protected static double buffAttack = 0;
     protected static int buffDefense = 0;
 
     protected Skill(JTable table,ArrayList<ArrayList<Mark>> matrix, MainData mainData) {
-        Skill.matrix = matrix;
-        Skill.table = table;
-        Skill.mainData = mainData;
+        this.matrix = matrix;
+        this.table = table;
+        this.mainData = mainData;
     }
 
-//    protected Mark getRandomMark() {
-//
-//    }
+    protected Pair<Integer, Integer> getRandomMarkXY() {
+        Random rand = new Random();
+        return new Pair<>(rand.nextInt(matrix.size()), rand.nextInt(matrix.get(0).size()));
+    }
 
     public boolean begin() {
         return true;

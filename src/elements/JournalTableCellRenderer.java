@@ -13,6 +13,7 @@ import java.util.*;
 public class JournalTableCellRenderer implements TableCellRenderer {
 
     private final JPanel panel = new JPanel();
+    private final JPanel fon = new JPanel();
     private ArrayList<JSVGCanvas> arraySVG = new ArrayList<>();
     private Map<String, JSVGCanvas> mapSVG = new HashMap<>();
     private int countRow = 0;
@@ -34,8 +35,13 @@ public class JournalTableCellRenderer implements TableCellRenderer {
         label.setVerticalAlignment(JLabel.CENTER);
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setLocation(0,0);
+        fon.setBackground(new Color(0, 0, 0, 0));
+        fon.setSize(15,15);
+        fon.setLocation(0,0);
+
         panel.add(label);
         addSVG();
+        panel.add(fon);
     }
 
     private void addSVG() {
@@ -85,6 +91,7 @@ public class JournalTableCellRenderer implements TableCellRenderer {
             mapSVG.get(entry.getKey()).setSize(size,size);
         }
         label.setSize(size,size);
+        fon.setSize(size,size);
     }
 
 //    public void setMatrixSize(int row, int column) {
@@ -101,6 +108,13 @@ public class JournalTableCellRenderer implements TableCellRenderer {
         falseVisible();
         showCanvas(mark.toStyle());
         label.setText(mark.toString());
+
+        if (mark.isChange()) {
+            fon.setBackground(Color.BLACK);
+        } else {
+            fon.setBackground(new Color(0, 0, 0, 0));
+        }
+
         return panel;
     }
 

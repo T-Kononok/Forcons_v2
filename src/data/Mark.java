@@ -1,5 +1,8 @@
 package data;
 
+import javax.swing.*;
+import java.io.IOException;
+
 public class Mark {
 
     // поля
@@ -14,8 +17,11 @@ public class Mark {
     private boolean kr = false;
     private boolean lr = false;
     private boolean setBoolean = true;
+    private boolean change = false;
 
     private String style = "cell";
+
+    private Timer timer;
 
     //геттеры
     public int get() {
@@ -48,6 +54,9 @@ public class Mark {
     }
     public boolean isSetBoolean() {
         return setBoolean;
+    }
+    public boolean isChange() {
+        return change;
     }
 
     public String getStyle() {
@@ -84,6 +93,22 @@ public class Mark {
     public void setLr(boolean lr) {
         this.lr = lr;
     }
+
+    public void setChange(boolean change) {
+        this.change = change;
+    }
+    //    public void setChange() {
+//        change = true;
+//        startTimer();
+//    }
+
+//    public void startTimer() {
+//        timer = new Timer(2000, ev -> {
+//            change = false;
+//            timer.stop();
+//        });
+//        timer.start();
+//    }
 
     public void setStyle(String style) {
         this.style = style;
@@ -166,6 +191,9 @@ public class Mark {
             value = Math.max(value, min);
         return value;
     }
+
+
+
 
     //на будущее для работы с условынми обозначениями АВ
     private String string = "";

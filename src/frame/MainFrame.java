@@ -7,15 +7,11 @@ import data.Mark;
 import elements.*;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.batik.swing.JSVGCanvas;
 
@@ -26,9 +22,10 @@ public class MainFrame extends JFrame {
     private final ImagePanel panelFull = new ImagePanel();
     private int xFirstButton;
     private int xLastButton;
-    private MainData mainData = null;
+    private MainData mainData;
     private JFileChooser fileChooser = null;
     private final JournalTableCellRenderer renderer = new JournalTableCellRenderer();
+    private static TableTimer tableTimer;
 
     private MainFrame() {
 
@@ -48,7 +45,7 @@ public class MainFrame extends JFrame {
                 forconsList);
 
         addSvgCanvasClass(forconsList);
-        addSkillButtons(forconsList);
+        addSkillButtons(forconsList,table);
         addNameLabel(forconsList);
         addSvgCanvasPoint(forconsList);
 
@@ -147,6 +144,14 @@ public class MainFrame extends JFrame {
         });
     }
 
+    private void addTimer(JTable table) {
+        Timer timer = new Timer(10, ev -> {
+            table.setVisible(false);
+            table.setVisible(true);
+        });
+        timer.start();
+    }
+
     private String selectionFile(String string) {
         if (fileChooser==null) {
             fileChooser = new JFileChooser();
@@ -195,7 +200,7 @@ public class MainFrame extends JFrame {
         });
     }
 
-    private void addSkillButtons(ForconsList forconsList) {
+    private void addSkillButtons(ForconsList forconsList, JTable table) {
         ArrayList<JSVGCanvas> skillSVGArray = new ArrayList<>();
         ArrayList<JButton> skillButtonsArray = new ArrayList<>();
         int size = 90;
@@ -208,11 +213,11 @@ public class MainFrame extends JFrame {
             x += size+strut;
         }
         xLastButton = x - strut;
-        addForconsListListener(forconsList,skillSVGArray,skillButtonsArray);
+        addForconsListListener(forconsList,skillSVGArray,skillButtonsArray, table);
     }
 
     private void addForconsListListener(ForconsList forconsList, ArrayList<JSVGCanvas> skillSVGArray,
-                                        ArrayList<JButton> skillButtonsArray) {
+                                        ArrayList<JButton> skillButtonsArray, JTable table) {
         ArrayList<SkillButtonActionListener> actionListenerArray = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             actionListenerArray.add(new SkillButtonActionListener());

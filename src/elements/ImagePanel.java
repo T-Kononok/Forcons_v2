@@ -10,6 +10,21 @@ public class ImagePanel extends JPanel {
     private boolean error;
     private boolean resize;
 
+    public ImagePanel(String imageFile, Boolean bol) {
+        super();
+        setImageFile(imageFile);
+        setResize(bol);
+    }
+
+    public ImagePanel(String imageFile) {
+        super();
+        setImageFile(imageFile);
+    }
+
+    public ImagePanel() {
+        super();
+    }
+
     public void setImageFile(String imageFile) {
         File file = new File(imageFile);
         if(file.exists()) {

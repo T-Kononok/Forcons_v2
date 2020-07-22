@@ -4,6 +4,7 @@ import data.skills.BardBalladSkill;
 import data.skills.SimpleAttackSkill;
 import data.skills.Skill;
 import frame.MainFrame;
+import javafx.util.Pair;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -12,43 +13,53 @@ import java.util.Map;
 
 public class MainData {
 
-    private final HSSFData hssfData = new HSSFData();
-    private JournalTableModel model = new JournalTableModel();
+    private final JournalTableModel model = new JournalTableModel();
+    private final JTable table;
     private ArrayList<ArrayList<Mark>> matrix = null;
     private ArrayList<Boolean> light = null;
-    private JTable table;
     Map<String, Map<Integer, Skill>> allSkillMap = new HashMap<>();
 
     public MainData(JTable table) {
         this.table = table;
+        addSkillMap();
     }
 
+    public JTable getTable() {
+        return table;
+    }
+    public ArrayList<ArrayList<Mark>> getMatrix() {
+        return matrix;
+    }
     public ArrayList<Boolean> getLight() {
         return light;
     }
 
-    public void setRowLight(int row, Boolean value) {
-        if (light != null)
-            light.set(row,value);
+    public Mark getMark(int row, int column) {
+        if (row >= 0 && row < matrix.size() && column >= 0 && column < matrix.get(0).size())
+            return matrix.get(row).get(column);
+        return null;
     }
 
-    public ArrayList<ArrayList<Mark>> getMatrix() {
-        return matrix;
+    public Mark getMark(Pair<Integer, Integer> pair) {
+        return getMark(pair.getKey(),pair.getValue());
     }
 
-    public void setMark(int row, int column, Mark mark) {
-        if (matrix != null)
-            matrix.get(row).set(column,mark);
+    public int getSize() {
+        return matrix.size();
+    }
+
+    public int getRowSize() {
+        return matrix.get(0).size();
     }
 
     public void readTable(JTable table, String filename) {
+        HSSFData hssfData = new HSSFData();
         matrix = hssfData.readHSSFJournal(filename);
         light = new ArrayList<>();
         for (int i = 0; i < matrix.size(); i++)
             light.add(false);
         model.setMatrix(matrix);
         table.setModel(model);
-        addSkillMap();
     }
 
     public void repaintTable() {
@@ -56,6 +67,8 @@ public class MainData {
         model.setMatrix(matrix);
         table.setVisible(true);
     }
+
+
 
 //    ///для проверок
 //    private ArrayList<ArrayList<Mark>> createMatrix(int startRow, int countRow,int startColumn, int countColumn) {

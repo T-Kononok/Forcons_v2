@@ -18,8 +18,13 @@ public class SkillButtonActionListener implements ActionListener {
     }
 
     synchronized public void actionPerformed(ActionEvent e) {
-        if (skill != null)
+        if (skill != null) {
             skill.begin();
+            skill.begin();
+            skill.begin();
+            skill.begin();
+            skill.begin();
+        }
     }
 
 

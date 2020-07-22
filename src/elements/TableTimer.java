@@ -3,15 +3,22 @@ package elements;
 import data.Mark;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class TableTimer extends Thread {
 
     private final JTable table;
-    private final Mark mark;
+    private final ArrayList<Mark> marks;
 
     public TableTimer(JTable table, Mark mark) {
         this.table = table;
-        this.mark = mark;
+        marks = new ArrayList<>();
+        marks.add(mark);
+    }
+
+    public TableTimer(JTable table, ArrayList<Mark> marks) {
+        this.table = table;
+        this.marks = marks;
     }
 
     @Override
@@ -21,7 +28,10 @@ public class TableTimer extends Thread {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        mark.setChange(false);
+        for (Mark mark : marks) {
+            if (mark!= null)
+                mark.offChange();
+        }
         table.setVisible(false);
         table.setVisible(true);
     }

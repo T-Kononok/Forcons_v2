@@ -1,5 +1,7 @@
 package data;
 
+import elements.ImagePanel;
+
 import javax.swing.*;
 import java.io.IOException;
 
@@ -20,8 +22,7 @@ public class Mark {
     private boolean change = false;
 
     private String style = "cell";
-
-    private Timer timer;
+    private String changeFonFile = "image/emptyFon.png";
 
     //геттеры
     public int get() {
@@ -62,6 +63,9 @@ public class Mark {
     public String getStyle() {
         return style;
     }
+    public String getChangeFonFile() {
+        return changeFonFile;
+    }
 
     //сеттеры
     public void set(int mark) {
@@ -94,8 +98,13 @@ public class Mark {
         this.lr = lr;
     }
 
-    public void setChange(boolean change) {
-        this.change = change;
+    public void onChange(String imageFile) {
+        this.change = true;
+        changeFonFile = imageFile;
+    }
+    public void offChange() {
+        this.change = false;
+        changeFonFile = "image/emptyFon.png";
     }
     //    public void setChange() {
 //        change = true;

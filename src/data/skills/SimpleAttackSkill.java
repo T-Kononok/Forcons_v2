@@ -2,28 +2,22 @@ package data.skills;
 
 import data.MainData;
 import data.Mark;
-import elements.TableTimer;
-import javafx.util.Pair;
-
-import javax.swing.*;
-import java.util.ArrayList;
+import data.YX;
 
 public class SimpleAttackSkill extends Skill {
 
-
-    public SimpleAttackSkill(JTable table, ArrayList<ArrayList<Mark>> matrix, MainData mainData) {
-        super(table, matrix, mainData);
+    public SimpleAttackSkill(MainData mainData) {
+        super(mainData);
     }
 
     @Override
     public boolean begin() {
-        Pair<Integer,Integer> yx = getRandomYX();
+        YX yx = getRandomMarkYX();
         Mark mark = mainData.getMark(yx);
-        mark.set(1);
-        ArrayList<String> fileNames = new ArrayList<>();
-        for (int i = 0; i < 9; i++)
-            fileNames.add("image/SimpleAttack"+i+".png");
-        startFon(yx,fileNames);
+        System.out.print("simpleAttack " + mark.get()+"->");
+        mark.bite();
+        System.out.println(mark.get());
+        startFon(yx,"SimpleAttack");
         return true;
     }
 }

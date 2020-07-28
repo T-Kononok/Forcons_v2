@@ -2,30 +2,48 @@ package data.skills;
 
 import data.MainData;
 import data.Mark;
+import data.YX;
 import elements.TableTimer;
-import javafx.util.Pair;
-
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Skill {
 
-    protected JTable table;
-    protected  ArrayList<ArrayList<Mark>> matrix;
     protected  MainData mainData;
     protected static double buffAttack = 0;
     protected static int buffDefense = 0;
 
-    protected Skill(JTable table,ArrayList<ArrayList<Mark>> matrix, MainData mainData) {
-        this.matrix = matrix;
-        this.table = table;
+    protected Skill(MainData mainData) {
         this.mainData = mainData;
     }
 
-    protected Pair<Integer, Integer> getRandomYX() {
+    protected YX getRandomYX() {
         Random rand = new Random();
-        return new Pair<>(rand.nextInt(mainData.getSize()), rand.nextInt(mainData.getRowSize()));
+        Integer row = getRandomRow();
+        return new YX(row, rand.nextInt(mainData.getRowSize()));
+    }
+
+    protected Integer getRandomRow() {
+        Random rand = new Random();
+        int row = rand.nextInt(mainData.getSize()+mainData.getLight().size());
+        if (row >= mainData.getSize()) {
+            row = mainData.getLight().get(row - mainData.getSize());
+            System.out.println("light");
+        }
+        return row;
+    }
+
+    protected YX getRandomMarkYX() {
+        Mark mark;
+        YX yx = new YX();
+        yx.setY(getRandomRow());
+        Random rand = new Random();
+        do {
+            yx.setX(rand.nextInt(mainData.getRowSize()));
+            mark = mainData.getMark(yx);
+        } while (mark.get() == 0);
+        System.out.println("row "+ yx.getY());
+        return yx;
     }
 
     protected void onChange(Mark mark, String imageFile) {
@@ -37,14 +55,17 @@ public class Skill {
         return true;
     }
 
-    protected void startFon(Pair<Integer,Integer> yx, ArrayList<String> fileNames) {
+    protected void startFon(YX yx, String skillNames) {
+        ArrayList<String> fileNames = new ArrayList<>();
+        for (int i = 0; i < 9; i++)
+            fileNames.add("image/skills/"+skillNames+"/"+skillNames+i+".png");
         ArrayList<Mark> marks = new ArrayList<>();
         for (int i = -1; i <= 1; i++) {
-            Mark leftMark = mainData.getMark(yx.getKey()+i,yx.getValue()-1);
+            Mark leftMark = mainData.getMark(yx.getY()+i,yx.getX()-1);
             marks.add(leftMark);
-            Mark centerMark = mainData.getMark(yx.getKey()+i,yx.getValue());
+            Mark centerMark = mainData.getMark(yx.getY()+i,yx.getX());
             marks.add(centerMark);
-            Mark rightMark = mainData.getMark(yx.getKey()+i,yx.getValue()+1);
+            Mark rightMark = mainData.getMark(yx.getY()+i,yx.getX()+1);
             marks.add(rightMark);
         }
 

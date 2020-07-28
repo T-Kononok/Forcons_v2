@@ -1,10 +1,5 @@
 package data;
 
-import elements.ImagePanel;
-
-import javax.swing.*;
-import java.io.IOException;
-
 public class Mark {
 
     // поля
@@ -22,7 +17,7 @@ public class Mark {
     private boolean change = false;
 
     private String style = "cell";
-    private String changeFonFile = "image/emptyFon.png";
+    private String changeFonFile = "image/skills/emptyFon.png";
 
     //геттеры
     public int get() {
@@ -104,7 +99,7 @@ public class Mark {
     }
     public void offChange() {
         this.change = false;
-        changeFonFile = "image/emptyFon.png";
+        changeFonFile = "image/skills/emptyFon.png";
     }
     //    public void setChange() {
 //        change = true;
@@ -146,19 +141,21 @@ public class Mark {
 
     //другое
     public void plus(int plusValue) {
-        mark += plusValue;
+        mark = inRange(mark + plusValue, 0, 10);
         bites -= inRange(plusValue,0,bites);
     }
 
     public void minus(int minusValue) {
         minusValue = inRange(minusValue, 0, 3 - bites);
-        mark -= minusValue;
+        mark = inRange(mark - minusValue, 0, 10);
         bites += minusValue;
     }
 
     public void bite() {
-        if (bites < 3)
+        if (bites < 3 && mark > 0) {
+            mark--;
             bites++;
+        }
     }
 
     public String toString() {

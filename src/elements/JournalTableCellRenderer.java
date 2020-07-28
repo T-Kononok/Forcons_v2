@@ -13,12 +13,9 @@ import java.util.*;
 public class JournalTableCellRenderer implements TableCellRenderer {
 
     private final JPanel panel = new JPanel();
-    private ImagePanel fon = new ImagePanel("image/emptyFon.png",true);
+    private ImagePanel fon = new ImagePanel("image/skills/emptyFon.png",true);
     private final Map<String, JSVGCanvas> mapSVG = new HashMap<>();
-    private int countRow = 0;
-    private int countColumn = 0;
     private final JLabel label = new JLabel();
-    private int size = 0;
 
     public JournalTableCellRenderer(){
         panel.setLayout(null);
@@ -92,7 +89,6 @@ public class JournalTableCellRenderer implements TableCellRenderer {
         }
         label.setSize(size,size);
         fon.setSize(size,size);
-        this.size = size;
     }
 
 //    public void setMatrixSize(int row, int column) {

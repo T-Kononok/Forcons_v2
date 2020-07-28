@@ -3,8 +3,7 @@ package data;
 import data.skills.BardBalladSkill;
 import data.skills.SimpleAttackSkill;
 import data.skills.Skill;
-import frame.MainFrame;
-import javafx.util.Pair;
+import data.skills.SmotrLightSkill;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ public class MainData {
     private final JTable table;
     private final JPanel panel;
     private ArrayList<ArrayList<Mark>> matrix = null;
-    private ArrayList<Boolean> light = null;
+    private ArrayList<Integer> light = new ArrayList<>();
     Map<String, Map<Integer, Skill>> allSkillMap = new HashMap<>();
 
     public MainData(JTable table, JPanel panel) {
@@ -33,7 +32,7 @@ public class MainData {
     public ArrayList<ArrayList<Mark>> getMatrix() {
         return matrix;
     }
-    public ArrayList<Boolean> getLight() {
+    public ArrayList<Integer> getLight() {
         return light;
     }
 
@@ -43,8 +42,8 @@ public class MainData {
         return null;
     }
 
-    public Mark getMark(Pair<Integer, Integer> pair) {
-        return getMark(pair.getKey(),pair.getValue());
+    public Mark getMark(YX yx) {
+        return getMark(yx.getY(),yx.getX());
     }
 
     public int getSize() {
@@ -58,11 +57,23 @@ public class MainData {
     public void readTable(JTable table, String filename) {
         HSSFData hssfData = new HSSFData();
         matrix = hssfData.readHSSFJournal(filename);
-        light = new ArrayList<>();
-        for (int i = 0; i < matrix.size(); i++)
-            light.add(false);
         model.setMatrix(matrix);
         table.setModel(model);
+    }
+
+    public void addLight(int number) {
+        System.out.println(getSize() + " " + number);
+        if (number >= 0 && number < getSize())
+            light.add(number);
+        else
+            System.out.println("Ошибка addLight");
+    }
+
+    public boolean lightContains(int row) {
+        for (Integer integer : light)
+            if (integer == row)
+                return true;
+        return false;
     }
 
     public void repaintTable() {
@@ -90,8 +101,8 @@ public class MainData {
 
     private void addSkillMap() {
         Map<Integer, Skill> baSkillMap = new HashMap<>();
-        baSkillMap.put(1,new SimpleAttackSkill(table,matrix,this));
-        baSkillMap.put(2,new BardBalladSkill(table,matrix,this));
+        baSkillMap.put(1,new SimpleAttackSkill(this));
+        baSkillMap.put(2,new BardBalladSkill(this));
         baSkillMap.put(3,null);
         baSkillMap.put(4,null);
         baSkillMap.put(5,null);
@@ -118,7 +129,7 @@ public class MainData {
         smSkillMap.put(2,null);
         smSkillMap.put(3,null);
         smSkillMap.put(4,null);
-        smSkillMap.put(5,null);
+        smSkillMap.put(5,new SmotrLightSkill(this));
         smSkillMap.put(6,null);
         allSkillMap.put("sm",smSkillMap);
     }

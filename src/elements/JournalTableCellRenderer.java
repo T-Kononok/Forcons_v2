@@ -18,6 +18,7 @@ public class JournalTableCellRenderer implements TableCellRenderer {
     private int countRow = 0;
     private int countColumn = 0;
     private final JLabel label = new JLabel();
+    private int size = 0;
 
     public JournalTableCellRenderer(){
         panel.setLayout(null);
@@ -91,6 +92,7 @@ public class JournalTableCellRenderer implements TableCellRenderer {
         }
         label.setSize(size,size);
         fon.setSize(size,size);
+        this.size = size;
     }
 
 //    public void setMatrixSize(int row, int column) {
@@ -105,10 +107,10 @@ public class JournalTableCellRenderer implements TableCellRenderer {
                                                    boolean hasFocus, int row, int col) {
         Mark mark = (Mark) value;
         falseVisible();
+//        System.out.println(mark.toStyle());
         showCanvas(mark.toStyle());
         label.setText(mark.toString());
         fon.setImageFile(mark.getChangeFonFile());
-
         return panel;
     }
 

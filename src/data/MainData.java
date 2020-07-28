@@ -15,18 +15,21 @@ public class MainData {
 
     private final JournalTableModel model = new JournalTableModel();
     private final JTable table;
+    private final JPanel panel;
     private ArrayList<ArrayList<Mark>> matrix = null;
     private ArrayList<Boolean> light = null;
     Map<String, Map<Integer, Skill>> allSkillMap = new HashMap<>();
 
-    public MainData(JTable table) {
+    public MainData(JTable table, JPanel panel) {
         this.table = table;
+        this.panel = panel;
         addSkillMap();
     }
 
     public JTable getTable() {
         return table;
     }
+    public JPanel getPanel() {return panel;}
     public ArrayList<ArrayList<Mark>> getMatrix() {
         return matrix;
     }
@@ -64,7 +67,9 @@ public class MainData {
 
     public void repaintTable() {
         table.setVisible(false);
+        panel.setVisible(false);
         model.setMatrix(matrix);
+        panel.setVisible(true);
         table.setVisible(true);
     }
 

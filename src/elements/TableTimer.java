@@ -1,23 +1,22 @@
 package elements;
 
+import data.MainData;
 import data.Mark;
-
-import javax.swing.*;
 import java.util.ArrayList;
 
 public class TableTimer extends Thread {
 
-    private final JTable table;
+    private final MainData mainData;
     private final ArrayList<Mark> marks;
 
-    public TableTimer(JTable table, Mark mark) {
-        this.table = table;
+    public TableTimer(MainData mainData, Mark mark) {
+        this.mainData = mainData;
         marks = new ArrayList<>();
         marks.add(mark);
     }
 
-    public TableTimer(JTable table, ArrayList<Mark> marks) {
-        this.table = table;
+    public TableTimer(MainData mainData, ArrayList<Mark> marks) {
+        this.mainData = mainData;
         this.marks = marks;
     }
 
@@ -32,7 +31,9 @@ public class TableTimer extends Thread {
             if (mark!= null)
                 mark.offChange();
         }
-        table.setVisible(false);
-        table.setVisible(true);
+        mainData.getTable().setVisible(false);
+        mainData.getPanel().setVisible(false);
+        mainData.getPanel().setVisible(true);
+        mainData.getTable().setVisible(true);
     }
 }

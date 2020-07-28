@@ -7,10 +7,12 @@ import data.Mark;
 import elements.*;
 
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.apache.batik.swing.JSVGCanvas;
@@ -26,18 +28,23 @@ public class MainFrame extends JFrame {
     private JFileChooser fileChooser = null;
     private final JournalTableCellRenderer renderer = new JournalTableCellRenderer();
     private static TableTimer tableTimer;
+//    JScrollPane scrollPane;
 
-    private MainFrame() {
+    private MainFrame() throws IOException {
 
         panelFull.setSize(WIDTH,HEIGHT);
         panelFull.setLayout(null);
 
         ForconsList forconsList = new ForconsList();
-        JTable kostTable = addKostTable();
-        JTable table = addJournalTable();
-        mainData = new MainData(table);
+        //прозрачная панель поверх таблицы дабы нельзя была нажимать,
+        // ибо обычное отключение не помогает
+        JPanel kostUpPanel = addKostPanel();
+        JPanel kostDownPanel = addKostPanel();
+        JTable table = addJournalTable(kostDownPanel);
+        mainData = new MainData(table,kostDownPanel);
         addOpenButton(addCancelButton(),
-                kostTable,
+                kostUpPanel,
+                kostDownPanel,
                 table,
                 addForconsListScroll(forconsList),
                 addSortPointButtons(forconsList),
@@ -62,29 +69,27 @@ public class MainFrame extends JFrame {
         return cancelButton;
     }
 
-    private JTable addKostTable() {
-        //прозрачная таблица поверх таблицы даюе нельзя была нажимать,
-        // ибо обычное отключение не помогает
-        JTable kostTable = new JTable();
-        toPlace(kostTable, 1050, 580, 5, 35);
-        kostTable.setBorder(BorderFactory.createEmptyBorder());
-//        kostTable.setBorder(BorderFactory.createLineBorder(Color.RED));
-        kostTable.setBackground(new Color(0, 0, 0, 0));
-        kostTable.setVisible(false);
-        return kostTable;
+    private JPanel addKostPanel() {
+        JPanel kostPanel = new JPanel();
+        toPlace(kostPanel, 1050, 580, 5, 35);
+        kostPanel.setBorder(BorderFactory.createEmptyBorder());
+        kostPanel.setBackground(new Color(0, 0, 0, 0));
+        kostPanel.setVisible(false);
+        return kostPanel;
     }
 
-    private JTable addJournalTable() {
+    private JTable addJournalTable(JPanel kostDownPanel) {
         JTable journalTable = new JTable(new JournalTableModel());
         journalTable.setDefaultRenderer(Mark.class, renderer);
-        toPlace(journalTable,1050,580,5,35);
+        journalTable.setSize(1050,580);
+        kostDownPanel.add(journalTable);
+//        panelFull.add(journalTable);
+
         journalTable.setVisible(false);
-        journalTable.setTableHeader(null);
         journalTable.setBorder(BorderFactory.createEmptyBorder());
-//        journalTable.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         journalTable.setBackground(new Color(0,0,0,0));
-        journalTable.setGridColor(Color.BLACK);
         journalTable.setShowGrid(false);
+        journalTable.setIntercellSpacing(new Dimension(0, 0));
         return journalTable;
     }
 
@@ -119,7 +124,7 @@ public class MainFrame extends JFrame {
         return sortClassButton;
     }
 
-    private void addOpenButton(JButton cancelButton, JTable kostTable, JTable table, JScrollPane pane, JButton pointButton,
+    private void addOpenButton(JButton cancelButton, JPanel kostUpPanel, JPanel kostDownPanel, JTable table, JScrollPane pane, JButton pointButton,
                                JButton classButton, ForconsList list) {
         Color zeroColor = new Color(0,0,0,0);
         OvalButton openButton = new OvalButton(OvalButton.SHAPE_OVAL,OvalButton.VERTICAL,zeroColor,zeroColor,zeroColor,zeroColor);
@@ -129,11 +134,11 @@ public class MainFrame extends JFrame {
         openButton.setMessageImage(addBeginMessageImage());
         openButton.addActionListener(ev -> {
             mainData.readTable(table,selectionFile("Открыть жунал"));
-            int cellSize = resizeTable(table);
-            renderer.setSize(cellSize);
+            renderer.setSize(resizeTable(table));
             list.read(selectionFile("Открыть форсонов"));
             cancelButton.setVisible(true);
-            kostTable.setVisible(true);
+            kostUpPanel.setVisible(true);
+            kostDownPanel.setVisible(true);
             table.setVisible(true);
             pane.setVisible(true);
             pointButton.setVisible(true);
@@ -141,6 +146,7 @@ public class MainFrame extends JFrame {
             openButton.setVisible(false);
             openButton.setPanel(null);
             panelFull.setImageFile("image/fon2.jpg");
+            panelFull.setLayout(null);
         });
     }
 
@@ -177,13 +183,15 @@ public class MainFrame extends JFrame {
         if (table.getColumnCount() > table.getRowCount() * 1050 / 580) {
             cellSize = 1050 / table.getColumnCount();
             table.setSize(1050, cellSize * table.getRowCount());
-            table.setLocation(5, 325 - table.getHeight() / 2);
+//            table.setLocation(5, 325 - table.getHeight() / 2);
         } else {
             cellSize = 580 / table.getRowCount();
             table.setSize(cellSize * table.getColumnCount(), 580);
-            table.setLocation(530 - table.getWidth() / 2, 35);
+//            table.setLocation(530 - table.getWidth() / 2, 35);
         }
         table.setRowHeight(cellSize);
+        for (int i = 0; i < table.getColumnCount(); i++)
+            table.getColumnModel().getColumn(i).setPreferredWidth(cellSize);
         return cellSize;
     }
 
@@ -344,7 +352,7 @@ public class MainFrame extends JFrame {
         panelFull.add(component);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         MainFrame frame = new MainFrame();
 
         frame.setUndecorated(true);

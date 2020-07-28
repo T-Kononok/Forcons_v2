@@ -11,7 +11,7 @@ import java.util.Random;
 
 public class Skill {
 
-    protected  JTable table;
+    protected JTable table;
     protected  ArrayList<ArrayList<Mark>> matrix;
     protected  MainData mainData;
     protected static double buffAttack = 0;
@@ -51,7 +51,7 @@ public class Skill {
         for (int i = 0; i < marks.size(); i++)
             onChange(marks.get(i),fileNames.get(i));
         mainData.repaintTable();
-        TableTimer markTimer = new TableTimer(table,marks);
+        TableTimer markTimer = new TableTimer(mainData,marks);
         markTimer.start();
     }
 }

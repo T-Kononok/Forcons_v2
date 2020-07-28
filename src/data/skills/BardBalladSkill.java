@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 public class BardBalladSkill extends Skill{
 
-
     public BardBalladSkill(JTable table, ArrayList<ArrayList<Mark>> matrix, MainData mainData) {
         super(table, matrix, mainData);
     }

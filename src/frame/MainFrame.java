@@ -36,15 +36,19 @@ public class MainFrame extends JFrame {
         panelFull.setLayout(null);
 
         ForconsList forconsList = new ForconsList();
-        //прозрачная панель поверх таблицы дабы нельзя была нажимать,
+        //прозрачная таблица поверх таблицы дабы нельзя была нажимать,
         // ибо обычное отключение не помогает
-        JPanel kostUpPanel = addKostPanel();
-        JPanel kostDownPanel = addKostPanel();
-        JTable table = addJournalTable(kostDownPanel);
-        mainData = new MainData(table,kostDownPanel);
+        JTable kostTable = new JTable();
+        addKostComponent(kostTable);
+        //прозрачная панель с стандартным менеджером в которйо таблица
+        // ибо в других менеджерах появляются промежутки
+        JPanel kostPanel = new JPanel();
+        addKostComponent(kostPanel);
+        JTable table = addJournalTable(kostPanel);
+        mainData = new MainData(table,kostTable);
         addOpenButton(addCancelButton(),
-                kostUpPanel,
-                kostDownPanel,
+                kostTable,
+                kostPanel,
                 table,
                 addForconsListScroll(forconsList),
                 addSortPointButtons(forconsList),
@@ -71,19 +75,26 @@ public class MainFrame extends JFrame {
 
     private JPanel addKostPanel() {
         JPanel kostPanel = new JPanel();
-        toPlace(kostPanel, 1050, 580, 5, 35);
+        toPlace(kostPanel, 1035, 587, 20, 35);
         kostPanel.setBorder(BorderFactory.createEmptyBorder());
         kostPanel.setBackground(new Color(0, 0, 0, 0));
         kostPanel.setVisible(false);
         return kostPanel;
     }
 
+    private JComponent addKostComponent(JComponent component) {
+        toPlace(component, 1035, 587, 20, 35);
+        component.setBorder(BorderFactory.createEmptyBorder());
+        component.setBackground(new Color(0, 0, 0, 0));
+        component.setVisible(false);
+        return component;
+    }
+
     private JTable addJournalTable(JPanel kostDownPanel) {
         JTable journalTable = new JTable(new JournalTableModel());
         journalTable.setDefaultRenderer(Mark.class, renderer);
-        journalTable.setSize(1050,580);
+        journalTable.setSize(kostDownPanel.getSize());
         kostDownPanel.add(journalTable);
-//        panelFull.add(journalTable);
 
         journalTable.setVisible(false);
         journalTable.setBorder(BorderFactory.createEmptyBorder());
@@ -95,7 +106,7 @@ public class MainFrame extends JFrame {
 
     private JScrollPane addForconsListScroll(ForconsList list) {
         JScrollPane forconsListScroll = new JScrollPane(list.getList());
-        toPlace(forconsListScroll,220,580,1060,35);
+        toPlace(forconsListScroll,220,587,1060,35);
         forconsListScroll.setVisible(false);
         forconsListScroll.setBorder(BorderFactory.createEmptyBorder());
         forconsListScroll.getVerticalScrollBar().setUI(new ImageScrollBarUI());
@@ -124,7 +135,7 @@ public class MainFrame extends JFrame {
         return sortClassButton;
     }
 
-    private void addOpenButton(JButton cancelButton, JPanel kostUpPanel, JPanel kostDownPanel, JTable table, JScrollPane pane, JButton pointButton,
+    private void addOpenButton(JButton cancelButton, JTable kostTable, JPanel kostPanel, JTable table, JScrollPane pane, JButton pointButton,
                                JButton classButton, ForconsList list) {
         Color zeroColor = new Color(0,0,0,0);
         OvalButton openButton = new OvalButton(OvalButton.SHAPE_OVAL,OvalButton.VERTICAL,zeroColor,zeroColor,zeroColor,zeroColor);
@@ -134,11 +145,11 @@ public class MainFrame extends JFrame {
         openButton.setMessageImage(addBeginMessageImage());
         openButton.addActionListener(ev -> {
             mainData.readTable(table,selectionFile("Открыть жунал"));
-            renderer.setSize(resizeTable(table));
+            renderer.setSize(resizeTable(table,kostTable,kostPanel));
             list.read(selectionFile("Открыть форсонов"));
             cancelButton.setVisible(true);
-            kostUpPanel.setVisible(true);
-            kostDownPanel.setVisible(true);
+            kostTable.setVisible(true);
+            kostPanel.setVisible(true);
             table.setVisible(true);
             pane.setVisible(true);
             pointButton.setVisible(true);
@@ -165,6 +176,7 @@ public class MainFrame extends JFrame {
         }
         fileChooser.setDialogTitle(string);
         if (fileChooser.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
+//            System.out.println(fileChooser.getSelectedFile().getPath());
             return fileChooser.getSelectedFile().getPath();
         }
         return null;
@@ -178,16 +190,18 @@ public class MainFrame extends JFrame {
         return messageImage;
     }
 
-    private int resizeTable(JTable table){
+    private int resizeTable(JTable table, JTable kostTable, JPanel kostPanel){
         int cellSize;
-        if (table.getColumnCount() > table.getRowCount() * 1050 / 580) {
-            cellSize = 1050 / table.getColumnCount();
-            table.setSize(1050, cellSize * table.getRowCount());
-//            table.setLocation(5, 325 - table.getHeight() / 2);
+        if (table.getColumnCount() > table.getRowCount() * kostTable.getWidth() / kostTable.getHeight()) {
+            cellSize = kostTable.getWidth() / table.getColumnCount();
+            table.setSize(kostTable.getWidth(), cellSize * table.getRowCount());
+            kostPanel.setSize(kostTable.getWidth(), cellSize * table.getRowCount());
+            kostPanel.setLocation(kostTable.getX(), kostTable.getY() + kostTable.getHeight()/2 - kostPanel.getHeight()/2);
         } else {
-            cellSize = 580 / table.getRowCount();
-            table.setSize(cellSize * table.getColumnCount(), 580);
-//            table.setLocation(530 - table.getWidth() / 2, 35);
+            cellSize = kostTable.getHeight() / table.getRowCount();
+            table.setSize(cellSize * table.getColumnCount(), kostTable.getHeight());
+            kostPanel.setSize(cellSize * table.getColumnCount(), kostTable.getHeight());
+            kostPanel.setLocation(kostTable.getX() + kostTable.getWidth()/2 - kostPanel.getWidth() / 2, kostTable.getY());
         }
         table.setRowHeight(cellSize);
         for (int i = 0; i < table.getColumnCount(); i++)

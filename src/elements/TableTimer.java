@@ -32,8 +32,8 @@ public class TableTimer extends Thread {
                 mark.offChange();
         }
         mainData.getTable().setVisible(false);
-        mainData.getPanel().setVisible(false);
-        mainData.getPanel().setVisible(true);
+        mainData.getKostTable().setVisible(false);
         mainData.getTable().setVisible(true);
+        mainData.getKostTable().setVisible(true);
     }
 }

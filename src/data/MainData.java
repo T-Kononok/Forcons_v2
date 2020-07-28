@@ -14,21 +14,24 @@ public class MainData {
 
     private final JournalTableModel model = new JournalTableModel();
     private final JTable table;
-    private final JPanel panel;
+    private final JTable kostTable;
     private ArrayList<ArrayList<Mark>> matrix = null;
     private ArrayList<Integer> light = new ArrayList<>();
     Map<String, Map<Integer, Skill>> allSkillMap = new HashMap<>();
 
-    public MainData(JTable table, JPanel panel) {
+    public MainData(JTable table, JTable kostTable) {
         this.table = table;
-        this.panel = panel;
+        this.kostTable = kostTable;
         addSkillMap();
     }
 
     public JTable getTable() {
         return table;
     }
-    public JPanel getPanel() {return panel;}
+    public JTable getKostTable() {
+        return kostTable;
+    }
+
     public ArrayList<ArrayList<Mark>> getMatrix() {
         return matrix;
     }
@@ -78,10 +81,10 @@ public class MainData {
 
     public void repaintTable() {
         table.setVisible(false);
-        panel.setVisible(false);
+        kostTable.setVisible(false);
         model.setMatrix(matrix);
-        panel.setVisible(true);
         table.setVisible(true);
+        kostTable.setVisible(true);
     }
 
 

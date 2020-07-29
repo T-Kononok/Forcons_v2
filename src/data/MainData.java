@@ -4,6 +4,7 @@ import data.skills.BardBalladSkill;
 import data.skills.SimpleAttackSkill;
 import data.skills.Skill;
 import data.skills.SmotrLightSkill;
+import frame.MainFrame;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -15,11 +16,13 @@ public class MainData {
     private final JournalTableModel model = new JournalTableModel();
     private final JTable table;
     private final JTable kostTable;
+    private final MainFrame mainFrame;
     private ArrayList<ArrayList<Mark>> matrix = null;
     private ArrayList<Integer> light = new ArrayList<>();
     Map<String, Map<Integer, Skill>> allSkillMap = new HashMap<>();
 
-    public MainData(JTable table, JTable kostTable) {
+    public MainData(MainFrame mainFrame, JTable table, JTable kostTable) {
+        this.mainFrame = mainFrame;
         this.table = table;
         this.kostTable = kostTable;
         addSkillMap();
@@ -70,6 +73,7 @@ public class MainData {
             light.add(number);
         else
             System.out.println("Ошибка addLight");
+        mainFrame.changeLeftImage();
     }
 
     public boolean lightContains(int row) {
@@ -86,8 +90,6 @@ public class MainData {
         table.setVisible(true);
         kostTable.setVisible(true);
     }
-
-
 
 //    ///для проверок
 //    private ArrayList<ArrayList<Mark>> createMatrix(int startRow, int countRow,int startColumn, int countColumn) {

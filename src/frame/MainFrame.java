@@ -7,7 +7,6 @@ import data.Mark;
 import elements.*;
 
 import javax.swing.*;
-import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -28,7 +27,11 @@ public class MainFrame extends JFrame {
     private JFileChooser fileChooser = null;
     private final JournalTableCellRenderer renderer = new JournalTableCellRenderer();
     private static TableTimer tableTimer;
-//    JScrollPane scrollPane;
+    private ArrayList<ImagePanel> leftImageArray = null;
+
+    public ImagePanel getPanelFull() {
+        return panelFull;
+    }
 
     private MainFrame() throws IOException {
 
@@ -45,7 +48,7 @@ public class MainFrame extends JFrame {
         JPanel kostPanel = new JPanel();
         addKostComponent(kostPanel);
         JTable table = addJournalTable(kostPanel);
-        mainData = new MainData(table,kostTable);
+        mainData = new MainData(this, table,kostTable);
         addOpenButton(addCancelButton(),
                 kostTable,
                 kostPanel,
@@ -73,21 +76,11 @@ public class MainFrame extends JFrame {
         return cancelButton;
     }
 
-    private JPanel addKostPanel() {
-        JPanel kostPanel = new JPanel();
-        toPlace(kostPanel, 1035, 587, 20, 35);
-        kostPanel.setBorder(BorderFactory.createEmptyBorder());
-        kostPanel.setBackground(new Color(0, 0, 0, 0));
-        kostPanel.setVisible(false);
-        return kostPanel;
-    }
-
-    private JComponent addKostComponent(JComponent component) {
+    private void addKostComponent(JComponent component) {
         toPlace(component, 1035, 587, 20, 35);
         component.setBorder(BorderFactory.createEmptyBorder());
         component.setBackground(new Color(0, 0, 0, 0));
         component.setVisible(false);
-        return component;
     }
 
     private JTable addJournalTable(JPanel kostDownPanel) {
@@ -145,8 +138,10 @@ public class MainFrame extends JFrame {
         openButton.setMessageImage(addBeginMessageImage());
         openButton.addActionListener(ev -> {
             mainData.readTable(table,selectionFile("Открыть жунал"));
-            renderer.setSize(resizeTable(table,kostTable,kostPanel));
+            int cellSize = resizeTable(table,kostTable,kostPanel);
+            renderer.setSize(cellSize);
             list.read(selectionFile("Открыть форсонов"));
+            addLeftImage(table,kostPanel,cellSize);
             cancelButton.setVisible(true);
             kostTable.setVisible(true);
             kostPanel.setVisible(true);
@@ -157,7 +152,7 @@ public class MainFrame extends JFrame {
             openButton.setVisible(false);
             openButton.setPanel(null);
             panelFull.setImageFile("image/fon2.jpg");
-            panelFull.setLayout(null);
+//            panelFull.setLayout(null);
         });
     }
 
@@ -270,6 +265,32 @@ public class MainFrame extends JFrame {
                 }
             }
         });
+    }
+
+    public void addLeftImage(JTable table, JPanel kostPanel, int cellSize) {
+        leftImageArray = new ArrayList<>();
+        for (int i = 0; i < table.getRowCount(); i++) {
+            leftImageArray.add(addOneLeftImage(kostPanel.getX()-cellSize,kostPanel.getY()+5+i*cellSize,cellSize));
+        }
+    }
+
+    public ImagePanel addOneLeftImage(int x, int y, int size) {
+        if (size > 20)
+            size = 20;
+        ImagePanel leftImage = new ImagePanel("image/skills/emptyFon.png",true);
+        toPlace(leftImage,size,size,x,y);
+        panelFull.add(leftImage);
+        return leftImage;
+    }
+
+    public void changeLeftImage() {
+        for (ImagePanel imagePanel : leftImageArray)
+            imagePanel.setImageFile("image/skills/emptyFon.png");
+        for (int i = 0; i < mainData.getLight().size(); i++) {
+            leftImageArray.get(mainData.getLight().get(i)).setImageFile("image/skills/leftLight.png");
+        }
+        getContentPane().setVisible(false);
+        getContentPane().setVisible(true);
     }
 
     private JButton addOneSkillButton(int x, int size) {

@@ -106,7 +106,7 @@ public class MainData {
 
     private void addSkillMap() {
         Map<Integer, Skill> baSkillMap = new HashMap<>();
-        baSkillMap.put(1,new SimpleAttackSkill(this));
+        baSkillMap.put(1,new SimpleAttackSkill(this,"bardChain", 1, 0.75));
         baSkillMap.put(2,new BardBalladSkill(this));
         baSkillMap.put(3,null);
         baSkillMap.put(4,null);
@@ -122,7 +122,7 @@ public class MainData {
         inSkillMap.put(6,null);
         allSkillMap.put("in",inSkillMap);
         Map<Integer, Skill> saSkillMap = new HashMap<>();
-        saSkillMap.put(1,null);
+        saSkillMap.put(1,new SimpleAttackSkill(this,"samuKatana", 1, 1.0));
         saSkillMap.put(2,null);
         saSkillMap.put(3,null);
         saSkillMap.put(4,null);

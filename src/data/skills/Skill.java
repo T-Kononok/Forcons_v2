@@ -42,7 +42,7 @@ public class Skill {
             yx.setX(rand.nextInt(mainData.getRowSize()));
             mark = mainData.getMark(yx);
         } while (mark.get() == 0);
-        System.out.println("row "+ yx.getY());
+        System.out.println("row "+ yx.getY() + " col "+ yx.getX());
         return yx;
     }
 
@@ -57,8 +57,9 @@ public class Skill {
 
     protected void startFon(YX yx, String skillNames) {
         ArrayList<String> fileNames = new ArrayList<>();
-        for (int i = 0; i < 9; i++)
-            fileNames.add("image/skills/"+skillNames+"/"+skillNames+i+".png");
+        for (int i = 0; i < 9; i++) {
+            fileNames.add("image/skills/" + skillNames + "/" + i + ".png");
+        }
         ArrayList<Mark> marks = new ArrayList<>();
         for (int i = -1; i <= 1; i++) {
             Mark leftMark = mainData.getMark(yx.getY()+i,yx.getX()-1);

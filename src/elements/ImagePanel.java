@@ -47,7 +47,7 @@ public class ImagePanel extends JPanel {
             g.fillRect(0, 0, getWidth(), getHeight());
         } else {
             if (resize) {
-                ImageIcon icon = new ImageIcon(new ImageIcon(imageFile).getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH));
+                ImageIcon icon = new ImageIcon(new ImageIcon(imageFile).getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
                 g.drawImage(icon.getImage(), 0, 0, null);
             } else {
                 g.drawImage(new ImageIcon(imageFile).getImage(), 0, 0, null);

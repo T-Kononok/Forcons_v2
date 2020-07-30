@@ -20,7 +20,7 @@ public class MainFrame extends JFrame {
 
     private static final int WIDTH = 1280;
     private static final int HEIGHT = 720;
-    private final ImagePanel panelFull = new ImagePanel();
+    private final ImagePanel panelFull = new ImagePanel("image/begin_fon.jpg",false);
     private int xFirstButton;
     private int xLastButton;
     private MainData mainData;
@@ -178,9 +178,7 @@ public class MainFrame extends JFrame {
     }
 
     private ImagePanel addBeginMessageImage() {
-        ImagePanel messageImage = new ImagePanel();
-        messageImage.setImageFile("image/begin_fon_message.png");
-        messageImage.setResize(true);
+        ImagePanel messageImage = new ImagePanel("image/begin_fon_message.png",true,false);
         toPlace(messageImage,450,250,720,70);
         return messageImage;
     }
@@ -277,7 +275,7 @@ public class MainFrame extends JFrame {
     public ImagePanel addOneLeftImage(int x, int y, int size) {
         if (size > 20)
             size = 20;
-        ImagePanel leftImage = new ImagePanel("image/skills/emptyFon.png",true);
+        ImagePanel leftImage = new ImagePanel();
         toPlace(leftImage,size,size,x,y);
         panelFull.add(leftImage);
         return leftImage;
@@ -285,7 +283,7 @@ public class MainFrame extends JFrame {
 
     public void changeLeftImage() {
         for (ImagePanel imagePanel : leftImageArray)
-            imagePanel.setImageFile("image/skills/emptyFon.png");
+            imagePanel.setImageFile(null);
         for (int i = 0; i < mainData.getLight().size(); i++) {
             leftImageArray.get(mainData.getLight().get(i)).setImageFile("image/skills/leftLight.png");
         }

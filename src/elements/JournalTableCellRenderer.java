@@ -13,7 +13,7 @@ import java.util.*;
 public class JournalTableCellRenderer implements TableCellRenderer {
 
     private final JPanel panel = new JPanel();
-    private ImagePanel fon = new ImagePanel("image/skills/emptyFon.png",true);
+    private ImagePanel fon = new ImagePanel();
     private final Map<String, JSVGCanvas> mapSVG = new HashMap<>();
     private final JLabel label = new JLabel();
 
@@ -106,6 +106,10 @@ public class JournalTableCellRenderer implements TableCellRenderer {
 //        System.out.println(mark.toStyle());
         showCanvas(mark.toStyle());
         label.setText(mark.toString());
+        if (mark.isChange())
+            fon.onCut(mark.getNumber());
+        else
+            fon.offCut();
         fon.setImageFile(mark.getChangeFonFile());
         return panel;
     }

@@ -114,7 +114,7 @@ public class MainData {
         baSkillMap.put(6,null);
         allSkillMap.put("ba",baSkillMap);
         Map<Integer, Skill> inSkillMap = new HashMap<>();
-        inSkillMap.put(1,null);
+        inSkillMap.put(1,new SimpleAttackSkill(this,"inseClaws", 2, 1.0));
         inSkillMap.put(2,null);
         inSkillMap.put(3,null);
         inSkillMap.put(4,null);

@@ -46,20 +46,16 @@ public class Skill {
         return yx;
     }
 
-    protected void onChange(Mark mark, String imageFile) {
+    protected void onChange(Mark mark, String imageFile, int number) {
         if (mark != null)
-            mark.onChange(imageFile);
+            mark.onChange(imageFile,number);
     }
 
     public boolean begin() {
         return true;
     }
 
-    protected void startFon(YX yx, String skillNames) {
-        ArrayList<String> fileNames = new ArrayList<>();
-        for (int i = 0; i < 9; i++) {
-            fileNames.add("image/skills/" + skillNames + "/" + i + ".png");
-        }
+    protected void startFon(YX yx, String skillName) {
         ArrayList<Mark> marks = new ArrayList<>();
         for (int i = -1; i <= 1; i++) {
             Mark leftMark = mainData.getMark(yx.getY()+i,yx.getX()-1);
@@ -70,8 +66,9 @@ public class Skill {
             marks.add(rightMark);
         }
 
-        for (int i = 0; i < marks.size(); i++)
-            onChange(marks.get(i),fileNames.get(i));
+        for (int i = 0; i < marks.size(); i++) {
+            onChange(marks.get(i), "image/skills/" + skillName + ".png", i);
+        }
         mainData.repaintTable();
         TableTimer markTimer = new TableTimer(mainData,marks);
         markTimer.start();

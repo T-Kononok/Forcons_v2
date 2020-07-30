@@ -14,10 +14,11 @@ public class Mark {
     private boolean kr = false;
     private boolean lr = false;
     private boolean setBoolean = true;
-    private boolean change = false;
 
     private String style = "cell";
-    private String changeFonFile = "image/skills/emptyFon.png";
+    private boolean change = false;
+    private String changeFonFile = null;
+    private int number;
 
     //геттеры
     public int get() {
@@ -51,15 +52,18 @@ public class Mark {
     public boolean isSetBoolean() {
         return setBoolean;
     }
-    public boolean isChange() {
-        return change;
-    }
 
     public String getStyle() {
         return style;
     }
+    public boolean isChange() {
+        return change;
+    }
     public String getChangeFonFile() {
         return changeFonFile;
+    }
+    public int getNumber() {
+        return number;
     }
 
     //сеттеры
@@ -93,13 +97,14 @@ public class Mark {
         this.lr = lr;
     }
 
-    public void onChange(String imageFile) {
+    public void onChange(String imageFile, int number) {
         this.change = true;
+        this.number = number;
         changeFonFile = imageFile;
     }
     public void offChange() {
         this.change = false;
-        changeFonFile = "image/skills/emptyFon.png";
+        changeFonFile = null;
     }
     //    public void setChange() {
 //        change = true;

@@ -77,7 +77,7 @@ public class MainFrame extends JFrame {
     }
 
     private void addKostComponent(JComponent component) {
-        toPlace(component, 1035, 587, 20, 35);
+        toPlace(component, 1035, 585, 20, 35);
         component.setBorder(BorderFactory.createEmptyBorder());
         component.setBackground(new Color(0, 0, 0, 0));
         component.setVisible(false);
@@ -99,7 +99,7 @@ public class MainFrame extends JFrame {
 
     private JScrollPane addForconsListScroll(ForconsList list) {
         JScrollPane forconsListScroll = new JScrollPane(list.getList());
-        toPlace(forconsListScroll,220,587,1060,35);
+        toPlace(forconsListScroll,220,585,1060,35);
         forconsListScroll.setVisible(false);
         forconsListScroll.setBorder(BorderFactory.createEmptyBorder());
         forconsListScroll.getVerticalScrollBar().setUI(new ImageScrollBarUI());
@@ -156,12 +156,30 @@ public class MainFrame extends JFrame {
         });
     }
 
-    private void addTimer(JTable table) {
-        Timer timer = new Timer(10, ev -> {
-            table.setVisible(false);
-            table.setVisible(true);
-        });
-        timer.start();
+    public void addLeftImage(JTable table, JPanel kostPanel, int cellSize) {
+        leftImageArray = new ArrayList<>();
+        for (int i = 0; i < table.getRowCount(); i++) {
+            leftImageArray.add(addOneLeftImage(kostPanel.getX()-cellSize,kostPanel.getY()+5+i*cellSize,cellSize));
+        }
+    }
+
+    public ImagePanel addOneLeftImage(int x, int y, int size) {
+        if (size > 20)
+            size = 20;
+        ImagePanel leftImage = new ImagePanel();
+        toPlace(leftImage,size,size,x,y);
+        panelFull.add(leftImage);
+        return leftImage;
+    }
+
+    public void changeLeftImage() {
+        for (ImagePanel imagePanel : leftImageArray)
+            imagePanel.setImageFile(null);
+        for (int i = 0; i < mainData.getLight().size(); i++) {
+            leftImageArray.get(mainData.getLight().get(i)).setImageFile("image/skills/leftLight.png");
+        }
+        getContentPane().setVisible(false);
+        getContentPane().setVisible(true);
     }
 
     private String selectionFile(String string) {
@@ -204,7 +222,7 @@ public class MainFrame extends JFrame {
 
     private void addSvgCanvasClass(ForconsList forconsList) {
         JSVGCanvas svgCanvasClass = new JSVGCanvas();
-        toPlace(svgCanvasClass,90,90,5,622);
+        toPlace(svgCanvasClass,100,100,0,620);
         svgCanvasClass.setBackground(new Color(0,0,0,0));
         forconsList.getList().addListSelectionListener(evt -> {
             if (!evt.getValueIsAdjusting() && forconsList.getList().getSelectedIndex() != -1) {
@@ -218,8 +236,8 @@ public class MainFrame extends JFrame {
     private void addSkillButtons(ForconsList forconsList, JTable table) {
         ArrayList<JSVGCanvas> skillSVGArray = new ArrayList<>();
         ArrayList<JButton> skillButtonsArray = new ArrayList<>();
-        int size = 90;
-        int strut = 10;
+        int size = 100;
+        int strut = 0;
         xFirstButton = (WIDTH - size*6 - strut*5)/2;
         int x = xFirstButton;
         for (int i = 0; i < 6; i++) {
@@ -265,35 +283,9 @@ public class MainFrame extends JFrame {
         });
     }
 
-    public void addLeftImage(JTable table, JPanel kostPanel, int cellSize) {
-        leftImageArray = new ArrayList<>();
-        for (int i = 0; i < table.getRowCount(); i++) {
-            leftImageArray.add(addOneLeftImage(kostPanel.getX()-cellSize,kostPanel.getY()+5+i*cellSize,cellSize));
-        }
-    }
-
-    public ImagePanel addOneLeftImage(int x, int y, int size) {
-        if (size > 20)
-            size = 20;
-        ImagePanel leftImage = new ImagePanel();
-        toPlace(leftImage,size,size,x,y);
-        panelFull.add(leftImage);
-        return leftImage;
-    }
-
-    public void changeLeftImage() {
-        for (ImagePanel imagePanel : leftImageArray)
-            imagePanel.setImageFile(null);
-        for (int i = 0; i < mainData.getLight().size(); i++) {
-            leftImageArray.get(mainData.getLight().get(i)).setImageFile("image/skills/leftLight.png");
-        }
-        getContentPane().setVisible(false);
-        getContentPane().setVisible(true);
-    }
-
     private JButton addOneSkillButton(int x, int size) {
         JButton skillButton = new JButton();
-        toPlace(skillButton,size,size,x,HEIGHT - size - 8);
+        toPlace(skillButton,size,size,x,HEIGHT - size);
         skillButton.setBorderPainted(false);
         skillButton.setContentAreaFilled(false);
         return skillButton;
@@ -301,7 +293,7 @@ public class MainFrame extends JFrame {
 
     private JSVGCanvas addOneSkillSVG(int x, int size) {
         JSVGCanvas canvas = new JSVGCanvas();
-        toPlace(canvas,size,size,x,HEIGHT - size - 8);
+        toPlace(canvas,size,size,x,HEIGHT - size);
         canvas.setBackground(new Color(0, 0, 0, 0));
         return canvas;
     }

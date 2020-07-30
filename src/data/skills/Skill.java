@@ -17,6 +17,10 @@ public class Skill {
         this.mainData = mainData;
     }
 
+    protected int getBuffAttack() {
+        return (int)Math.round(buffAttack);
+    }
+
     protected YX getRandomYX() {
         Random rand = new Random();
         Integer row = getRandomRow();

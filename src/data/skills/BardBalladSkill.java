@@ -10,8 +10,8 @@ public class BardBalladSkill extends Skill{
 
     @Override
     public boolean begin() {
-//        System.out.println(matrix.get(2).get(3).toStyle());
-//        buffAttack += 0.25;
+        buffAttack += 0.2;
+        System.out.println(buffAttack + " " + Math.round(buffAttack));
         return true;
     }
 }

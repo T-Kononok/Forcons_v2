@@ -3,7 +3,10 @@ package data.skills;
 import data.MainData;
 import data.Mark;
 import data.YX;
+import elements.SkillEffect;
 import elements.TableTimer;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -55,26 +58,30 @@ public class Skill {
             mark.onChange(imageFile,number);
     }
 
-    public boolean begin() {
+    public boolean begin() throws IOException {
         return true;
     }
 
-    protected void startFon(YX yx, String skillName) {
-        ArrayList<Mark> marks = new ArrayList<>();
-        for (int i = -1; i <= 1; i++) {
-            Mark leftMark = mainData.getMark(yx.getY()+i,yx.getX()-1);
-            marks.add(leftMark);
-            Mark centerMark = mainData.getMark(yx.getY()+i,yx.getX());
-            marks.add(centerMark);
-            Mark rightMark = mainData.getMark(yx.getY()+i,yx.getX()+1);
-            marks.add(rightMark);
-        }
-
-        for (int i = 0; i < marks.size(); i++) {
-            onChange(marks.get(i), "image/skills/" + skillName + ".png", i);
-        }
+    protected void startFon(YX rowCol, String skillName) throws IOException {
+//        ArrayList<Mark> marks = new ArrayList<>();
+//        for (int i = -1; i <= 1; i++) {
+//            Mark leftMark = mainData.getMark(yx.getY()+i,yx.getX()-1);
+//            marks.add(leftMark);
+//            Mark centerMark = mainData.getMark(yx.getY()+i,yx.getX());
+//            marks.add(centerMark);
+//            Mark rightMark = mainData.getMark(yx.getY()+i,yx.getX()+1);
+//            marks.add(rightMark);
+//        }
+//
+//        for (int i = 0; i < marks.size(); i++) {
+//            onChange(marks.get(i), "image/skills/" + skillName + ".png", i);
+//        }
         mainData.repaintTable();
-        TableTimer markTimer = new TableTimer(mainData,marks);
-        markTimer.start();
+//        TableTimer markTimer = new TableTimer(mainData,marks);
+//        markTimer.start();
+//        int size = mainData.getMainFrame().getCellSize() * 3;
+//        int y = rowCol.getY() * size;
+//        int x = rowCol.getX() * size;
+//        mainData.getMainFrame().getSkillsPanel().addEffect(new SkillEffect("image/skills/" + skillName + ".png",x,y,size,size));
     }
 }

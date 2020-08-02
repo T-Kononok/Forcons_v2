@@ -1,9 +1,7 @@
 package frame;
 
 import data.ForconsList;
-import data.JournalTableModel;
 import data.MainData;
-import data.Mark;
 import elements.*;
 
 import javax.swing.*;
@@ -39,27 +37,20 @@ public class MainFrame extends JFrame {
         panelFull.setLayout(null);
 
         ForconsList forconsList = new ForconsList();
-        //прозрачная таблица поверх таблицы дабы нельзя была нажимать,
-        // ибо обычное отключение не помогает
-        JTable kostTable = new JTable();
-        addKostComponent(kostTable);
-        //прозрачная панель с стандартным менеджером в которйо таблица
-        // ибо в других менеджерах появляются промежутки
-        JPanel kostPanel = new JPanel();
-        addKostComponent(kostPanel);
-        JTable table = addJournalTable(kostPanel);
-        mainData = new MainData(this, table,kostTable);
+
+        TableWithoutGaps tableWithoutGaps = new TableWithoutGaps(20,35,1035,585);
+        panelFull.add(tableWithoutGaps);
+
+        mainData = new MainData(this, tableWithoutGaps);
         addOpenButton(addCancelButton(),
-                kostTable,
-                kostPanel,
-                table,
+                tableWithoutGaps,
                 addForconsListScroll(forconsList),
                 addSortPointButtons(forconsList),
                 addSortClassButtons(forconsList),
                 forconsList);
 
         addSvgCanvasClass(forconsList);
-        addSkillButtons(forconsList,table);
+        addSkillButtons(forconsList);
         addNameLabel(forconsList);
         addSvgCanvasPoint(forconsList);
 
@@ -74,27 +65,6 @@ public class MainFrame extends JFrame {
 //        cancelButton.setContentAreaFilled(false);
         cancelButton.addActionListener(ev -> dispose());
         return cancelButton;
-    }
-
-    private void addKostComponent(JComponent component) {
-        toPlace(component, 1035, 585, 20, 35);
-        component.setBorder(BorderFactory.createEmptyBorder());
-        component.setBackground(new Color(0, 0, 0, 0));
-        component.setVisible(false);
-    }
-
-    private JTable addJournalTable(JPanel kostDownPanel) {
-        JTable journalTable = new JTable(new JournalTableModel());
-        journalTable.setDefaultRenderer(Mark.class, renderer);
-        journalTable.setSize(kostDownPanel.getSize());
-        kostDownPanel.add(journalTable);
-
-        journalTable.setVisible(false);
-        journalTable.setBorder(BorderFactory.createEmptyBorder());
-        journalTable.setBackground(new Color(0,0,0,0));
-        journalTable.setShowGrid(false);
-        journalTable.setIntercellSpacing(new Dimension(0, 0));
-        return journalTable;
     }
 
     private JScrollPane addForconsListScroll(ForconsList list) {
@@ -128,7 +98,7 @@ public class MainFrame extends JFrame {
         return sortClassButton;
     }
 
-    private void addOpenButton(JButton cancelButton, JTable kostTable, JPanel kostPanel, JTable table, JScrollPane pane, JButton pointButton,
+    private void addOpenButton(JButton cancelButton, TableWithoutGaps tableWithoutGaps, JScrollPane pane, JButton pointButton,
                                JButton classButton, ForconsList list) {
         Color zeroColor = new Color(0,0,0,0);
         OvalButton openButton = new OvalButton(OvalButton.SHAPE_OVAL,OvalButton.VERTICAL,zeroColor,zeroColor,zeroColor,zeroColor);
@@ -137,29 +107,28 @@ public class MainFrame extends JFrame {
         openButton.setPanel(panelFull);
         openButton.setMessageImage(addBeginMessageImage());
         openButton.addActionListener(ev -> {
-            mainData.readTable(table,selectionFile("Открыть жунал"));
-            int cellSize = resizeTable(table,kostTable,kostPanel);
-            renderer.setSize(cellSize);
+            mainData.readTable(selectionFile("Открыть жунал"));
+            tableWithoutGaps.resizeTable();
+            //тоже костыль
+            tableWithoutGaps.getRenderer().setSize(tableWithoutGaps.getCellSize());
             list.read(selectionFile("Открыть форсонов"));
-            addLeftImage(table,kostPanel,cellSize);
+            addLeftImage(tableWithoutGaps);
             cancelButton.setVisible(true);
-            kostTable.setVisible(true);
-            kostPanel.setVisible(true);
-            table.setVisible(true);
+            tableWithoutGaps.setVisible(true);
             pane.setVisible(true);
             pointButton.setVisible(true);
             classButton.setVisible(true);
             openButton.setVisible(false);
             openButton.setPanel(null);
             panelFull.setImageFile("image/fon2.jpg");
-//            panelFull.setLayout(null);
         });
     }
 
-    public void addLeftImage(JTable table, JPanel kostPanel, int cellSize) {
+    public void addLeftImage(TableWithoutGaps tableWithoutGaps) {
         leftImageArray = new ArrayList<>();
-        for (int i = 0; i < table.getRowCount(); i++) {
-            leftImageArray.add(addOneLeftImage(kostPanel.getX()-cellSize,kostPanel.getY()+5+i*cellSize,cellSize));
+        int cellSize = tableWithoutGaps.getCellSize();
+        for (int i = 0; i < tableWithoutGaps.getRowCount(); i++) {
+            leftImageArray.add(addOneLeftImage(tableWithoutGaps.getX()-cellSize, tableWithoutGaps.getY()+5+i*cellSize,cellSize));
         }
     }
 
@@ -201,39 +170,20 @@ public class MainFrame extends JFrame {
         return messageImage;
     }
 
-    private int resizeTable(JTable table, JTable kostTable, JPanel kostPanel){
-        int cellSize;
-        if (table.getColumnCount() > table.getRowCount() * kostTable.getWidth() / kostTable.getHeight()) {
-            cellSize = kostTable.getWidth() / table.getColumnCount();
-            table.setSize(kostTable.getWidth(), cellSize * table.getRowCount());
-            kostPanel.setSize(kostTable.getWidth(), cellSize * table.getRowCount());
-            kostPanel.setLocation(kostTable.getX(), kostTable.getY() + kostTable.getHeight()/2 - kostPanel.getHeight()/2);
-        } else {
-            cellSize = kostTable.getHeight() / table.getRowCount();
-            table.setSize(cellSize * table.getColumnCount(), kostTable.getHeight());
-            kostPanel.setSize(cellSize * table.getColumnCount(), kostTable.getHeight());
-            kostPanel.setLocation(kostTable.getX() + kostTable.getWidth()/2 - kostPanel.getWidth() / 2, kostTable.getY());
-        }
-        table.setRowHeight(cellSize);
-        for (int i = 0; i < table.getColumnCount(); i++)
-            table.getColumnModel().getColumn(i).setPreferredWidth(cellSize);
-        return cellSize;
-    }
-
     private void addSvgCanvasClass(ForconsList forconsList) {
         JSVGCanvas svgCanvasClass = new JSVGCanvas();
         toPlace(svgCanvasClass,100,100,0,620);
         svgCanvasClass.setBackground(new Color(0,0,0,0));
         forconsList.getList().addListSelectionListener(evt -> {
             if (!evt.getValueIsAdjusting() && forconsList.getList().getSelectedIndex() != -1) {
-                    String val = forconsList.getList().getSelectedValue();
-                    String[] subStr = val.split(",");
-                    svgCanvasClass.setURI("file:/D:/Джава/Forcons_v2/image/svg/" + subStr[0] + ".svg");
+                String val = forconsList.getList().getSelectedValue();
+                String[] subStr = val.split(",");
+                svgCanvasClass.setURI("file:/D:/Джава/Forcons_v2/image/svg/" + subStr[0] + ".svg");
             }
         });
     }
 
-    private void addSkillButtons(ForconsList forconsList, JTable table) {
+    private void addSkillButtons(ForconsList forconsList) {
         ArrayList<JSVGCanvas> skillSVGArray = new ArrayList<>();
         ArrayList<JButton> skillButtonsArray = new ArrayList<>();
         int size = 100;
@@ -246,11 +196,11 @@ public class MainFrame extends JFrame {
             x += size+strut;
         }
         xLastButton = x - strut;
-        addForconsListListener(forconsList,skillSVGArray,skillButtonsArray, table);
+        addForconsListListener(forconsList,skillSVGArray,skillButtonsArray);
     }
 
     private void addForconsListListener(ForconsList forconsList, ArrayList<JSVGCanvas> skillSVGArray,
-                                        ArrayList<JButton> skillButtonsArray, JTable table) {
+                                        ArrayList<JButton> skillButtonsArray) {
         ArrayList<SkillButtonActionListener> actionListenerArray = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             actionListenerArray.add(new SkillButtonActionListener());
@@ -310,7 +260,7 @@ public class MainFrame extends JFrame {
             nameLabel.setHorizontalAlignment(JLabel.CENTER);
             toPlace(nameLabel,xFirstButton-105,50,100,667-(50/2));
 
-    //        nameLabel.setBorder(BorderFactory.createLineBorder(Color.RED));
+            //        nameLabel.setBorder(BorderFactory.createLineBorder(Color.RED));
 
             forconsList.getList().addListSelectionListener(evt -> {
                 if (!evt.getValueIsAdjusting() && forconsList.getList().getSelectedIndex() != -1) {

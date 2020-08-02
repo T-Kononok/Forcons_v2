@@ -8,6 +8,7 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.*;
 
 public class JournalTableCellRenderer implements TableCellRenderer {
@@ -17,7 +18,7 @@ public class JournalTableCellRenderer implements TableCellRenderer {
     private final Map<String, JSVGCanvas> mapSVG = new HashMap<>();
     private final JLabel label = new JLabel();
 
-    public JournalTableCellRenderer(){
+    public JournalTableCellRenderer() throws IOException {
         panel.setLayout(null);
         panel.setBackground(new Color(0,0,0,0));
         try {
@@ -110,7 +111,7 @@ public class JournalTableCellRenderer implements TableCellRenderer {
             fon.onCut(mark.getNumber());
         else
             fon.offCut();
-        fon.setImageFile(mark.getChangeFonFile());
+//        fon.setImageFile(mark.getChangeFonFile());
         return panel;
     }
 

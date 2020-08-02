@@ -5,6 +5,7 @@ import data.skills.Skill;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class SkillButtonActionListener implements ActionListener {
     private Skill skill = null;
@@ -19,7 +20,11 @@ public class SkillButtonActionListener implements ActionListener {
 
     synchronized public void actionPerformed(ActionEvent e) {
         if (skill != null) {
-            skill.begin();
+            try {
+                skill.begin();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         }
     }
 

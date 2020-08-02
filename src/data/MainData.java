@@ -4,9 +4,9 @@ import data.skills.BardBalladSkill;
 import data.skills.SimpleAttackSkill;
 import data.skills.Skill;
 import data.skills.SmotrLightSkill;
+import elements.TableWithoutGaps;
 import frame.MainFrame;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,25 +14,20 @@ import java.util.Map;
 public class MainData {
 
     private final JournalTableModel model = new JournalTableModel();
-    private final JTable table;
-    private final JTable kostTable;
     private final MainFrame mainFrame;
+    private final TableWithoutGaps tableWithoutGaps;
     private ArrayList<ArrayList<Mark>> matrix = null;
-    private ArrayList<Integer> light = new ArrayList<>();
+    private final ArrayList<Integer> light = new ArrayList<>();
     Map<String, Map<Integer, Skill>> allSkillMap = new HashMap<>();
 
-    public MainData(MainFrame mainFrame, JTable table, JTable kostTable) {
+    public MainData(MainFrame mainFrame, TableWithoutGaps tableWithoutGaps) {
         this.mainFrame = mainFrame;
-        this.table = table;
-        this.kostTable = kostTable;
+        this.tableWithoutGaps = tableWithoutGaps;
         addSkillMap();
     }
 
-    public JTable getTable() {
-        return table;
-    }
-    public JTable getKostTable() {
-        return kostTable;
+    public MainFrame getMainFrame() {
+        return mainFrame;
     }
 
     public ArrayList<ArrayList<Mark>> getMatrix() {
@@ -60,11 +55,11 @@ public class MainData {
         return matrix.get(0).size();
     }
 
-    public void readTable(JTable table, String filename) {
+    public void readTable(String filename) {
         HSSFData hssfData = new HSSFData();
         matrix = hssfData.readHSSFJournal(filename);
         model.setMatrix(matrix);
-        table.setModel(model);
+        tableWithoutGaps.setModel(model);
     }
 
     public void addLight(int number) {
@@ -84,14 +79,15 @@ public class MainData {
     }
 
     public void repaintTable() {
-        table.setVisible(false);
-        kostTable.setVisible(false);
         model.setMatrix(matrix);
-        table.setVisible(true);
-        kostTable.setVisible(true);
+        tableWithoutGaps.repaint();
     }
 
-//    ///для проверок
+    public TableWithoutGaps getTableWithoutGaps() {
+        return tableWithoutGaps;
+    }
+
+    //    ///для проверок
 //    private ArrayList<ArrayList<Mark>> createMatrix(int startRow, int countRow,int startColumn, int countColumn) {
 //        ArrayList<ArrayList<Mark>> matrix2 = new ArrayList<>();
 //        for (int i = startRow; i < countRow; i++) {

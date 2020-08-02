@@ -4,6 +4,8 @@ import data.MainData;
 import data.Mark;
 import data.YX;
 
+import java.io.IOException;
+
 public class SimpleAttackSkill extends Skill {
 
     public final int damage;
@@ -31,7 +33,7 @@ public class SimpleAttackSkill extends Skill {
     }
 
     @Override
-    public boolean begin() {
+    public boolean begin() throws IOException {
         YX yx = getRandomMarkYX();
         Mark mark = mainData.getMark(yx);
         boolean noMiss = Math.random() < chance;

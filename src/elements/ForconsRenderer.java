@@ -1,8 +1,6 @@
 package elements;
 
 import org.apache.batik.swing.JSVGCanvas;
-import org.apache.batik.swing.gvt.GVTTreeRendererEvent;
-import org.apache.batik.swing.gvt.GVTTreeRendererListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,8 +12,7 @@ import java.util.Vector;
 
 public class ForconsRenderer implements ListCellRenderer<String> {
 
-    private final JPanel fonBack = new JPanel();
-    private final JPanel fonForeg = new JPanel();
+    private final ImagePanel fon = new ImagePanel("image/parchment.png");
     private final JLabel numberLabel = new JLabel();
     private final ReSizeLabel nameLabel = new ReSizeLabel();
     private final JLabel levelLabel = new JLabel();
@@ -25,7 +22,6 @@ public class ForconsRenderer implements ListCellRenderer<String> {
     private final Map<String, Integer> map = new HashMap<>();
 
     private Font basicFont;
-
 
     public ForconsRenderer() {
         try {
@@ -37,16 +33,15 @@ public class ForconsRenderer implements ListCellRenderer<String> {
         }
 
         inMap();
-        fonForeg.setBackground(Color.GRAY);
-        fonForeg.setPreferredSize(new Dimension(190, 60));
-        fonForeg.setLayout(null);
+        fon.setPreferredSize(new Dimension(200, 80));
+        fon.setLayout(null);
+        fon.setBackground(new Color(0, 0, 0, 0));
         addNumberLabel();
         addClassSVG();
         addNameLabel();
         addLevelLabel();
         addPointLabel();
         addPointSVG();
-        fonBack.add(fonForeg);
     }
 
     private void inMap() {
@@ -61,47 +56,15 @@ public class ForconsRenderer implements ListCellRenderer<String> {
         try {
             fontN = Font.createFont(Font.TRUETYPE_FONT, new BufferedInputStream(
                     new FileInputStream("American TextC Regular.ttf"))).
-                    deriveFont(Font.PLAIN, 10);
+                    deriveFont(Font.PLAIN, 15);
         } catch (Exception e) {
             e.printStackTrace();
         }
         numberLabel.setForeground(Color.BLACK);
         setAlignmentAndFont(numberLabel,fontN);
-        numberLabel.setSize(20, 60);
-        numberLabel.setLocation(0, 0);
-        fonForeg.add(numberLabel);
-    }
-
-    private void addNameLabel() {
-        nameLabel.setForeground(Color.BLACK);
-        setAlignmentAndFont(nameLabel,basicFont);
-        nameLabel.setSize(80, 30);
-        nameLabel.setLocation(80, 0);
-//        nameLabel.setBorder(BorderFactory.createLineBorder(Color.RED));
-        fonForeg.add(nameLabel);
-    }
-
-    private void addLevelLabel() {
-        levelLabel.setForeground(Color.BLACK);
-        setAlignmentAndFont(levelLabel,basicFont);
-        levelLabel.setSize(30, 30);
-        levelLabel.setLocation(160, 0);
-//        levelLabel.setBorder(BorderFactory.createLineBorder(Color.RED));
-        fonForeg.add(levelLabel);
-    }
-
-    private void addPointLabel() {
-        pointLabel.setForeground(Color.BLACK);
-        setAlignmentAndFont(pointLabel,basicFont);
-        pointLabel.setSize(110, 30);
-        pointLabel.setLocation(80, 30);
-        fonForeg.add(pointLabel);
-    }
-
-    private void setAlignmentAndFont(JLabel label, Font font) {
-        label.setFont(font);
-        label.setVerticalAlignment(JLabel.CENTER);
-        label.setHorizontalAlignment(JLabel.CENTER);
+        numberLabel.setSize(18, 60);
+        numberLabel.setLocation(2, 10);
+        fon.add(numberLabel);
     }
 
     private void addClassSVG() {
@@ -116,9 +79,41 @@ public class ForconsRenderer implements ListCellRenderer<String> {
         JSVGCanvas canvas = new JSVGCanvas();
         canvas.setBackground(new Color(0, 0, 0, 0));
         canvas.setSize(60, 60);
-        canvas.setLocation(20,0);
-        fonForeg.add(canvas);
+        canvas.setLocation(20,10);
+        fon.add(canvas);
         return canvas;
+    }
+
+    private void addNameLabel() {
+        nameLabel.setForeground(Color.BLACK);
+        setAlignmentAndFont(nameLabel,basicFont);
+        nameLabel.setSize(80, 30);
+        nameLabel.setLocation(80, 10);
+//        nameLabel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+        fon.add(nameLabel);
+    }
+
+    private void addLevelLabel() {
+        levelLabel.setForeground(Color.BLACK);
+        setAlignmentAndFont(levelLabel,basicFont);
+        levelLabel.setSize(30, 30);
+        levelLabel.setLocation(160, 10);
+//        levelLabel.setBorder(BorderFactory.createLineBorder(Color.RED));
+        fon.add(levelLabel);
+    }
+
+    private void addPointLabel() {
+        pointLabel.setForeground(Color.BLACK);
+        setAlignmentAndFont(pointLabel,basicFont);
+        pointLabel.setSize(110, 30);
+        pointLabel.setLocation(80, 40);
+        fon.add(pointLabel);
+    }
+
+    private void setAlignmentAndFont(JLabel label, Font font) {
+        label.setFont(font);
+        label.setVerticalAlignment(JLabel.CENTER);
+        label.setHorizontalAlignment(JLabel.CENTER);
     }
 
     private void addPointSVG() {
@@ -132,12 +127,10 @@ public class ForconsRenderer implements ListCellRenderer<String> {
         JSVGCanvas canvas = new JSVGCanvas();
         canvas.setBackground(new Color(0, 0, 0, 0));
         canvas.setSize(110, 30);
-        canvas.setLocation(80, 30);
-        fonForeg.add(canvas);
+        canvas.setLocation(80, 40);
+        fon.add(canvas);
         return canvas;
     }
-
-
 
     @Override
     public Component getListCellRendererComponent(JList<? extends String> jList, String s, int index, boolean isSelected, boolean cellHasFocus) {
@@ -148,14 +141,14 @@ public class ForconsRenderer implements ListCellRenderer<String> {
         nameLabel.setTextReSize(subStr[1],basicFont);
         rendLevel(subStr[2]);
         rendPoint(subStr[3]);
-        Color fonFors;
-        if (isSelected)
-            fonFors = new Color(218, 165, 32);
-        else
-            fonFors = new Color(192, 192, 192);
-        fonBack.setBackground(fonFors);
+//        Color fonFors;
+//        if (isSelected)
+//            fonFors = new Color(218, 165, 32);
+//        else
+//            fonFors = new Color(192, 192, 192);
+//        fonBack.setBackground(fonFors);
 
-        return fonBack;
+        return fon;
     }
 
     private void rendClass(String string) {

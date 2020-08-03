@@ -47,7 +47,6 @@ public class TableNoGaps extends JPanel{
         component.setLocation(x,y);
         component.setBorder(BorderFactory.createEmptyBorder());
 //        component.setBorder(BorderFactory.createLineBorder(Color.RED));
-        component.setBackground(new Color(0, 0, 0, 0));
         component.setOpaque(false);
     }
 

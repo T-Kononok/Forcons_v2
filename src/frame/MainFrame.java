@@ -37,7 +37,7 @@ public class MainFrame extends JFrame {
         panelFull.setLayout(null);
 
         ForconsList forconsList = new ForconsList();
-
+        forconsList.getList().setOpaque(false);
         tableNoGaps = new TableNoGaps(20,35,1035,585);
         panelFull.add(tableNoGaps.getSkillsPanel());
         panelFull.add(tableNoGaps);
@@ -74,8 +74,10 @@ public class MainFrame extends JFrame {
     private JScrollPane addForconsListScroll(ForconsList list) {
         JScrollPane forconsListScroll = new JScrollPane(list.getList());
         toPlace(forconsListScroll,220,585,1060,35);
-        forconsListScroll.setBackground(new Color(0, 0, 0, 0));
+        forconsListScroll.setOpaque(false);
+        forconsListScroll.getViewport().setOpaque(false);
         forconsListScroll.setVisible(false);
+//        forconsListScroll.setBorder(BorderFactory.createLineBorder(Color.RED));
         forconsListScroll.setBorder(BorderFactory.createEmptyBorder());
         forconsListScroll.getVerticalScrollBar().setUI(new ImageScrollBarUI());
         forconsListScroll.getVerticalScrollBar().setPreferredSize(new Dimension(18,580));
@@ -336,7 +338,6 @@ public class MainFrame extends JFrame {
         component.setLocation(x,y);
         panelFull.add(component);
     }
-
 
     public static void main(String[] args) throws IOException {
         MainFrame frame = new MainFrame();

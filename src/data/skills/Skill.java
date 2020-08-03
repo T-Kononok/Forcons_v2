@@ -78,8 +78,8 @@ public class Skill {
 //        TableTimer markTimer = new TableTimer(mainData,marks);
 //        markTimer.start();
         int size = mainData.getTableNoGaps().getCellSize();
-        int y = rowCol.getY() * size - size;
-        int x = rowCol.getX() * size - size;
+        int y = rowCol.getY() * size;
+        int x = rowCol.getX() * size;
         mainData.getSkillsPanel().addEffect(new SkillEffect("image/skills/" + skillName + ".png",
                 x,y,size*3,size*3));
     }

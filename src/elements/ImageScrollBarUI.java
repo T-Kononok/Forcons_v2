@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class ImageScrollBarUI extends BasicScrollBarUI {
 
-    private final Image imageTumb = new ImageIcon("image/tumb.jpg").getImage();
+    private final Image imageTumb = new ImageIcon("image/tumb.png").getImage();
     private final Image imageTrack = new ImageIcon("image/fon2.jpg").getImage();
     private final int SIZE = 18;
 

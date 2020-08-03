@@ -30,6 +30,8 @@ public class TableNoGaps extends JPanel{
         this.initialWidth = initialWidth;
         this.initialHeight = initialHeight;
 
+        setLayout(null);
+
         setSize(initialWidth, initialHeight);
         setComponent(this,initialX,initialY);
         setComponent(skillsPanel,initialX,initialY);
@@ -39,6 +41,14 @@ public class TableNoGaps extends JPanel{
         table.setDefaultRenderer(Mark.class, renderer);
         table.setShowGrid(false);
         table.setIntercellSpacing(new Dimension(0, 0));
+    }
+
+    private void setComponent(JComponent component, int x, int y) {
+        component.setLocation(x,y);
+        component.setBorder(BorderFactory.createEmptyBorder());
+//        component.setBorder(BorderFactory.createLineBorder(Color.RED));
+        component.setBackground(new Color(0, 0, 0, 0));
+        component.setOpaque(false);
     }
 
     public SkillsPanel getSkillsPanel(){
@@ -61,22 +71,15 @@ public class TableNoGaps extends JPanel{
         table.setModel(dataModel);
     }
 
-    private void setComponent(JComponent component, int x, int y) {
-        component.setLocation(x,y);
-        component.setBorder(BorderFactory.createEmptyBorder());
-        component.setBackground(new Color(0, 0, 0, 0));
-        component.setOpaque(false);
-    }
-
     public void setSize(int width, int height) {
         super.setSize(width,height);
         table.setSize(width,height);
-        skillsPanel.setSize(width,height);
+        skillsPanel.setSize(width+cellSize*2,height+cellSize*2);
     }
 
     public void setLocation(int x, int y) {
         super.setLocation(x,y);
-        skillsPanel.setLocation(x,y);
+        skillsPanel.setLocation(x - cellSize,y - cellSize);
     }
 
     public void setVisible(boolean bol){

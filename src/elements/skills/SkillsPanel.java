@@ -33,7 +33,7 @@ public class SkillsPanel extends JPanel {
 
     public void addEffect(SkillEffect skillEffect) {
         skillsThread.addEffect(skillEffect);
-        repaint(skillEffect.getX(),skillEffect.getY(),skillEffect.getWidth(),tableNoGaps.getHeight()-skillEffect.getY());
+        repaint(skillEffect.getX(),skillEffect.getY(),skillEffect.getWidth(),tableNoGaps.getSkillsPanel().getHeight()-skillEffect.getY());
     }
 
     public void paintComponent(Graphics g) {

@@ -74,6 +74,7 @@ public class MainFrame extends JFrame {
     private JScrollPane addForconsListScroll(ForconsList list) {
         JScrollPane forconsListScroll = new JScrollPane(list.getList());
         toPlace(forconsListScroll,220,585,1060,35);
+        forconsListScroll.setBackground(new Color(0, 0, 0, 0));
         forconsListScroll.setVisible(false);
         forconsListScroll.setBorder(BorderFactory.createEmptyBorder());
         forconsListScroll.getVerticalScrollBar().setUI(new ImageScrollBarUI());

@@ -37,7 +37,7 @@ public class SkillsThread extends Thread {
                         x = effects.get(i).getX();
                         y = effects.get(i).getY();
                         width = effects.get(i).getWidth();
-                        height = skillsPanel.getTable().getHeight()-effects.get(i).getY();
+                        height = skillsPanel.getHeight()-effects.get(i).getY();
                         effects.remove(effects.get(i));
                         System.out.println("repaint");
                         skillsPanel.repaint(x,y,width,height);

@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import elements.skills.SkillButtonActionListener;
 import org.apache.batik.swing.JSVGCanvas;
 
 public class MainFrame extends JFrame {
@@ -19,12 +20,11 @@ public class MainFrame extends JFrame {
     private static final int WIDTH = 1280;
     private static final int HEIGHT = 720;
     private final ImagePanel panelFull = new ImagePanel("image/begin_fon.jpg",false);
+    private final TableNoGaps tableNoGaps;
     private int xFirstButton;
     private int xLastButton;
-    private MainData mainData;
+    private final MainData mainData;
     private JFileChooser fileChooser = null;
-    private final JournalTableCellRenderer renderer = new JournalTableCellRenderer();
-    private static TableTimer tableTimer;
     private ArrayList<ImagePanel> leftImageArray = null;
 
     public ImagePanel getPanelFull() {
@@ -38,12 +38,13 @@ public class MainFrame extends JFrame {
 
         ForconsList forconsList = new ForconsList();
 
-        TableWithoutGaps tableWithoutGaps = new TableWithoutGaps(20,35,1035,585);
-        panelFull.add(tableWithoutGaps);
+        tableNoGaps = new TableNoGaps(20,35,1035,585);
+        panelFull.add(tableNoGaps.getSkillsPanel());
+        panelFull.add(tableNoGaps);
+        tableNoGaps.setVisible(false);
 
-        mainData = new MainData(this, tableWithoutGaps);
+        mainData = new MainData(this);
         addOpenButton(addCancelButton(),
-                tableWithoutGaps,
                 addForconsListScroll(forconsList),
                 addSortPointButtons(forconsList),
                 addSortClassButtons(forconsList),
@@ -63,7 +64,10 @@ public class MainFrame extends JFrame {
         cancelButton.setVisible(false);
         cancelButton.setBorderPainted(false);
 //        cancelButton.setContentAreaFilled(false);
-        cancelButton.addActionListener(ev -> dispose());
+        cancelButton.addActionListener(ev -> {
+            tableNoGaps.stopThread();
+            dispose();
+        });
         return cancelButton;
     }
 
@@ -98,7 +102,7 @@ public class MainFrame extends JFrame {
         return sortClassButton;
     }
 
-    private void addOpenButton(JButton cancelButton, TableWithoutGaps tableWithoutGaps, JScrollPane pane, JButton pointButton,
+    private void addOpenButton(JButton cancelButton, JScrollPane pane, JButton pointButton,
                                JButton classButton, ForconsList list) {
         Color zeroColor = new Color(0,0,0,0);
         OvalButton openButton = new OvalButton(OvalButton.SHAPE_OVAL,OvalButton.VERTICAL,zeroColor,zeroColor,zeroColor,zeroColor);
@@ -108,13 +112,14 @@ public class MainFrame extends JFrame {
         openButton.setMessageImage(addBeginMessageImage());
         openButton.addActionListener(ev -> {
             mainData.readTable(selectionFile("Открыть жунал"));
-            tableWithoutGaps.resizeTable();
+            tableNoGaps.resizeTable();
             //тоже костыль
-            tableWithoutGaps.getRenderer().setSize(tableWithoutGaps.getCellSize());
+            tableNoGaps.getRenderer().setSize(tableNoGaps.getCellSize());
             list.read(selectionFile("Открыть форсонов"));
-            addLeftImage(tableWithoutGaps);
+            addLeftImage(tableNoGaps);
             cancelButton.setVisible(true);
-            tableWithoutGaps.setVisible(true);
+            tableNoGaps.setVisible(true);
+            tableNoGaps.startThread();
             pane.setVisible(true);
             pointButton.setVisible(true);
             classButton.setVisible(true);
@@ -124,11 +129,15 @@ public class MainFrame extends JFrame {
         });
     }
 
-    public void addLeftImage(TableWithoutGaps tableWithoutGaps) {
+    public TableNoGaps getTableNoGaps() {
+        return tableNoGaps;
+    }
+
+    public void addLeftImage(TableNoGaps tableNoGaps) {
         leftImageArray = new ArrayList<>();
-        int cellSize = tableWithoutGaps.getCellSize();
-        for (int i = 0; i < tableWithoutGaps.getRowCount(); i++) {
-            leftImageArray.add(addOneLeftImage(tableWithoutGaps.getX()-cellSize, tableWithoutGaps.getY()+5+i*cellSize,cellSize));
+        int cellSize = tableNoGaps.getCellSize();
+        for (int i = 0; i < tableNoGaps.getRowCount(); i++) {
+            leftImageArray.add(addOneLeftImage(tableNoGaps.getX()-cellSize, tableNoGaps.getY()+5+i*cellSize,cellSize));
         }
     }
 
@@ -143,12 +152,12 @@ public class MainFrame extends JFrame {
 
     public void changeLeftImage() {
         for (ImagePanel imagePanel : leftImageArray)
-            imagePanel.setImageFile(null);
+            imagePanel.setVisible(false);
         for (int i = 0; i < mainData.getLight().size(); i++) {
             leftImageArray.get(mainData.getLight().get(i)).setImageFile("image/skills/leftLight.png");
+            leftImageArray.get(mainData.getLight().get(i)).setVisible(true);
+            leftImageArray.get(mainData.getLight().get(i)).repaint();
         }
-        getContentPane().setVisible(false);
-        getContentPane().setVisible(true);
     }
 
     private String selectionFile(String string) {
@@ -326,6 +335,7 @@ public class MainFrame extends JFrame {
         component.setLocation(x,y);
         panelFull.add(component);
     }
+
 
     public static void main(String[] args) throws IOException {
         MainFrame frame = new MainFrame();

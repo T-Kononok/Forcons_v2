@@ -1,4 +1,4 @@
-package elements;
+package elements.skills;
 
 import data.YX;
 
@@ -10,16 +10,24 @@ import java.io.IOException;
 
 public class SkillEffect {
 
+    private static int StatNumber = 0;
+    private final int number;
+
     private final BufferedImage image;
     private final int x;
     private final int y;
-    private int time = 10;
+    private final int width;
+    private final int height;
+    private int time = 100;
 
     public SkillEffect(String filename, int x, int y, int width, int height) throws IOException {
+        StatNumber++;
+        number = StatNumber;
         this.x = x;
         this.y = y;
-        File file = new File(filename);
-        BufferedImage readImage = ImageIO.read(file);
+        this.width = width;
+        this.height = height;
+        BufferedImage readImage = ImageIO.read(new File(filename));
         image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = image.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_RENDERING,
@@ -30,17 +38,12 @@ public class SkillEffect {
         g2.dispose();
     }
 
-    public void write() {
-        System.out.println(time);
+    public int getWidth(){
+        return width;
     }
 
-    public void paint(Graphics2D g) {
-        g.drawImage(image, x, y, null);
-    }
-
-    public boolean minusTime() {
-        time--;
-        return time > 0;
+    public int getHeight() {
+        return height;
     }
 
     public YX getYX() {
@@ -57,5 +60,18 @@ public class SkillEffect {
 
     public BufferedImage getImage() {
         return image;
+    }
+
+    public void write() {
+        System.out.println(number + " : " + time);
+    }
+
+    public boolean minusTime() {
+        time--;
+        return time > 0;
+    }
+
+    public void paint(Graphics2D g) {
+        g.drawImage(image, x, y, null);
     }
 }

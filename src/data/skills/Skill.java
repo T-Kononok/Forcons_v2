@@ -3,11 +3,9 @@ package data.skills;
 import data.MainData;
 import data.Mark;
 import data.YX;
-import elements.SkillEffect;
-import elements.TableTimer;
+import elements.skills.SkillEffect;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class Skill {
@@ -76,12 +74,13 @@ public class Skill {
 //        for (int i = 0; i < marks.size(); i++) {
 //            onChange(marks.get(i), "image/skills/" + skillName + ".png", i);
 //        }
-        mainData.repaintTable();
+//        mainData.repaintTable();
 //        TableTimer markTimer = new TableTimer(mainData,marks);
 //        markTimer.start();
-//        int size = mainData.getMainFrame().getCellSize() * 3;
-//        int y = rowCol.getY() * size;
-//        int x = rowCol.getX() * size;
-//        mainData.getMainFrame().getSkillsPanel().addEffect(new SkillEffect("image/skills/" + skillName + ".png",x,y,size,size));
+        int size = mainData.getTableNoGaps().getCellSize();
+        int y = rowCol.getY() * size - size;
+        int x = rowCol.getX() * size - size;
+        mainData.getSkillsPanel().addEffect(new SkillEffect("image/skills/" + skillName + ".png",
+                x,y,size*3,size*3));
     }
 }

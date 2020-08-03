@@ -38,18 +38,18 @@ public class SimpleAttackSkill extends Skill {
         Mark mark = mainData.getMark(yx);
         boolean noMiss = Math.random() < chance;
         if (noMiss) {
-            System.out.print(skillName + " " + mark.get() + "->");
+//            System.out.print(skillName + " " + mark.get() + "->");
             if (Math.random() < critChance) {
-                System.out.print("(крит)");
+//                System.out.print("(крит)");
                 mark.minus(critDamage);
                 startFon(yx, skillName + "Crit");
             } else {
                 mark.minus(damage + getBuffAttack());
                 startFon(yx, skillName);
             }
-            System.out.println(mark.get());
+//            System.out.println(mark.get());
         } else {
-            System.out.print(skillName + " промах");
+//            System.out.println(skillName + " промах");
             startFon(yx,skillName + "Miss");
         }
         return true;

@@ -4,7 +4,8 @@ import data.skills.BardBalladSkill;
 import data.skills.SimpleAttackSkill;
 import data.skills.Skill;
 import data.skills.SmotrLightSkill;
-import elements.TableWithoutGaps;
+import elements.skills.SkillsPanel;
+import elements.TableNoGaps;
 import frame.MainFrame;
 
 import java.util.ArrayList;
@@ -15,19 +16,23 @@ public class MainData {
 
     private final JournalTableModel model = new JournalTableModel();
     private final MainFrame mainFrame;
-    private final TableWithoutGaps tableWithoutGaps;
+    private final TableNoGaps tableNoGaps;
     private ArrayList<ArrayList<Mark>> matrix = null;
     private final ArrayList<Integer> light = new ArrayList<>();
     Map<String, Map<Integer, Skill>> allSkillMap = new HashMap<>();
 
-    public MainData(MainFrame mainFrame, TableWithoutGaps tableWithoutGaps) {
+    public MainData(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
-        this.tableWithoutGaps = tableWithoutGaps;
+        this.tableNoGaps = mainFrame.getTableNoGaps();
         addSkillMap();
     }
 
     public MainFrame getMainFrame() {
         return mainFrame;
+    }
+
+    public SkillsPanel getSkillsPanel() {
+        return tableNoGaps.getSkillsPanel();
     }
 
     public ArrayList<ArrayList<Mark>> getMatrix() {
@@ -59,7 +64,7 @@ public class MainData {
         HSSFData hssfData = new HSSFData();
         matrix = hssfData.readHSSFJournal(filename);
         model.setMatrix(matrix);
-        tableWithoutGaps.setModel(model);
+        tableNoGaps.setModel(model);
     }
 
     public void addLight(int number) {
@@ -78,13 +83,13 @@ public class MainData {
         return false;
     }
 
-    public void repaintTable() {
-        model.setMatrix(matrix);
-        tableWithoutGaps.repaint();
-    }
+//    public void repaintTable() {
+//        model.setMatrix(matrix);
+//        tableNoGaps.repaint();
+//    }
 
-    public TableWithoutGaps getTableWithoutGaps() {
-        return tableWithoutGaps;
+    public TableNoGaps getTableNoGaps() {
+        return tableNoGaps;
     }
 
     //    ///для проверок

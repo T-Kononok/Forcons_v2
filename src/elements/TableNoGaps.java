@@ -2,15 +2,17 @@ package elements;
 
 import data.JournalTableModel;
 import data.Mark;
+import elements.skills.SkillsPanel;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.io.IOException;
 
-public class TableWithoutGaps extends JPanel{
+public class TableNoGaps extends JPanel{
 
     private final JTable table = new JTable(new JournalTableModel());
+    private final SkillsPanel skillsPanel = new SkillsPanel(this);
 
     private final int initialX;
     private final int initialY;
@@ -21,7 +23,7 @@ public class TableWithoutGaps extends JPanel{
 
     private final JournalTableCellRenderer renderer = new JournalTableCellRenderer();
 
-    public TableWithoutGaps(int initialX, int initialY, int initialWidth, int initialHeight) throws IOException {
+    public TableNoGaps(int initialX, int initialY, int initialWidth, int initialHeight) throws IOException {
         super();
         this.initialX = initialX;
         this.initialY = initialY;
@@ -30,13 +32,33 @@ public class TableWithoutGaps extends JPanel{
 
         setSize(initialWidth, initialHeight);
         setComponent(this,initialX,initialY);
+        setComponent(skillsPanel,initialX,initialY);
         setComponent(table,0,0);
         add(table);
 
         table.setDefaultRenderer(Mark.class, renderer);
         table.setShowGrid(false);
         table.setIntercellSpacing(new Dimension(0, 0));
-        setVisible(false);
+    }
+
+    public SkillsPanel getSkillsPanel(){
+        return skillsPanel;
+    }
+
+    public JournalTableCellRenderer getRenderer() {
+        return renderer;
+    }
+
+    public int getRowCount() {
+        return table.getRowCount();
+    }
+
+    public int getCellSize(){
+        return cellSize;
+    }
+
+    public void setModel(TableModel dataModel){
+        table.setModel(dataModel);
     }
 
     private void setComponent(JComponent component, int x, int y) {
@@ -49,22 +71,17 @@ public class TableWithoutGaps extends JPanel{
     public void setSize(int width, int height) {
         super.setSize(width,height);
         table.setSize(width,height);
+        skillsPanel.setSize(width,height);
     }
 
     public void setLocation(int x, int y) {
         super.setLocation(x,y);
+        skillsPanel.setLocation(x,y);
     }
 
-    public int getRowCount() {
-        return table.getRowCount();
-    }
-
-    public void setModel(TableModel dataModel){
-        table.setModel(dataModel);
-    }
-
-    public int getCellSize(){
-        return cellSize;
+    public void setVisible(boolean bol){
+        super.setVisible(bol);
+        skillsPanel.setVisible(bol);
     }
 
     public void resizeTable(){
@@ -82,12 +99,12 @@ public class TableWithoutGaps extends JPanel{
             table.getColumnModel().getColumn(i).setPreferredWidth(cellSize);
     }
 
-    public JournalTableCellRenderer getRenderer() {
-        return renderer;
+    public void startThread(){
+        skillsPanel.startThread();
     }
 
-//    public void repaintTable(){
-//        repaint();
-//    }
+    public void stopThread(){
+        skillsPanel.stopThread();
+    }
 
 }

@@ -1,8 +1,7 @@
-package elements;
+package elements.skills;
 
 import data.skills.Skill;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;

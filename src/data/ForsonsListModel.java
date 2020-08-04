@@ -1,14 +1,48 @@
 package data;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class SortForconsArray {
+public class ForsonsListModel extends AbstractListModel<String>
+{
+    private final ArrayList<String> array = new ArrayList<>();
 
-    private final ArrayList<String> array  = new ArrayList <>();
+    public int getSize() {
+        return array.size();
+    }
 
-    public ArrayList <String> getArray() {
-        return array;
+    public String getElementAt(int i) {
+        return array.get(i);
+    }
+
+    public String get(int i) {
+        return getElementAt(i);
+    }
+
+    public void add(int index, String string) {
+        array.add(index, string);
+        fireIntervalAdded(this, index, index);
+    }
+
+    public void add(String s) {
+        array.add(s);
+        fireIntervalAdded(this, array.size(), array.size());
+    }
+
+    public void set(int index, String string) {
+        array.set(index, string);
+        fireContentsChanged(this, index, index);
+    }
+
+    public void remove(int i) {
+        array.remove(i);
+        fireIntervalRemoved(this, i, i);
+    }
+
+    public void clear() {
+        array.clear();
+        fireIntervalRemoved(this, 0, array.size());
     }
 
     public void sortPoint() {
@@ -24,6 +58,7 @@ public class SortForconsArray {
                 return 1;
         };
         array.sort(comparatorPoint);
+        fireContentsChanged(this, 0, array.size());
     }
 
     public void sortClass() {
@@ -62,5 +97,6 @@ public class SortForconsArray {
             }
         };
         array.sort(comparatorClass);
+        fireContentsChanged(this, 0, array.size());
     }
 }

@@ -12,6 +12,7 @@ import java.util.Vector;
 
 public class ForconsRenderer implements ListCellRenderer<String> {
 
+    private final JPanel fon2 = new JPanel();
     private final ImagePanel fon = new ImagePanel("image/parchment.png");
     private final JLabel numberLabel = new JLabel();
     private final ReSizeLabel nameLabel = new ReSizeLabel();
@@ -33,7 +34,7 @@ public class ForconsRenderer implements ListCellRenderer<String> {
         }
 
         inMap();
-        fon.setPreferredSize(new Dimension(200, 80));
+        fon.setSize(new Dimension(200, 80));
         fon.setLayout(null);
         fon.setBackground(new Color(0, 0, 0, 0));
         addNumberLabel();
@@ -42,6 +43,12 @@ public class ForconsRenderer implements ListCellRenderer<String> {
         addLevelLabel();
         addPointLabel();
         addPointSVG();
+
+        fon2.setPreferredSize(new Dimension(200, 80));
+        fon2.setLayout(null);
+        fon2.setBackground(new Color(0, 0, 0, 0));
+        fon.setLocation(0,0);
+        fon2.add(fon);
     }
 
     private void inMap() {
@@ -141,14 +148,13 @@ public class ForconsRenderer implements ListCellRenderer<String> {
         nameLabel.setTextReSize(subStr[1],basicFont);
         rendLevel(subStr[2]);
         rendPoint(subStr[3]);
-//        Color fonFors;
-//        if (isSelected)
-//            fonFors = new Color(218, 165, 32);
-//        else
-//            fonFors = new Color(192, 192, 192);
-//        fonBack.setBackground(fonFors);
 
-        return fon;
+        if (isSelected)
+            fon2.setBackground(new Color(0, 0, 0, 255));
+        else
+            fon2.setBackground(new Color(0, 0, 0, 0));
+
+        return fon2;
     }
 
     private void rendClass(String string) {

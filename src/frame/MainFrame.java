@@ -43,7 +43,7 @@ public class MainFrame extends JFrame {
         panelFull.add(tableNoGaps);
         tableNoGaps.setVisible(false);
 
-        mainData = new MainData(this);
+        mainData = new MainData(this,forconsList);
         addOpenButton(addCancelButton(),
                 addForconsListScroll(forconsList),
                 addSortPointButtons(forconsList),
@@ -220,8 +220,8 @@ public class MainFrame extends JFrame {
         }
 
         forconsList.getList().addListSelectionListener(evt -> {
-            if (!evt.getValueIsAdjusting() && forconsList.getList().getSelectedIndex() != -1) {
-                String val = forconsList.getList().getSelectedValue();
+            if (evt.getValueIsAdjusting() && forconsList.getSelectedIndex() != -1) {
+                String val = forconsList.getSelectedValue();
                 String[] subStr = val.split(",");
                 for (int i = 0; i < 6; i++) {
                     skillSVGArray.get(i).setVisible(false);
@@ -234,11 +234,13 @@ public class MainFrame extends JFrame {
                     countSkill = 5;
                 if (subStr[2].equals("3"))
                     countSkill = 6;
+                //ускорить процесс
                 for (int i = 0; i < countSkill; i++) {
                     skillSVGArray.get(i).setVisible(true);
                     skillButtonsArray.get(i).setVisible(true);
                     skillSVGArray.get(i).setURI(
                             "file:/D:/Джава/Forcons_v2/image/svg/" + subStr[0] + "Skill" + (i+1) + ".svg");
+//                    mainData.setIndexSelectForcon();
                     actionListenerArray.get(i).setSkill(mainData.getSkill(subStr[0],(i+1)));
                 }
             }

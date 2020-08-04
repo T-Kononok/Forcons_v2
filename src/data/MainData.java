@@ -15,16 +15,27 @@ import java.util.Map;
 public class MainData {
 
     private final JournalTableModel model = new JournalTableModel();
+    private final ForconsList forconsList;
     private final MainFrame mainFrame;
     private final TableNoGaps tableNoGaps;
     private ArrayList<ArrayList<Mark>> matrix = null;
     private final ArrayList<Integer> light = new ArrayList<>();
-    Map<String, Map<Integer, Skill>> allSkillMap = new HashMap<>();
+    private final Map<String, Map<Integer, Skill>> allSkillMap = new HashMap<>();
+    private int indexSelectForcon;
 
-    public MainData(MainFrame mainFrame) {
+    public MainData(MainFrame mainFrame, ForconsList forconsList) {
         this.mainFrame = mainFrame;
         this.tableNoGaps = mainFrame.getTableNoGaps();
+        this.forconsList = forconsList;
         addSkillMap();
+    }
+
+    public void setIndexSelectForcon(int index) {
+        indexSelectForcon = index;
+    }
+
+    public int getIndexSelectForcon() {
+        return indexSelectForcon;
     }
 
     public MainFrame getMainFrame() {

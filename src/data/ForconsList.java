@@ -17,6 +17,7 @@ public class ForconsList {
         forconsList.setModel(forconsListModel);
         forconsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         forconsList.setCellRenderer(new ForconsRenderer());
+        forconsList.setOpaque(false);
     }
 
     public JList<String> getList(){

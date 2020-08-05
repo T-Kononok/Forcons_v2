@@ -76,15 +76,16 @@ public class MainData {
         matrix = hssfData.readHSSFJournal(filename);
         model.setMatrix(matrix);
         tableNoGaps.setModel(model);
+        tableNoGaps.resizeTable();
     }
 
     public void addLight(int number) {
-        System.out.println(getSize() + " " + number);
+//        System.out.println(getSize() + " " + number);
         if (number >= 0 && number < getSize())
             light.add(number);
         else
             System.out.println("Ошибка addLight");
-        mainFrame.changeLeftImage();
+//        mainFrame.changeLeftImage();
     }
 
     public boolean lightContains(int row) {

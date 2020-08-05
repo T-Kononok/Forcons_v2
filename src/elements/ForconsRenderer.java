@@ -15,7 +15,7 @@ public class ForconsRenderer implements ListCellRenderer<String> {
     private final JPanel fon2 = new JPanel();
     private final ImagePanel fon = new ImagePanel("image/parchment.png");
     private final JLabel numberLabel = new JLabel();
-    private final ReSizeLabel nameLabel = new ReSizeLabel();
+    private final ReSizeLabel nameLabel;
     private final JLabel levelLabel = new JLabel();
     private final JLabel pointLabel = new JLabel();
     private final Vector<JSVGCanvas> vectorClassSVG = new Vector<>();
@@ -32,6 +32,7 @@ public class ForconsRenderer implements ListCellRenderer<String> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        nameLabel = new ReSizeLabel(basicFont);
 
         inMap();
         fon.setSize(new Dimension(200, 80));
@@ -145,7 +146,7 @@ public class ForconsRenderer implements ListCellRenderer<String> {
         String[] subStr = s.split(",");
         numberLabel.setText((index+1)+"");
         rendClass(subStr[0]);
-        nameLabel.setTextReSize(subStr[1],basicFont);
+        nameLabel.setTextReSize(subStr[1]);
         rendLevel(subStr[2]);
         rendPoint(subStr[3]);
 

@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class TableNoGaps extends JPanel{
 
@@ -54,6 +55,11 @@ public class TableNoGaps extends JPanel{
         return skillsPanel;
     }
 
+    public void addIn(JComponent component) {
+        component.add(getSkillsPanel());
+        component.add(this);
+    }
+
     public JournalTableCellRenderer getRenderer() {
         return renderer;
     }
@@ -73,12 +79,12 @@ public class TableNoGaps extends JPanel{
     public void setSize(int width, int height) {
         super.setSize(width,height);
         table.setSize(width,height);
-        skillsPanel.setSize(width+cellSize*2,height+cellSize*2);
+        skillsPanel.setSize(width+cellSize*3,height+cellSize*2);
     }
 
     public void setLocation(int x, int y) {
         super.setLocation(x,y);
-        skillsPanel.setLocation(x - cellSize,y - cellSize);
+        skillsPanel.setLocation(x - cellSize * 2,y - cellSize);
     }
 
     public void setVisible(boolean bol){
@@ -86,19 +92,29 @@ public class TableNoGaps extends JPanel{
         skillsPanel.setVisible(bol);
     }
 
+//    public  ArrayList<ImagePanel> getLeftImages() {
+//        ArrayList<ImagePanel> leftImages = new ArrayList<>();
+//        int cellSize = tableNoGaps.getCellSize();
+//        for (int i = 0; i < tableNoGaps.getRowCount(); i++) {
+//            leftImageArray.add(addOneLeftImage(tableNoGaps.getX()-cellSize, tableNoGaps.getY()+5+i*cellSize,cellSize));
+//        }
+//    }
+
     public void resizeTable(){
-        if (table.getColumnCount() * initialHeight > table.getRowCount() * initialWidth) {
-            cellSize = initialWidth / table.getColumnCount();
+        if (table.getColumnCount() * initialHeight > table.getRowCount() * (initialWidth - cellSize)) {
+            cellSize = (initialWidth - cellSize) / table.getColumnCount();
             setSize(initialWidth, cellSize * table.getRowCount());
-            setLocation(initialX, initialY + initialHeight/2 - getHeight()/2);
+            setLocation(initialX+cellSize, initialY + initialHeight/2 - getHeight()/2);
         } else {
             cellSize = initialHeight / table.getRowCount();
             setSize(cellSize * table.getColumnCount(), initialHeight);
-            setLocation(initialX + initialWidth/2 - getWidth() / 2, initialY);
+            setLocation(initialX + initialWidth/2 - getWidth() / 2 + cellSize, initialY);
         }
         table.setRowHeight(cellSize);
         for (int i = 0; i < table.getColumnCount(); i++)
             table.getColumnModel().getColumn(i).setPreferredWidth(cellSize);
+
+        renderer.setSize(cellSize);
     }
 
     public void startThread(){

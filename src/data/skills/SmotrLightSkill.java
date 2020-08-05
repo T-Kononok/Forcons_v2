@@ -1,6 +1,9 @@
 package data.skills;
 
 import data.MainData;
+import data.YX;
+
+import java.io.IOException;
 
 public class SmotrLightSkill extends Skill{
 
@@ -9,7 +12,7 @@ public class SmotrLightSkill extends Skill{
     }
 
     @Override
-    public boolean begin() {
+    public boolean begin() throws IOException {
         if (mainData.getLight().size() == 24)
             return false;
         int row;
@@ -17,7 +20,8 @@ public class SmotrLightSkill extends Skill{
             row = getRandomRow();
         } while (mainData.lightContains(row));
         mainData.addLight(row);
-        System.out.println("addLight" + row);
+        startFon(new YX(row,-2), "smotrLight",2,1,true);
+//        System.out.println("addLight" + row);
         return true;
     }
 }

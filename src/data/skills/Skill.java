@@ -33,7 +33,7 @@ public class Skill {
         int row = rand.nextInt(mainData.getSize()+mainData.getLight().size());
         if (row >= mainData.getSize()) {
             row = mainData.getLight().get(row - mainData.getSize());
-            System.out.println("light");
+//            System.out.println("light");
         }
         return row;
     }
@@ -47,7 +47,7 @@ public class Skill {
             yx.setX(rand.nextInt(mainData.getRowSize()));
             mark = mainData.getMark(yx);
         } while (mark.get() == 0);
-        System.out.println("row "+ yx.getY() + " col "+ yx.getX());
+//        System.out.println("row "+ yx.getY() + " col "+ yx.getX());
         return yx;
     }
 
@@ -61,26 +61,32 @@ public class Skill {
     }
 
     protected void startFon(YX rowCol, String skillName) throws IOException {
-//        ArrayList<Mark> marks = new ArrayList<>();
-//        for (int i = -1; i <= 1; i++) {
-//            Mark leftMark = mainData.getMark(yx.getY()+i,yx.getX()-1);
-//            marks.add(leftMark);
-//            Mark centerMark = mainData.getMark(yx.getY()+i,yx.getX());
-//            marks.add(centerMark);
-//            Mark rightMark = mainData.getMark(yx.getY()+i,yx.getX()+1);
-//            marks.add(rightMark);
-//        }
-//
-//        for (int i = 0; i < marks.size(); i++) {
-//            onChange(marks.get(i), "image/skills/" + skillName + ".png", i);
-//        }
-//        mainData.repaintTable();
-//        TableTimer markTimer = new TableTimer(mainData,marks);
-//        markTimer.start();
+        mainData.getSkillsPanel().addEffect(getStandardSizeEffect(rowCol, skillName));
+    }
+
+    protected void startFon(YX rowCol, String skillName, boolean endlessly) throws IOException {
+        SkillEffect skillEffect = getStandardSizeEffect(rowCol, skillName);
+        if (endlessly)
+            skillEffect.onEndlessly();
+        mainData.getSkillsPanel().addEffect(skillEffect);
+    }
+
+    protected SkillEffect getStandardSizeEffect(YX rowCol, String skillName) throws IOException {
         int size = mainData.getTableNoGaps().getCellSize();
         int y = rowCol.getY() * size;
-        int x = rowCol.getX() * size;
-        mainData.getSkillsPanel().addEffect(new SkillEffect("image/skills/" + skillName + ".png",
-                x,y,size*3,size*3));
+        int x = rowCol.getX() * size + size;
+        return new SkillEffect("image/skills/" + skillName + ".png",
+                x,y,size*3,size*3);
+    }
+
+    protected void startFon(YX rowCol, String skillName, int width, int height, boolean endlessly) throws IOException {
+        int size = mainData.getTableNoGaps().getCellSize();
+        int y = rowCol.getY() * size + size;
+        int x = rowCol.getX() * size + size * 2;
+        SkillEffect skillEffect = new SkillEffect("image/skills/" + skillName + ".png",
+                x,y,size*width,size*height);
+        if (endlessly)
+            skillEffect.onEndlessly();
+        mainData.getSkillsPanel().addEffect(skillEffect);
     }
 }

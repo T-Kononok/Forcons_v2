@@ -9,7 +9,15 @@ import java.io.IOException;
 
 public class ReSizeLabel extends JLabel {
 
-    public void setTextReSize(String string, Font font) {
+    private final Font font;
+
+    public ReSizeLabel(Font font) {
+        super();
+        this.font = font;
+        setFont(font);
+    }
+
+    public void setTextReSize(String string) {
         setText(string.replace(' ', '_'));
         double textWidth = getFontMetrics(font).stringWidth(getText());
         setText(string);

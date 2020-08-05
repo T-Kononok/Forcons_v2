@@ -60,7 +60,7 @@ public class OvalButton extends JButton implements MouseListener, MouseMotionLis
      * @param orientation Orientation of the button. Select one of the constants.
      */
     public OvalButton(int shape, int orientation) {
-        this(shape, orientation, Color.WHITE, Color.LIGHT_GRAY, Color.BLACK, Color.RED);
+        this(shape, orientation, new Color(0,0,0,0), new Color(0,0,0,0), new Color(0,0,0,0), new Color(0,0,0,0));
     }
 
     /**
@@ -519,51 +519,51 @@ public class OvalButton extends JButton implements MouseListener, MouseMotionLis
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (isValidClickPosition(e.getLocationOnScreen())) {
-            currentBackground = colorHighlighted.darker();
-        }
-        repaint();
+//        if (isValidClickPosition(e.getLocationOnScreen())) {
+//            currentBackground = colorHighlighted.darker();
+//        }
+//        repaint();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         if (isValidClickPosition(e.getLocationOnScreen())) {
             if (panel != null)
-                panel.setImageFile("image/begin_fon_highlighted.jpg");
+                panel.setVisible(true);
             if (message != null)
                 message.setVisible(true);
-            currentBackground = colorHighlighted;
+//            currentBackground = colorHighlighted;
         }
         else {
             if (panel != null)
-                panel.setImageFile("image/begin_fon.jpg");
+                panel.setVisible(false);
             if (message != null)
                 message.setVisible(false);
-            currentBackground = colorNormal;
+//            currentBackground = colorNormal;
         }
-        repaint();
+//        repaint();
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
         if (isValidClickPosition(e.getLocationOnScreen())) {
             if (panel != null)
-                panel.setImageFile("image/begin_fon_highlighted.jpg");
+                panel.setVisible(true);
             if (message != null)
                 message.setVisible(true);
-            currentBackground = colorHighlighted;
+//            currentBackground = colorHighlighted;
         }
-        repaint();
+//        repaint();
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
         if (panel != null)
-            panel.setImageFile("image/begin_fon.jpg");
+            panel.setVisible(false);
         if (message != null)
             message.setVisible(false);
-        currentBackground = colorNormal;
-        repaint();
+//        currentBackground = colorNormal;
+//        repaint();
     }
 
     @Override

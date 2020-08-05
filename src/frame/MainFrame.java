@@ -167,13 +167,13 @@ public class MainFrame extends JFrame {
 
         Map<String, JSVGCanvas> classCanvases = addClassCanvases();
 
+        ReSizeLabel nameLabel = addLabel(225,100,110,620);
+
         int initialX = 340;
         int size = 100;
         Map<Integer, JButton> skillButtons = addSkillButtons(initialX,size);
         Map<Integer,Map<String, JSVGCanvas>> skillCanvases = addSkillCanvases(initialX,size);
         ArrayList<SkillButtonActionListener> actionListeners = addActionListeners(skillButtons);
-
-        ReSizeLabel nameLabel = addLabel(220,100,110,620);
 
         Map<Integer,JSVGCanvas> pointsCanvases = addPointsCanvases();
         ReSizeLabel pointsLabel = addLabel(
@@ -184,6 +184,9 @@ public class MainFrame extends JFrame {
 
         forconsList.getList().addListSelectionListener(evt -> {
             if (evt.getValueIsAdjusting() && forconsList.getSelectedIndex() != -1) {
+
+                mainData.setIndexSelectForcon(forconsList.getSelectedIndex());
+
                 String val = forconsList.getSelectedValue();
                 String[] subStr = val.split(",");
 
@@ -250,7 +253,7 @@ public class MainFrame extends JFrame {
         return classCanvases;
     }
     private JSVGCanvas getClassCanvas(String fileName) {
-        JSVGCanvas canvas = addCanvas(100, 100, 0, 620);
+        JSVGCanvas canvas = addCanvas(100, 100, 5, 620);
         canvas.setURI("file:/D:/Джава/Forcons_v2/image/svg/" + fileName + ".svg");
         canvas.setVisible(false);
         return canvas;

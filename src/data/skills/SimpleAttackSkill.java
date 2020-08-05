@@ -8,11 +8,11 @@ import java.io.IOException;
 
 public class SimpleAttackSkill extends Skill {
 
-    public final int damage;
-    public final double chance;
-    public final int critDamage;
-    public final double critChance;
-    public final String skillName;
+    private final int damage;
+    private final double chance;
+    private final int critDamage;
+    private final double critChance;
+    private final String skillName;
 
     public SimpleAttackSkill(MainData mainData, String skillName, int damage, double chance) {
         super(mainData);
@@ -34,6 +34,8 @@ public class SimpleAttackSkill extends Skill {
 
     @Override
     public boolean begin() throws IOException {
+        if (!mainData.minusPoint(1))
+            return false;
         YX yx = getRandomMarkYX();
         Mark mark = mainData.getMark(yx);
         boolean noMiss = Math.random() < chance;

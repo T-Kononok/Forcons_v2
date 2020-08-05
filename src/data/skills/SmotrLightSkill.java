@@ -13,6 +13,9 @@ public class SmotrLightSkill extends Skill{
 
     @Override
     public boolean begin() throws IOException {
+        if (!mainData.minusPoint(3))
+            return false;
+        mainData.minusPoint(3);
         if (mainData.getLight().size() == 24)
             return false;
         int row;

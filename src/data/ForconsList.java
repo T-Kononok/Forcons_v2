@@ -51,20 +51,22 @@ public class ForconsList {
         forconsListModel.sortClass();
     }
 
-    public boolean canMinusPoint(int index, int value) {
-        String string = forconsListModel.get(index);
-        int point = Integer.parseInt(string.substring(string.lastIndexOf(",")+1));
-        point -= value;
-        return point >= 0;
-    }
+//    public boolean canMinusPoint(int index, int value) {
+//        String string = forconsListModel.get(index);
+//        int point = Integer.parseInt(string.substring(string.lastIndexOf(",")+1));
+//        point -= value;
+//        return point >= 0;
+//    }
 
-    public void minusPoint(int index, int value) {
+    public boolean minusPoint(int index, int value) {
         String string = forconsListModel.get(index);
-        String sub = string.substring(0,string.lastIndexOf(",")+1);
         int point = Integer.parseInt(string.substring(string.lastIndexOf(",")+1));
         point -= value;
-        if (point >= 0)
-            forconsListModel.set(index,sub+point);
+        if (point < 0)
+            return false;
+        String sub = string.substring(0,string.lastIndexOf(",")+1);
+        forconsListModel.set(index,sub+point);
+        return true;
     }
 
     public void read(String filename) {

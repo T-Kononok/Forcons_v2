@@ -34,12 +34,24 @@ public class MainData {
         indexSelectForcon = index;
     }
 
+//    public boolean canMinusPoint(int value) {
+//        return getForconsList().canMinusPoint(indexSelectForcon,value);
+//    }
+
+    public boolean minusPoint(int value) {
+        return getForconsList().minusPoint(indexSelectForcon,value);
+    }
+
     public int getIndexSelectForcon() {
         return indexSelectForcon;
     }
 
     public MainFrame getMainFrame() {
         return mainFrame;
+    }
+
+    public ForconsList getForconsList() {
+        return forconsList;
     }
 
     public SkillsPanel getSkillsPanel() {

@@ -28,7 +28,6 @@ public class MainFrame extends JFrame {
     private final MainData mainData = new MainData(this,forconsList);
 
     private final ArrayList<String> classNames = new ArrayList<>();
-    private final Map<Integer,String> classNamesMap = new HashMap<>();
 
     private JFileChooser fileChooser = null;
     private ArrayList<ImagePanel> leftImageArray = null;
@@ -58,10 +57,6 @@ public class MainFrame extends JFrame {
         classNames.add("in");
         classNames.add("sa");
         classNames.add("sm");
-        classNamesMap.put(0,"ba");
-        classNamesMap.put(1,"in");
-        classNamesMap.put(2,"sa");
-        classNamesMap.put(3,"sm");
     }
 
     private ImagePanel addOpenPanel() {
@@ -174,8 +169,8 @@ public class MainFrame extends JFrame {
 
         int initialX = 340;
         int size = 100;
-        Map<Integer,Map<String, JSVGCanvas>> skillCanvases = addSkillCanvases(initialX,size);
         Map<Integer, JButton> skillButtons = addSkillButtons(initialX,size);
+        Map<Integer,Map<String, JSVGCanvas>> skillCanvases = addSkillCanvases(initialX,size);
         ArrayList<SkillButtonActionListener> actionListeners = addActionListeners(skillButtons);
 
         ReSizeLabel nameLabel = addLabel(220,100,110,620);
@@ -194,7 +189,6 @@ public class MainFrame extends JFrame {
 
                 classCanvases.forEach((s,c) -> c.setVisible(s.equals(subStr[0])));
 
-
                 nameLabel.setTextReSize(subStr[1]);
 
                 int countSkillOld = 3;
@@ -207,22 +201,21 @@ public class MainFrame extends JFrame {
                 }
                 int countSkill = countSkillOld;
 
-                int pointCount = Integer.parseInt(subStr[3]);
-                for (int i = 0; i < 6; i++) {
-                    int fI = i;
-                    skillButtons.get(i).setVisible(i + 1 <= countSkill);
+                skillButtons.forEach((i,b) -> b.setVisible(i + 1 <= countSkill));
+                skillCanvases.forEach((i,m) -> m.forEach((s,c) ->
+                        c.setVisible(s.equals(subStr[0]) && i + 1 <= countSkill )));
+
+                for (int i = 0; i < countSkill; i++)
                     actionListeners.get(i).setSkill(mainData.getSkill(subStr[0],(i+1)));
-                    skillCanvases.get(i).forEach((s, c) ->
-                            c.setVisible(s.equals(subStr[0]) && fI + 1 <= countSkill));
-                    pointsCanvases.get(i).setVisible(i == pointCount);
-                }
-                pointsCanvases.get(7).setVisible(7 == pointCount);
 
-                if (pointCount < 8)
+                int pointCount = Integer.parseInt(subStr[3]);
+                if (pointCount < 8) {
+                    pointsCanvases.forEach((i,c) -> c.setVisible(i == pointCount));
                     pointsLabel.setTextReSize("");
-                else
+                } else {
+                    pointsCanvases.forEach((i,c) -> c.setVisible(false));
                     pointsLabel.setTextReSize(subStr[3] + " о. д.");
-
+                }
             }
         });
     }
@@ -263,24 +256,6 @@ public class MainFrame extends JFrame {
         return canvas;
     }
 
-    private Map<Integer,Map<String, JSVGCanvas>> addSkillCanvases(int initialX, int size) {
-        Map<Integer,Map<String, JSVGCanvas>> skillCanvases = new HashMap<>();
-        for (int i = 0; i < 6; i++) {
-            int fI = i;
-            Map<String, JSVGCanvas> oneSkillCanvases = new HashMap<>();
-            classNames.forEach(s -> oneSkillCanvases.put(
-                    s, getOneSkillCanvases(size,initialX+size*fI,HEIGHT-size,s,fI+1)));
-            skillCanvases.put(i, oneSkillCanvases);
-        }
-        return skillCanvases;
-    }
-    private JSVGCanvas getOneSkillCanvases(int size, int x, int y, String fileName, int number) {
-        JSVGCanvas canvas = addCanvas(size, size, x, y);
-        canvas.setURI("file:/D:/Джава/Forcons_v2/image/svg/" + fileName + "Skill" + number + ".svg");
-        canvas.setVisible(false);
-        return canvas;
-    }
-
     private Map<Integer, JButton> addSkillButtons(int initialX, int size) {
         Map<Integer, JButton> skillButtons = new HashMap<>();
         for (int i = 0; i < 6; i++) {
@@ -305,6 +280,24 @@ public class MainFrame extends JFrame {
         return actionListeners;
     }
 
+    private Map<Integer,Map<String, JSVGCanvas>> addSkillCanvases(int initialX, int size) {
+        Map<Integer,Map<String, JSVGCanvas>> skillCanvases = new HashMap<>();
+        for (int i = 0; i < 6; i++) {
+            int fI = i;
+            Map<String, JSVGCanvas> oneSkillCanvases = new HashMap<>();
+            classNames.forEach(s -> oneSkillCanvases.put(
+                    s, getOneSkillCanvases(size,initialX+size*fI,HEIGHT-size,s,fI+1)));
+            skillCanvases.put(i, oneSkillCanvases);
+        }
+        return skillCanvases;
+    }
+    private JSVGCanvas getOneSkillCanvases(int size, int x, int y, String fileName, int number) {
+        JSVGCanvas canvas = addCanvas(size, size, x, y);
+        canvas.setURI("file:/D:/Джава/Forcons_v2/image/svg/" + fileName + "Skill" + number + ".svg");
+        canvas.setVisible(false);
+        return canvas;
+    }
+
     private Map<Integer,JSVGCanvas> addPointsCanvases() {
         Map<Integer,JSVGCanvas> pointsCanvases = new HashMap<>();
         for (int i = 0; i < 8; i++)
@@ -317,8 +310,6 @@ public class MainFrame extends JFrame {
         canvas.setVisible(false);
         return canvas;
     }
-
-    ////////////////////////////////////////////////////////////////////
 
     private void toPlace(JComponent component,int width, int height, int x, int y) {
         component.setSize(width,height);

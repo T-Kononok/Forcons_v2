@@ -39,7 +39,11 @@ public class MainData {
 //    }
 
     public boolean minusPoint(int value) {
-        return getForconsList().minusPoint(indexSelectForcon,value);
+        if (getForconsList().minusPoint(indexSelectForcon,value)) {
+            getMainFrame().getDownElementsPanel().changeDownElements();
+            return true;
+        }
+        return false;
     }
 
     public int getIndexSelectForcon() {

@@ -70,7 +70,7 @@ public class Mark {
     public void set(int mark) {
         if (this.mark != 0)
             bites += this.mark - mark;
-        System.out.println(bites);
+//        System.out.println(bites);
         this.mark = inRange(mark,0,10);
         setBoolean = (mark == this.mark);
     }

@@ -1,9 +1,6 @@
 package data;
 
-import data.skills.BardBalladSkill;
-import data.skills.SimpleAttackSkill;
-import data.skills.Skill;
-import data.skills.SmotrLightSkill;
+import data.skills.*;
 import elements.skills.SkillsPanel;
 import elements.TableNoGaps;
 import frame.MainFrame;
@@ -153,7 +150,7 @@ public class MainData {
         Map<Integer, Skill> saSkillMap = new HashMap<>();
         saSkillMap.put(1,new SimpleAttackSkill(this,"samuKatana", 1, 1.0));
         saSkillMap.put(2,null);
-        saSkillMap.put(3,null);
+        saSkillMap.put(3,new SamurComplementSkill(this));
         saSkillMap.put(4,null);
         saSkillMap.put(5,null);
         saSkillMap.put(6,null);

@@ -56,8 +56,7 @@ public class Skill {
             mark.onChange(imageFile,number);
     }
 
-    public boolean begin() throws IOException {
-        return true;
+    public void begin() throws IOException {
     }
 
     protected void startFon(YX rowCol, String skillName) throws IOException {

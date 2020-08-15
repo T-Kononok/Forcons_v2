@@ -33,9 +33,9 @@ public class SimpleAttackSkill extends Skill {
     }
 
     @Override
-    public boolean begin() throws IOException {
+    public void begin() throws IOException {
         if (!mainData.minusPoint(1))
-            return false;
+            return;
         YX yx = getRandomMarkYX();
         Mark mark = mainData.getMark(yx);
         boolean noMiss = Math.random() < chance;
@@ -54,6 +54,5 @@ public class SimpleAttackSkill extends Skill {
 //            System.out.println(skillName + " промах");
             startFon(yx,skillName + "Miss");
         }
-        return true;
     }
 }

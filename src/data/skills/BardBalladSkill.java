@@ -9,11 +9,10 @@ public class BardBalladSkill extends Skill{
     }
 
     @Override
-    public boolean begin() {
+    public void begin() {
         if (!mainData.minusPoint(2))
-            return false;
+            return;
         buffAttack += 0.2;
 //        System.out.println(buffAttack + " " + Math.round(buffAttack));
-        return true;
     }
 }

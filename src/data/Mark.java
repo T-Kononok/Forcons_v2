@@ -68,6 +68,9 @@ public class Mark {
 
     //сеттеры
     public void set(int mark) {
+        if (this.mark != 0)
+            bites += this.mark - mark;
+        System.out.println(bites);
         this.mark = inRange(mark,0,10);
         setBoolean = (mark == this.mark);
     }
@@ -182,7 +185,7 @@ public class Mark {
 
         if (style.equals("cell")) {
             if (mark != 0 || !string.equals(""))
-                style += "Bite" + bites;
+                style += "Bite" + inRange(bites, 0, 4);;
 
             if (isBad())
                 style += "Bad";

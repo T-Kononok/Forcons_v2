@@ -12,11 +12,11 @@ public class SmotrLightSkill extends Skill{
     }
 
     @Override
-    public boolean begin() throws IOException {
+    public void begin() throws IOException {
         if (!mainData.minusPoint(3))
-            return false;
+            return;
         if (mainData.getLight().size() == 24)
-            return false;
+            return;
         int row;
         do {
             row = getRandomRow();
@@ -24,6 +24,5 @@ public class SmotrLightSkill extends Skill{
         mainData.addLight(row);
         startFon(new YX(row,-2), "smotrLight",2,1,true);
 //        System.out.println("addLight" + row);
-        return true;
     }
 }

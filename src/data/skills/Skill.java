@@ -6,6 +6,7 @@ import data.YX;
 import elements.skills.SkillEffect;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Skill {
@@ -13,6 +14,7 @@ public class Skill {
     protected  MainData mainData;
     protected static double buffAttack = 0;
     protected static int buffDefense = 0;
+    protected static int coins = 0;
 
     protected Skill(MainData mainData) {
         this.mainData = mainData;
@@ -51,12 +53,21 @@ public class Skill {
         return yx;
     }
 
+//    protected int get
+
     protected void onChange(Mark mark, String imageFile, int number) {
         if (mark != null)
             mark.onChange(imageFile,number);
     }
 
     public void begin() throws IOException {
+    }
+
+    protected void deathAndCoin() {
+        if (mainData.getLevel() > 1)
+            coins++;
+        if (Math.random() < 0.05)
+            mainData.minusAllPoint();
     }
 
     protected void startFon(YX rowCol, String skillName) throws IOException {

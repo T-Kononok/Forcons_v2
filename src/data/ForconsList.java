@@ -69,6 +69,17 @@ public class ForconsList {
         return true;
     }
 
+    public void minusAllPoint(int index) {
+        String string = forconsListModel.get(index);
+        int point = Integer.parseInt(string.substring(string.lastIndexOf(",")+1));
+        minusPoint(index,point);
+    }
+
+    public int getLevel(int index) {
+        String string = forconsListModel.get(index);
+        return Integer.parseInt(string.substring(string.indexOf(",",3)+1,string.lastIndexOf(",")));
+    }
+
     public void read(String filename) {
         try {
             Scanner scanner = new Scanner(new File(filename));

@@ -2,9 +2,9 @@ package data.skills;
 
 import data.MainData;
 
-public class BardBalladSkill extends Skill{
+public class BardDefenseSkill extends Skill{
 
-    public BardBalladSkill(MainData mainData) {
+    public BardDefenseSkill(MainData mainData) {
         super(mainData);
     }
 
@@ -12,7 +12,7 @@ public class BardBalladSkill extends Skill{
     public void begin() {
         if (!mainData.minusPoint(1))
             return;
-        buffAttack += 0.2;
+        buffDefense += 2;
 //        System.out.println(buffAttack + " " + Math.round(buffAttack));
         deathAndCoin();
     }

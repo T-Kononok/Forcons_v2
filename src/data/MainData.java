@@ -27,6 +27,10 @@ public class MainData {
         addSkillMap();
     }
 
+    public void addComboPoint() {
+
+    }
+
     public void setIndexSelectForcon(int index) {
         indexSelectForcon = index;
     }
@@ -41,6 +45,15 @@ public class MainData {
             return true;
         }
         return false;
+    }
+
+    public void minusAllPoint() {
+        getForconsList().minusAllPoint(indexSelectForcon);
+        getMainFrame().getDownElementsPanel().changeDownElements();
+    }
+
+    public int getLevel() {
+        return getForconsList().getLevel(indexSelectForcon);
     }
 
     public int getIndexSelectForcon() {
@@ -62,6 +75,7 @@ public class MainData {
     public ArrayList<ArrayList<Mark>> getMatrix() {
         return matrix;
     }
+
     public ArrayList<Integer> getLight() {
         return light;
     }
@@ -134,10 +148,10 @@ public class MainData {
         Map<Integer, Skill> baSkillMap = new HashMap<>();
         baSkillMap.put(1,new SimpleAttackSkill(this,"bardChain", 1, 0.75));
         baSkillMap.put(2,new BardBalladSkill(this));
-        baSkillMap.put(3,null);
-        baSkillMap.put(4,null);
+        baSkillMap.put(3,null); //внезапная смерть
+        baSkillMap.put(4,null); //чеканная монета
         baSkillMap.put(5,null);
-        baSkillMap.put(6,null);
+        baSkillMap.put(6,new BardDefenseSkill(this));
         allSkillMap.put("ba",baSkillMap);
 
         Map<Integer, Skill> inSkillMap = new HashMap<>();

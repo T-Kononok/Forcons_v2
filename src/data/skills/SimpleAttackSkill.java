@@ -54,5 +54,7 @@ public class SimpleAttackSkill extends Skill {
 //            System.out.println(skillName + " промах");
             startFon(yx,skillName + "Miss");
         }
+        if (skillName.equals("bardChain"))
+            deathAndCoin();
     }
 }

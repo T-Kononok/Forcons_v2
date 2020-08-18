@@ -32,17 +32,9 @@ public class MainData {
         getMainFrame().getUpElementsPanel().changeElements();
     }
 
-    public void addComboPoint() {
-
-    }
-
     public void setIndexSelectForcon(int index) {
         indexSelectForcon = index;
     }
-
-//    public boolean canMinusPoint(int value) {
-//        return getForconsList().canMinusPoint(indexSelectForcon,value);
-//    }
 
     public boolean minusPoint(int value) {
         if (getForconsList().minusPoint(indexSelectForcon,value)) {
@@ -111,6 +103,10 @@ public class MainData {
         tableNoGaps.resizeTable();
     }
 
+    public void writeTable(String filename) {
+
+    }
+
     public void addLight(int number) {
 //        System.out.println(getSize() + " " + number);
         if (number >= 0 && number < getSize())
@@ -126,11 +122,6 @@ public class MainData {
                 return true;
         return false;
     }
-
-//    public void repaintTable() {
-//        model.setMatrix(matrix);
-//        tableNoGaps.repaint();
-//    }
 
     public TableNoGaps getTableNoGaps() {
         return tableNoGaps;
@@ -148,16 +139,6 @@ public class MainData {
 //        }
 //        return matrix2;
 //    }
-
-    public double getBuffAttack() {
-        return Skill.getBuffAttack();
-    }
-    public double getBuffDefense() {
-        return Skill.getBuffDefense();
-    }
-    public double getCoins() {
-        return Skill.getCoins();
-    }
 
     private void addSkillMap() {
         Map<Integer, Skill> baSkillMap = new HashMap<>();

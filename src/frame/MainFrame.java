@@ -26,7 +26,7 @@ public class MainFrame extends JFrame {
     private final TableNoGaps tableNoGaps = new TableNoGaps(0,35,1035,580);
     private final ForconsList forconsList = new ForconsList();
     private final MainData mainData = new MainData(this,forconsList);
-    private final UpElementsPanel upElementsPanel = new UpElementsPanel();
+    private final UpElementsPanel upElementsPanel = new UpElementsPanel(this);
     private final DownElementsPanel downElementsPanel = new DownElementsPanel(mainData);
 
     private JFileChooser fileChooser = null;
@@ -45,11 +45,7 @@ public class MainFrame extends JFrame {
 
         addTableNoGaps();
 
-        addOpenButton(addOpenPanel(),
-                addCancelButton(),
-                addForconsListScroll(),
-                addSortPointButtons(),
-                addSortClassButtons());
+        addOpenButton(addOpenPanel(), addForconsListScroll());
 
         getContentPane().add(panelFull);
     }
@@ -67,19 +63,6 @@ public class MainFrame extends JFrame {
         tableNoGaps.setVisible(false);
     }
 
-    private JButton addCancelButton() {
-        JButton cancelButton = new JButton();
-        toPlace(cancelButton,25,25,1250,5);
-        cancelButton.setVisible(false);
-        cancelButton.setBorderPainted(false);
-//        cancelButton.setContentAreaFilled(false);
-        cancelButton.addActionListener(ev -> {
-            tableNoGaps.stopThread();
-            dispose();
-        });
-        return cancelButton;
-    }
-
     private JScrollPane addForconsListScroll() {
         JScrollPane forconsListScroll = new JScrollPane(forconsList.getList());
         toPlace(forconsListScroll,220,585,1060,35);
@@ -94,28 +77,7 @@ public class MainFrame extends JFrame {
         return forconsListScroll;
     }
 
-    private JButton addSortPointButtons() {
-        JButton sortPointButton = new JButton();
-        toPlace(sortPointButton,84,25,1077,10);
-        sortPointButton.setVisible(false);
-        sortPointButton.setBorderPainted(false);
-//        sortPointButton.setContentAreaFilled(false);
-        sortPointButton.addActionListener(ev -> forconsList.sortPoint());
-        return sortPointButton;
-    }
-
-    private JButton addSortClassButtons() {
-        JButton sortClassButton = new JButton();
-        toPlace(sortClassButton,84,25,1161,10);
-        sortClassButton.setVisible(false);
-        sortClassButton.setBorderPainted(false);
-//        sortClassButton.setContentAreaFilled(false);
-        sortClassButton.addActionListener(ev -> forconsList.sortClass());
-        return sortClassButton;
-    }
-
-    private void addOpenButton(ImagePanel openPanel, JButton cancelButton, JScrollPane scrollPane, JButton pointButton,
-                               JButton classButton) {
+    private void addOpenButton(ImagePanel openPanel, JScrollPane scrollPane) {
         OvalButton openButton = new OvalButton(OvalButton.SHAPE_OVAL,OvalButton.VERTICAL);
         toPlace(openButton,210,235, 537,260);
         openButton.setPanel(openPanel);
@@ -128,10 +90,7 @@ public class MainFrame extends JFrame {
             openPanel.setVisible(false);
             tableNoGaps.setVisible(true);
             upElementsPanel.setVisible(true);
-            cancelButton.setVisible(true);
             scrollPane.setVisible(true);
-            pointButton.setVisible(true);
-            classButton.setVisible(true);
 
             tableNoGaps.startThread();
             panelFull.setImageFile("image/fon2.jpg");
@@ -169,6 +128,10 @@ public class MainFrame extends JFrame {
 
     public DownElementsPanel getDownElementsPanel() {
         return downElementsPanel;
+    }
+
+    public ForconsList getForconsList() {
+        return forconsList;
     }
 
     public UpElementsPanel getUpElementsPanel() {

@@ -13,6 +13,7 @@ public class BardDefenseSkill extends Skill{
         if (!mainData.minusPoint(1))
             return;
         buffDefense += 2;
+        mainData.changeUpElements();
 //        System.out.println(buffAttack + " " + Math.round(buffAttack));
         deathAndCoin();
     }

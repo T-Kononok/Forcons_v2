@@ -75,12 +75,12 @@ public class DownElementsPanel{
                 mainData.setIndexSelectForcon(forconsList.getSelectedIndex());
                 if (!fon.isVisible())
                     fon.setVisible(true);
-                changeDownElements();
+                changeElements();
             }
         });
     }
 
-    public void changeDownElements() {
+    public void changeElements() {
         String val = forconsList.getSelectedValue();
         String[] subStr = val.split(",");
 

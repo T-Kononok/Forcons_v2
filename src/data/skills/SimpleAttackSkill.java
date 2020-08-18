@@ -46,7 +46,7 @@ public class SimpleAttackSkill extends Skill {
                 mark.minus(critDamage);
                 startFon(yx, skillName + "Crit");
             } else {
-                mark.minus(damage + getBuffAttack());
+                mark.minus(damage + getIntBuffAttack());
                 startFon(yx, skillName);
             }
 //            System.out.println(mark.get());

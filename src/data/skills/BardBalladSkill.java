@@ -13,6 +13,7 @@ public class BardBalladSkill extends Skill{
         if (!mainData.minusPoint(1))
             return;
         buffAttack += 0.2;
+        mainData.changeUpElements();
 //        System.out.println(buffAttack + " " + Math.round(buffAttack));
         deathAndCoin();
     }

@@ -20,8 +20,17 @@ public class Skill {
         this.mainData = mainData;
     }
 
-    protected int getBuffAttack() {
+    public static double getBuffAttack() {
+        return buffAttack;
+    }
+    protected static int getIntBuffAttack() {
         return (int)Math.round(buffAttack);
+    }
+    public static int getBuffDefense() {
+        return buffDefense;
+    }
+    public static int getCoins() {
+        return coins;
     }
 
     protected YX getRandomYX() {
@@ -64,8 +73,10 @@ public class Skill {
     }
 
     protected void deathAndCoin() {
-        if (mainData.getLevel() > 1)
+        if (mainData.getLevel() > 1) {
             coins++;
+            mainData.changeUpElements();
+        }
         if (Math.random() < 0.05)
             mainData.minusAllPoint();
     }

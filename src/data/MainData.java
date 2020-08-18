@@ -1,6 +1,7 @@
 package data;
 
 import data.skills.*;
+import elements.UpElementsPanel;
 import elements.skills.SkillsPanel;
 import elements.TableNoGaps;
 import frame.MainFrame;
@@ -27,6 +28,10 @@ public class MainData {
         addSkillMap();
     }
 
+    public void changeUpElements() {
+        getMainFrame().getUpElementsPanel().changeElements();
+    }
+
     public void addComboPoint() {
 
     }
@@ -41,7 +46,7 @@ public class MainData {
 
     public boolean minusPoint(int value) {
         if (getForconsList().minusPoint(indexSelectForcon,value)) {
-            getMainFrame().getDownElementsPanel().changeDownElements();
+            getMainFrame().getDownElementsPanel().changeElements();
             return true;
         }
         return false;
@@ -49,7 +54,7 @@ public class MainData {
 
     public void minusAllPoint() {
         getForconsList().minusAllPoint(indexSelectForcon);
-        getMainFrame().getDownElementsPanel().changeDownElements();
+        getMainFrame().getDownElementsPanel().changeElements();
     }
 
     public int getLevel() {
@@ -143,6 +148,16 @@ public class MainData {
 //        }
 //        return matrix2;
 //    }
+
+    public double getBuffAttack() {
+        return Skill.getBuffAttack();
+    }
+    public double getBuffDefense() {
+        return Skill.getBuffDefense();
+    }
+    public double getCoins() {
+        return Skill.getCoins();
+    }
 
     private void addSkillMap() {
         Map<Integer, Skill> baSkillMap = new HashMap<>();

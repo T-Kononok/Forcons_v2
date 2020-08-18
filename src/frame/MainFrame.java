@@ -26,6 +26,7 @@ public class MainFrame extends JFrame {
     private final TableNoGaps tableNoGaps = new TableNoGaps(0,35,1035,580);
     private final ForconsList forconsList = new ForconsList();
     private final MainData mainData = new MainData(this,forconsList);
+    private final UpElementsPanel upElementsPanel = new UpElementsPanel();
     private final DownElementsPanel downElementsPanel = new DownElementsPanel(mainData);
 
     private JFileChooser fileChooser = null;
@@ -39,6 +40,8 @@ public class MainFrame extends JFrame {
 
         downElementsPanel.addIn(panelFull,0,0);
         downElementsPanel.setVisible(false);
+        upElementsPanel.addIn(panelFull,0,0);
+        upElementsPanel.setVisible(false);
 
         addTableNoGaps();
 
@@ -124,6 +127,7 @@ public class MainFrame extends JFrame {
             openButton.setVisible(false);
             openPanel.setVisible(false);
             tableNoGaps.setVisible(true);
+            upElementsPanel.setVisible(true);
             cancelButton.setVisible(true);
             scrollPane.setVisible(true);
             pointButton.setVisible(true);
@@ -166,6 +170,14 @@ public class MainFrame extends JFrame {
     public DownElementsPanel getDownElementsPanel() {
         return downElementsPanel;
     }
+
+    public UpElementsPanel getUpElementsPanel() {
+        return upElementsPanel;
+    }
+
+//    public UpElementsPanel getUpElementsPanel() {
+//        return upElementsPanel;
+//    }
 
     public static void main(String[] args) throws IOException {
         MainFrame frame = new MainFrame();

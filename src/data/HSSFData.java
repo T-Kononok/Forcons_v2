@@ -3,20 +3,52 @@ package data;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class HSSFData {
 
-    private void writeWorkbook(HSSFWorkbook wb, String fileName) {
+    private String fileName;
+    private HSSFWorkbook workbook;
+    private final Map<String, HSSFCellStyle> map = new HashMap<>();
+
+    public Map<String, HSSFCellStyle> getMap() {
+        return map;
+    }
+
+    public void writeHSSFJournal(ArrayList<ArrayList<Mark>> matrix) {
+        HSSFSheet sheet = workbook.getSheet("3 четверть"); ///
+        for (int i = 0; i < matrix.size(); i++) {
+            HSSFRow row = sheet.getRow(i+1);
+            for (int j = 0; j < matrix.get(0).size(); j++) {
+                HSSFCell cell = row.getCell(j+2);
+                Mark mark = matrix.get(i).get(j);
+                cell.setCellStyle(map.get(mark.toStyle()));
+                if (mark.get()==0) {
+                    cell.setCellValue(mark.toString());
+                }
+                else {
+                    cell.setCellValue(mark.get());
+                }
+            }
+        }
+        writeWorkbook();
+    }
+
+    private void writeWorkbook() {
         try {
             FileOutputStream fileOut = new FileOutputStream(fileName);
-            wb.write(fileOut);
+            workbook.write(fileOut);
             fileOut.close();
         }
         catch (Exception e) {
@@ -25,11 +57,12 @@ public class HSSFData {
     }
 
     public ArrayList<ArrayList<Mark>> readHSSFJournal(String filename) {
-        HSSFWorkbook workbook = readWorkbook(filename);
-        if (workbook == null)
-            return null;
+        this.fileName = filename;
+        workbook = readWorkbook(fileName);
+        assert workbook != null;
+        readStyle();
         ArrayList<ArrayList<Mark>> matrix = new ArrayList<>();
-        HSSFSheet sheet = workbook.getSheet("3 четверть"); //////
+        HSSFSheet sheet = workbook.getSheet("3 четверть"); ///
         int countCell = findSizeRowSheet(sheet);
         int countRow = findSizeColumnSheet(sheet);
         for (int i = 1; i < countRow; i++) {
@@ -37,6 +70,16 @@ public class HSSFData {
             matrix.add(readHSSFRow(row,countCell));
         }
         return matrix;
+    }
+
+    private void readStyle() {
+        HSSFSheet styleSheet = workbook.getSheet("Стили");
+        for (int i = 1; i <= 25; i++) {
+            HSSFRow styleRow = styleSheet.getRow(i);
+            HSSFCell nameCell = styleRow.getCell(0);
+            HSSFCell styleCell = styleRow.getCell(1);
+            map.put(nameCell.getStringCellValue(),styleCell.getCellStyle());
+        }
     }
 
     private HSSFWorkbook readWorkbook(String filename) {

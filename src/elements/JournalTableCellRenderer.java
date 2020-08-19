@@ -1,7 +1,12 @@
 package elements;
 
+import data.HSSFData;
 import data.Mark;
 import org.apache.batik.swing.JSVGCanvas;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
 
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
@@ -18,7 +23,9 @@ public class JournalTableCellRenderer implements TableCellRenderer {
     private final Map<String, JSVGCanvas> mapSVG = new HashMap<>();
     private final JLabel label = new JLabel();
 
-    public JournalTableCellRenderer() throws IOException {
+//Map<String, HSSFCellStyle> map
+
+    public JournalTableCellRenderer() {
         panel.setLayout(null);
         panel.setBackground(new Color(0,0,0,0));
         try {

@@ -1,5 +1,6 @@
 package elements;
 
+import data.MainData;
 import data.skills.Skill;
 import frame.MainFrame;
 
@@ -7,12 +8,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
+import java.io.IOException;
 
 public class UpElementsPanel{
 
     private final MainFrame mainFrame;
+    private final MainData mainData;
     private final ImagePanel fon = new ImagePanel("image/upParchments.png",false);
-//    private final JButton
+    private final JButton saveButton;
     private final JLabel attackLabel;
     private final JLabel defenseLabel;
     private final JLabel coinsLabel;
@@ -21,14 +24,15 @@ public class UpElementsPanel{
     private final JButton cancelButton;
 
 
-    public UpElementsPanel(MainFrame mainFrame) {
+    public UpElementsPanel(MainFrame mainFrame, MainData mainData) {
         this.mainFrame = mainFrame;
+        this.mainData = mainData;
 
         fon.setSize(1280,720);
         fon.setLayout(null);
         fon.setOpaque(false);
 
-        //
+        saveButton = addSaveButton();
 
         attackLabel = addLabel(200,30,265,0);
         defenseLabel = addLabel(200,30,530,0);
@@ -41,15 +45,14 @@ public class UpElementsPanel{
         changeElements();
     }
 
-    private JButton addCancelButton() {
-        JButton cancelButton = new JButton();
-        toPlace(cancelButton,25,25,1250,5);
-        cancelButton.setVisible(false);
-        cancelButton.setBorderPainted(false);
-//        cancelButton.setContentAreaFilled(false);
+    private JButton addSaveButton() {
+        JButton cancelButton = addButton(200,30,0,0);
         cancelButton.addActionListener(ev -> {
-            mainFrame.getTableNoGaps().stopThread();
-            mainFrame.dispose();
+            try {
+                mainData.writeTable();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
         return cancelButton;
     }
@@ -64,6 +67,15 @@ public class UpElementsPanel{
         JButton sortClassButton = addButton(84,25,1161,10);
         sortClassButton.addActionListener(ev -> mainFrame.getForconsList().sortClass());
         return sortClassButton;
+    }
+
+    private JButton addCancelButton() {
+        JButton cancelButton = addButton(25,25,1250,5);
+        cancelButton.addActionListener(ev -> {
+            mainFrame.getTableNoGaps().stopThread();
+            mainFrame.dispose();
+        });
+        return cancelButton;
     }
 
     public JButton addButton(int width, int height, int x, int y) {
@@ -111,6 +123,7 @@ public class UpElementsPanel{
 
     public void setVisible(boolean flag) {
         fon.setVisible(flag);
+        saveButton.setVisible(flag);
         sortPointButton.setVisible(flag);
         sortClassButton.setVisible(flag);
         cancelButton.setVisible(flag);

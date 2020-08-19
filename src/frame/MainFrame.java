@@ -26,7 +26,7 @@ public class MainFrame extends JFrame {
     private final TableNoGaps tableNoGaps = new TableNoGaps(0,35,1035,580);
     private final ForconsList forconsList = new ForconsList();
     private final MainData mainData = new MainData(this,forconsList);
-    private final UpElementsPanel upElementsPanel = new UpElementsPanel(this);
+    private final UpElementsPanel upElementsPanel = new UpElementsPanel(this,mainData);
     private final DownElementsPanel downElementsPanel = new DownElementsPanel(mainData);
 
     private JFileChooser fileChooser = null;

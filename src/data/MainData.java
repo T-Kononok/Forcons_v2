@@ -5,13 +5,16 @@ import elements.UpElementsPanel;
 import elements.skills.SkillsPanel;
 import elements.TableNoGaps;
 import frame.MainFrame;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MainData {
 
+    private final HSSFData hssfData = new HSSFData();
     private final JournalTableModel model = new JournalTableModel();
     private final ForconsList forconsList;
     private final MainFrame mainFrame;
@@ -21,7 +24,7 @@ public class MainData {
     private final Map<String, Map<Integer, Skill>> allSkillMap = new HashMap<>();
     private int indexSelectForcon;
 
-    public MainData(MainFrame mainFrame, ForconsList forconsList) {
+    public MainData(MainFrame mainFrame, ForconsList forconsList) throws IOException {
         this.mainFrame = mainFrame;
         this.tableNoGaps = mainFrame.getTableNoGaps();
         this.forconsList = forconsList;
@@ -96,15 +99,14 @@ public class MainData {
     }
 
     public void readTable(String filename) {
-        HSSFData hssfData = new HSSFData();
         matrix = hssfData.readHSSFJournal(filename);
         model.setMatrix(matrix);
         tableNoGaps.setModel(model);
         tableNoGaps.resizeTable();
     }
 
-    public void writeTable(String filename) {
-
+    public void writeTable() throws IOException {
+        hssfData.writeHSSFJournal(matrix);
     }
 
     public void addLight(int number) {

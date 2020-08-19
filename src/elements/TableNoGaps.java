@@ -3,12 +3,14 @@ package elements;
 import data.JournalTableModel;
 import data.Mark;
 import elements.skills.SkillsPanel;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class TableNoGaps extends JPanel{
 
@@ -22,7 +24,7 @@ public class TableNoGaps extends JPanel{
 
     private int cellSize = 0;
 
-    private final JournalTableCellRenderer renderer = new JournalTableCellRenderer();
+    private JournalTableCellRenderer renderer = new JournalTableCellRenderer();
 
     public TableNoGaps(int initialX, int initialY, int initialWidth, int initialHeight) throws IOException {
         super();

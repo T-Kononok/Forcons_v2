@@ -23,9 +23,11 @@ public class JournalTableCellRenderer implements TableCellRenderer {
     private final Map<String, JSVGCanvas> mapSVG = new HashMap<>();
     private final JLabel label = new JLabel();
 
-//Map<String, HSSFCellStyle> map
+    private final Map<String, HSSFCellStyle> map;
+//
 
-    public JournalTableCellRenderer() {
+    public JournalTableCellRenderer(Map<String, HSSFCellStyle> map) {
+        this.map = map;
         panel.setLayout(null);
         panel.setBackground(new Color(0,0,0,0));
         try {
@@ -50,32 +52,7 @@ public class JournalTableCellRenderer implements TableCellRenderer {
     }
 
     private void addSVG() {
-        mapSVG.put("cell", addOneSVG());
-        mapSVG.put("cellBite0", addOneSVG());
-        mapSVG.put("cellBite0Bad", addOneSVG());
-        mapSVG.put("cellBite0BodyBag", addOneSVG());
-        mapSVG.put("cellBite0Bomb", addOneSVG());
-        mapSVG.put("cellBite1", addOneSVG());
-        mapSVG.put("cellBite1Bad", addOneSVG());
-        mapSVG.put("cellBite1BodyBag", addOneSVG());
-        mapSVG.put("cellBite1Bomb", addOneSVG());
-        mapSVG.put("cellBite2", addOneSVG());
-        mapSVG.put("cellBite2Bad", addOneSVG());
-        mapSVG.put("cellBite2BodyBag", addOneSVG());
-        mapSVG.put("cellBite2Bomb", addOneSVG());
-        mapSVG.put("cellBite3", addOneSVG());
-        mapSVG.put("cellBite3Bad", addOneSVG());
-        mapSVG.put("cellBite3BodyBag", addOneSVG());
-        mapSVG.put("cellBite3Bomb", addOneSVG());
-        mapSVG.put("cellBite4", addOneSVG());
-        mapSVG.put("cellBite4Bad", addOneSVG());
-        mapSVG.put("cellBite4BodyBag", addOneSVG());
-        mapSVG.put("cellBite4Bomb", addOneSVG());
-        mapSVG.put("cellCr", addOneSVG());
-        mapSVG.put("cellKr", addOneSVG());
-        mapSVG.put("cellLr", addOneSVG());
-        mapSVG.put("cellPoison", addOneSVG());
-
+        map.forEach((s,cs) -> mapSVG.put(s, addOneSVG()));
         for(Map.Entry<String, JSVGCanvas> entry: mapSVG.entrySet()) {
             mapSVG.get(entry.getKey()).setURI("file:image/svg/"+entry.getKey()+".svg");
         }

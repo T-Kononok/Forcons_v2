@@ -100,6 +100,7 @@ public class MainData {
 
     public void readTable(String filename) {
         matrix = hssfData.readHSSFJournal(filename);
+        tableNoGaps.addRenderer(hssfData.getMap());
         model.setMatrix(matrix);
         tableNoGaps.setModel(model);
         tableNoGaps.resizeTable();

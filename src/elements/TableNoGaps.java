@@ -24,7 +24,7 @@ public class TableNoGaps extends JPanel{
 
     private int cellSize = 0;
 
-    private JournalTableCellRenderer renderer = new JournalTableCellRenderer();
+    private JournalTableCellRenderer renderer;
 
     public TableNoGaps(int initialX, int initialY, int initialWidth, int initialHeight) throws IOException {
         super();
@@ -41,9 +41,14 @@ public class TableNoGaps extends JPanel{
         setComponent(table,0,0);
         add(table);
 
-        table.setDefaultRenderer(Mark.class, renderer);
+
         table.setShowGrid(false);
         table.setIntercellSpacing(new Dimension(0, 0));
+    }
+
+    public void addRenderer(Map<String, HSSFCellStyle> map) {
+        renderer = new JournalTableCellRenderer(map);
+        table.setDefaultRenderer(Mark.class, renderer);
     }
 
     private void setComponent(JComponent component, int x, int y) {

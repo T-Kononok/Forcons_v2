@@ -24,10 +24,10 @@ public class MainFrame extends JFrame {
     private static final int HEIGHT = 720;
     private final ImagePanel panelFull = new ImagePanel("image/begin_fon.jpg",false);
     private final TableNoGaps tableNoGaps = new TableNoGaps(0,35,1035,580);
-    private final ForconsList forconsList = new ForconsList();
-    private final MainData mainData = new MainData(this,forconsList);
+    private final MainData mainData = new MainData(this);
+    private final ForconsList forconsList = new ForconsList(mainData);
     private final UpElementsPanel upElementsPanel = new UpElementsPanel(this,mainData);
-    private final DownElementsPanel downElementsPanel = new DownElementsPanel(mainData);
+    private final DownElementsPanel downElementsPanel = new DownElementsPanel(forconsList, mainData);
 
     private JFileChooser fileChooser = null;
     private ArrayList<ImagePanel> leftImageArray = null;

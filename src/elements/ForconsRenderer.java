@@ -1,5 +1,7 @@
 package elements;
 
+import data.MainData;
+import frame.MainFrame;
 import org.apache.batik.swing.JSVGCanvas;
 
 import javax.swing.*;
@@ -24,7 +26,12 @@ public class ForconsRenderer implements ListCellRenderer<String> {
 
     private Font basicFont;
 
-    public ForconsRenderer() {
+    private final MainData mainData;
+
+    private int selected = 0;
+
+    public ForconsRenderer(MainData mainData) {
+        this.mainData = mainData;
         try {
             basicFont = Font.createFont(Font.TRUETYPE_FONT, new BufferedInputStream(
                     new FileInputStream("American TextC Regular.ttf"))).
@@ -150,7 +157,7 @@ public class ForconsRenderer implements ListCellRenderer<String> {
         rendLevel(subStr[2]);
         rendPoint(subStr[3]);
 
-        if (isSelected)
+        if (mainData.getMainFrame().getForconsList().isTwoSelected(index))
             fon2.setBackground(new Color(0, 0, 0, 255));
         else
             fon2.setBackground(new Color(0, 0, 0, 0));

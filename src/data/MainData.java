@@ -16,18 +16,15 @@ public class MainData {
 
     private final HSSFData hssfData = new HSSFData();
     private final JournalTableModel model = new JournalTableModel();
-    private final ForconsList forconsList;
     private final MainFrame mainFrame;
     private final TableNoGaps tableNoGaps;
     private ArrayList<ArrayList<Mark>> matrix = null;
     private final ArrayList<Integer> light = new ArrayList<>();
     private final Map<String, Map<Integer, Skill>> allSkillMap = new HashMap<>();
-    private int indexSelectForcon;
 
-    public MainData(MainFrame mainFrame, ForconsList forconsList) throws IOException {
+    public MainData(MainFrame mainFrame) throws IOException {
         this.mainFrame = mainFrame;
         this.tableNoGaps = mainFrame.getTableNoGaps();
-        this.forconsList = forconsList;
         addSkillMap();
     }
 
@@ -35,12 +32,8 @@ public class MainData {
         getMainFrame().getUpElementsPanel().changeElements();
     }
 
-    public void setIndexSelectForcon(int index) {
-        indexSelectForcon = index;
-    }
-
     public boolean minusPoint(int value) {
-        if (getForconsList().minusPoint(indexSelectForcon,value)) {
+        if (getForconsList().minusPoint(value)) {
             getMainFrame().getDownElementsPanel().changeElements();
             return true;
         }
@@ -48,24 +41,20 @@ public class MainData {
     }
 
     public void minusAllPoint() {
-        getForconsList().minusAllPoint(indexSelectForcon);
+        getForconsList().minusAllPoint();
         getMainFrame().getDownElementsPanel().changeElements();
     }
 
     public int getLevel() {
-        return getForconsList().getLevel(indexSelectForcon);
-    }
-
-    public int getIndexSelectForcon() {
-        return indexSelectForcon;
+        return getForconsList().getLevel();
     }
 
     public MainFrame getMainFrame() {
         return mainFrame;
     }
 
-    public ForconsList getForconsList() {
-        return forconsList;
+    private ForconsList getForconsList() {
+        return mainFrame.getForconsList();
     }
 
     public SkillsPanel getSkillsPanel() {

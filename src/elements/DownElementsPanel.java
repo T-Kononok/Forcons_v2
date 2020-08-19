@@ -27,9 +27,9 @@ public class DownElementsPanel{
     private final ReSizeLabel pointsLabel;
     private final ArrayList<String> classNames = new ArrayList<>();
 
-    public DownElementsPanel(MainData mainData) {
+    public DownElementsPanel(ForconsList forconsList, MainData mainData) {
         this.mainData = mainData;
-        this.forconsList = mainData.getForconsList();
+        this.forconsList = forconsList;
 
         fon.setSize(1280,720);
         fon.setLayout(null);
@@ -72,7 +72,6 @@ public class DownElementsPanel{
     private void addForconsListListener() {
         forconsList.getList().addListSelectionListener(evt -> {
             if (evt.getValueIsAdjusting() && forconsList.getSelectedIndex() != -1) {
-                mainData.setIndexSelectForcon(forconsList.getSelectedIndex());
                 if (!fon.isVisible())
                     fon.setVisible(true);
                 changeElements();

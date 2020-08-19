@@ -1,6 +1,7 @@
 package data;
 
 import elements.ForconsRenderer;
+import frame.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,12 +13,21 @@ import java.util.Scanner;
 public class ForconsList {
     private final ForsonsListModel forconsListModel = new ForsonsListModel();
     private final JList<String> forconsList = new JList<>();
+    private int firstIndex = -1;
+    private int secondIndex = -1;
 
-    public ForconsList() {
+    public ForconsList(MainData mainData) {
         forconsList.setModel(forconsListModel);
-        forconsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        forconsList.setCellRenderer(new ForconsRenderer());
+        setMultipleSelection(true);
+        forconsList.setCellRenderer(new ForconsRenderer(mainData));
         forconsList.setOpaque(false);
+    }
+
+    public void setMultipleSelection(boolean bol) {
+        if (bol)
+            forconsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        else
+            forconsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
     public JList<String> getList(){
@@ -25,11 +35,25 @@ public class ForconsList {
     }
 
     public int getSelectedIndex() {
-        return forconsList.getSelectedIndex();
+        if (forconsList.getSelectedIndices().length == 1) {
+            firstIndex = forconsList.getSelectedIndex();
+            secondIndex = -1;
+        }
+        if (forconsList.getSelectedIndices().length == 2) {
+            if (forconsList.getSelectedIndices()[1] == firstIndex)
+                secondIndex = forconsList.getSelectedIndices()[0];
+            else
+                secondIndex = forconsList.getSelectedIndices()[1];
+        }
+        return firstIndex;
     }
 
     public String getSelectedValue() {
-        return forconsList.getSelectedValue();
+        return forconsListModel.get(getSelectedIndex());
+    }
+
+    public boolean isTwoSelected(int index) {
+        return (index == firstIndex || index == secondIndex);
     }
 
     public void add(int index, String string) {
@@ -58,25 +82,25 @@ public class ForconsList {
 //        return point >= 0;
 //    }
 
-    public boolean minusPoint(int index, int value) {
-        String string = forconsListModel.get(index);
+    public boolean minusPoint(int value) {
+        String string = getSelectedValue();
         int point = Integer.parseInt(string.substring(string.lastIndexOf(",")+1));
         point -= value;
         if (point < 0)
             return false;
         String sub = string.substring(0,string.lastIndexOf(",")+1);
-        forconsListModel.set(index,sub+point);
+        forconsListModel.set(getSelectedIndex(),sub+point);
         return true;
     }
 
-    public void minusAllPoint(int index) {
-        String string = forconsListModel.get(index);
+    public void minusAllPoint() {
+        String string = getSelectedValue();
         int point = Integer.parseInt(string.substring(string.lastIndexOf(",")+1));
-        minusPoint(index,point);
+        minusPoint(point);
     }
 
-    public int getLevel(int index) {
-        String string = forconsListModel.get(index);
+    public int getLevel() {
+        String string = getSelectedValue();
         return Integer.parseInt(string.substring(string.indexOf(",",3)+1,string.lastIndexOf(",")));
     }
 

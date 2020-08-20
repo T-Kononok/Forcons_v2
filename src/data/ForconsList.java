@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -15,8 +16,10 @@ public class ForconsList {
     private final JList<String> forconsList = new JList<>();
     private int firstIndex = -1;
     private int secondIndex = -1;
+    private final MainData mainData;
 
     public ForconsList(MainData mainData) {
+        this.mainData = mainData;
         forconsList.setModel(forconsListModel);
         setMultipleSelection(true);
         forconsList.setCellRenderer(new ForconsRenderer(mainData));
@@ -109,11 +112,24 @@ public class ForconsList {
             Scanner scanner = new Scanner(new File(filename));
             while (scanner.hasNextLine())
                 forconsListModel.add(scanner.nextLine());
+            checkBodyBag();
             sortPoint();
             sortClass();
         } catch (FileNotFoundException e) {
             System.out.println("Ошибка чтения списка форсонов");
         }
+    }
+
+    private void checkBodyBag() {
+        forconsListModel.getArray().forEach((s) -> {
+            String[] subStrs = s.split(",");
+            if (mainData.getBodyBagMap().get(subStrs[1]) != null)
+                if (Integer.parseInt(subStrs[3])>=7)
+                    mainData.noExiled(subStrs[1]);
+                else
+                    mainData.exiled(subStrs[1]);
+        });
+        mainData.getTableNoGaps().repaint();
     }
 
 }

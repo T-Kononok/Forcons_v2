@@ -33,6 +33,13 @@ public class Skill {
         return coins;
     }
 
+    public static void setBuffDefense(int buffDefense) {
+        Skill.buffDefense = buffDefense;
+    }
+    public static void setCoins(int coins) {
+        Skill.coins = coins;
+    }
+
     protected YX getRandomYX() {
         Random rand = new Random();
         Integer row = getRandomRow();
@@ -61,8 +68,6 @@ public class Skill {
 //        System.out.println("row "+ yx.getY() + " col "+ yx.getX());
         return yx;
     }
-
-//    protected int get
 
     protected void onChange(Mark mark, String imageFile, int number) {
         if (mark != null)

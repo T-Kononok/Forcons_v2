@@ -34,13 +34,17 @@ public class SamurTruckSkill extends Skill{
             mark = mainData.getMark(i, col);
             if (mark.get() != 0) {
 //                System.out.print(mark.get() + "->");
-                if (Math.random() < 0.75)
-                    mark.bite();
-                else
-                    mark.plus(1);
+                if (Math.random() < 0.75) {
+                    mark.minus(1 + getIntBuffAttack());
+                    startFon(new YX(i, col), "samurTruck");
+                }
+                else {
+                    mark.plus(1 + getIntBuffAttack());
+                    startFon(new YX(i, col), "samurTruckHealing");
+                }
 //                System.out.println(mark.get());
-            }
-            startFon(new YX(i, col), "samurTruck");
+            } else
+                startFon(new YX(i, col), "samurTruck");
         }
     }
 }

@@ -16,6 +16,10 @@ public class ForsonsListModel extends AbstractListModel<String>
         return array.get(i);
     }
 
+    public ArrayList<String> getArray() {
+        return array;
+    }
+
     public String get(int i) {
         return getElementAt(i);
     }

@@ -50,6 +50,7 @@ public class UpElementsPanel{
         cancelButton.addActionListener(ev -> {
             try {
                 mainData.writeTable();
+                mainData.writeOther();
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -11,8 +11,12 @@ public class YX {
     }
 
     public YX() {
-        this.y = 0;
-        this.x = 0;
+        y = 0;
+        x = 0;
+    }
+
+    public YX(String string) {
+        inString(string);
     }
 
     public Integer getY() {
@@ -29,5 +33,14 @@ public class YX {
 
     public void setX(Integer x) {
         this.x = x;
+    }
+
+    public String toString() {
+        return "[" + getY() + "," + getX() + "]";
+    }
+
+    public void inString(String string) {
+        y = Integer.parseInt(string.substring(string.indexOf("[")+1,string.indexOf(",")));
+        x = Integer.parseInt(string.substring(string.indexOf(",")+1,string.indexOf("]")));
     }
 }

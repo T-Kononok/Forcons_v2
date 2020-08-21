@@ -64,14 +64,9 @@ public class Skill {
         do {
             yx.setX(rand.nextInt(mainData.getRowSize()));
             mark = mainData.getMark(yx);
-        } while (mark.get() == 0);
+        } while (mark.get() == 0 || !mark.canBite());
 //        System.out.println("row "+ yx.getY() + " col "+ yx.getX());
         return yx;
-    }
-
-    protected void onChange(Mark mark, String imageFile, int number) {
-        if (mark != null)
-            mark.onChange(imageFile,number);
     }
 
     public void begin() throws IOException {

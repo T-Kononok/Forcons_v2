@@ -133,8 +133,7 @@ public class MainData {
     }
 
     public void noExiled(String name) {
-        bodyBagMap.get(name).forEach((xy) -> getMark(xy).bite());
-
+        bodyBagMap.get(name).forEach((xy) -> getMark(xy).minus(1));
     }
 
     public void exiled(String name) {

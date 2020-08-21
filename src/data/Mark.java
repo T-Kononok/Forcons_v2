@@ -16,9 +16,6 @@ public class Mark {
     private boolean setBoolean = true;
 
     private String style = "cell";
-    private boolean change = false;
-    private String changeFonFile = null;
-    private int number;
 
     //геттеры
     public int get() {
@@ -53,29 +50,22 @@ public class Mark {
         return setBoolean;
     }
 
-    public String getStyle() {
-        return style;
-    }
-    public boolean isChange() {
-        return change;
-    }
-    public String getChangeFonFile() {
-        return changeFonFile;
-    }
-    public int getNumber() {
-        return number;
+    public boolean canBite() {
+        return !(cr || kr);
     }
 
     //сеттеры
     public void set(int mark) {
-        if (this.mark != 0)
-            bites += this.mark - mark;
-//        System.out.println(bites);
-        this.mark = inRange(mark,0,10);
+        if (this.mark != 0) {
+            setBites(bites + this.mark - mark);
+            this.mark -= inRange( this.mark - mark,0,4);
+        } else
+            this.mark = inRange(mark,0,10);
         setBoolean = (mark == this.mark);
     }
+
     public void setBites(int bites) {
-        this.bites = inRange(bites,0,3);
+        this.bites = inRange(bites,0,4);
     }
 
     public void setBodyBag(String bodyBag) {
@@ -99,28 +89,6 @@ public class Mark {
     public void setLr(boolean lr) {
         this.lr = lr;
     }
-
-    public void onChange(String imageFile, int number) {
-        this.change = true;
-        this.number = number;
-        changeFonFile = imageFile;
-    }
-    public void offChange() {
-        this.change = false;
-        changeFonFile = null;
-    }
-    //    public void setChange() {
-//        change = true;
-//        startTimer();
-//    }
-
-//    public void startTimer() {
-//        timer = new Timer(2000, ev -> {
-//            change = false;
-//            timer.stop();
-//        });
-//        timer.start();
-//    }
 
     public void setStyle(String style) {
         this.style = style;
@@ -159,13 +127,6 @@ public class Mark {
         bites += minusValue;
     }
 
-    public void bite() {
-        if (bites < 3 && mark > 0) {
-            mark--;
-            bites++;
-        }
-    }
-
     public String toString() {
         if (mark != 0)
             return mark + string;
@@ -180,12 +141,10 @@ public class Mark {
             style += "Cr";
         if (isKr())
             style += "Kr";
-        if (isLr())
-            style += "Lr";
 
         if (style.equals("cell")) {
             if (mark != 0 || !string.equals(""))
-                style += "Bite" + inRange(bites, 0, 4);;
+                style += "Bite" + bites;
 
             if (isBad())
                 style += "Bad";
@@ -195,11 +154,14 @@ public class Mark {
                 style += "BodyBag";
         }
 
+        if (style.equals("cellBite0") && isLr())
+                style = "cellLr";
+
         return style;
     }
 
     private int inRange(int value, int min, int max) {
-        if (value > max)
+        if (value > max && max > 0)
             value = max;
         else
             value = Math.max(value, min);

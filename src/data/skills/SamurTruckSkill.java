@@ -25,6 +25,8 @@ public class SamurTruckSkill extends Skill{
             col = new Random().nextInt(mainData.getRowSize());
             for (int i = 0; i < mainData.getSize(); i++) {
                 mark = mainData.getMark(i, col);
+                if (!mark.canBite())
+                    break;
                 if (mark.get() != 0)
                     empty = false;
             }

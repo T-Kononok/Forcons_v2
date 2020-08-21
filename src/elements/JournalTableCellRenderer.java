@@ -91,10 +91,6 @@ public class JournalTableCellRenderer implements TableCellRenderer {
 //        System.out.println(mark.toStyle());
         showCanvas(mark.toStyle());
         label.setText(mark.toString());
-        if (mark.isChange())
-            fon.onCut(mark.getNumber());
-        else
-            fon.offCut();
 //        fon.setImageFile(mark.getChangeFonFile());
         return panel;
     }

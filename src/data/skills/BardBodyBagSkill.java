@@ -20,13 +20,15 @@ public class BardBodyBagSkill extends Skill {
             return;
         ArrayList<YX> arrayList = new ArrayList<>();
         int max = 0;
+        Mark mark;
         for (int i = 0; i < mainData.getSize(); i++) {
             for (int j = 0; j < mainData.getRowSize(); j++) {
-                if (mainData.getMark(i,j).getBodyBag().equals("")) {
-                    if (mainData.getMark(i, j).get() == max)
+                mark = mainData.getMark(i,j);
+                if (mark.getBodyBag().equals("") && mark.canBite()) {
+                    if (mark.get() == max)
                         arrayList.add(new YX(i, j));
-                    if (mainData.getMark(i, j).get() > max) {
-                        max = mainData.getMark(i, j).get();
+                    if (mark.get() > max) {
+                        max = mark.get();
                         arrayList.clear();
                         arrayList.add(new YX(i, j));
 
@@ -36,7 +38,7 @@ public class BardBodyBagSkill extends Skill {
         }
         Random rand = new Random();
         int randIndex = rand.nextInt(arrayList.size());
-        Mark mark = mainData.getMark(arrayList.get(randIndex));
+        mark = mainData.getMark(arrayList.get(randIndex));
         if (Math.random() < 0.5 + mainData.getBodyBagMap().size() * 0.05) {
             mark.setBodyBag(mainData.getMainFrame().getForconsList().getSelectedValue().split(",")[1]);
             mainData.addBodyBag(arrayList.get(randIndex));

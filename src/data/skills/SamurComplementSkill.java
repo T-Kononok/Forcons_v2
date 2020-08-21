@@ -103,7 +103,7 @@ public class SamurComplementSkill extends Skill{
         Mark mark;
         for (int i = 0; i < mainData.getRowSize(); i++) {
             mark = mainData.getMark(row,i);
-            if (mark.get() != 0) {
+            if (mark.get() != 0 && mark.canBite()) {
                 newMedian = getNewMedian(row, i, averageScore);
 //                System.out.println("row " + row + " i " + i + " newMedian " + newMedian);
                 if ((median - newMedian) > maxBenefit) {
@@ -118,14 +118,10 @@ public class SamurComplementSkill extends Skill{
         }
 
         int col;
-        if (maxBenefit > 0) {
+        if (maxBenefit > 0)
             col = colBite;
-//            System.out.println("maxBenefit > 0");
-        }
-        else {
+        else
             col = colMax;
-//            System.out.println("maxBenefit = 0");
-        }
 
         mark = mainData.getMark(row, col);
 //        int old = mark.get();

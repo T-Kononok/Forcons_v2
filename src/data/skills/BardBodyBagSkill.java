@@ -1,5 +1,6 @@
 package data.skills;
 
+import data.ForconsList;
 import data.MainData;
 import data.Mark;
 import data.YX;
@@ -37,7 +38,7 @@ public class BardBodyBagSkill extends Skill {
         int randIndex = rand.nextInt(arrayList.size());
         mark = MainData.getMark(arrayList.get(randIndex));
         if (Math.random() < 0.5 + MainData.getBodyBagMap().size() * 0.05) {
-            mark.setBodyBag(MainFrame.getForconsList().getSelectedValue().split(",")[1]);
+            mark.setBodyBag(ForconsList.getSelectedValue().split(",")[1]);
             MainData.addBodyBag(arrayList.get(randIndex));
             startFon(arrayList.get(randIndex), "bardBodyBag");
         }

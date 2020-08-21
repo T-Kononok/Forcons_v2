@@ -1,12 +1,11 @@
 package data;
 
-import com.sun.xml.bind.v2.model.core.EnumLeafInfo;
 import data.skills.*;
+import elements.DownElementsPanel;
 import elements.UpElementsPanel;
 import elements.skills.SkillsPanel;
 import elements.TableNoGaps;
 import frame.MainFrame;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,9 +18,7 @@ import java.util.Scanner;
 
 public class MainData {
 
-    private static final HSSFData hssfData = new HSSFData();
     private static final JournalTableModel model = new JournalTableModel();
-    private static MainFrame mainFrame;
     private static TableNoGaps tableNoGaps;
     private static ArrayList<ArrayList<Mark>> matrix = null;
     private static final ArrayList<Integer> light = new ArrayList<>();
@@ -32,46 +29,25 @@ public class MainData {
         addSkillMap();
     }
 
-    public static void setMainFrame(MainFrame mainFrame) {
-        MainData.mainFrame = mainFrame;
-        tableNoGaps = mainFrame.getTableNoGaps();
-    }
-
-    public static void changeUpElements() {
-        getMainFrame().getUpElementsPanel().changeElements();
+    public static void setTableNoGaps(TableNoGaps table) {
+        tableNoGaps = table;
     }
 
     public static boolean minusPoint(int value) {
-        if (getForconsList().minusPoint(value)) {
-            MainFrame.getDownElementsPanel().changeElements();
+        if (ForconsList.minusPoint(value)) {
+            DownElementsPanel.changeElements();
             return true;
         }
         return false;
     }
 
     public static void minusAllPoint() {
-        getForconsList().minusAllPoint();
-        MainFrame.getDownElementsPanel().changeElements();
-    }
-
-    public static int getLevel() {
-        return getForconsList().getLevel();
-    }
-
-    public static MainFrame getMainFrame() {
-        return mainFrame;
-    }
-
-    private static ForconsList getForconsList() {
-        return MainFrame.getForconsList();
+        ForconsList.minusAllPoint();
+        DownElementsPanel.changeElements();
     }
 
     public static SkillsPanel getSkillsPanel() {
         return tableNoGaps.getSkillsPanel();
-    }
-
-    public static ArrayList<ArrayList<Mark>> getMatrix() {
-        return matrix;
     }
 
     public static ArrayList<Integer> getLight() {
@@ -79,7 +55,6 @@ public class MainData {
     }
 
     public static Mark getMark(int row, int column) {
-//        if (row >= 0 && row < matrix.size() && column >= 0 && column < matrix.get(0).size())
         return matrix.get(row).get(column);
     }
 
@@ -96,16 +71,16 @@ public class MainData {
     }
 
     public static void readTable(String filename) {
-        matrix = hssfData.readHSSFJournal(filename);
+        matrix = HSSFData.readHSSFJournal(filename);
         readOther();
-        tableNoGaps.addRenderer(hssfData.getMap());
+        tableNoGaps.addRenderer(HSSFData.getMap());
         model.setMatrix(matrix);
         tableNoGaps.setModel(model);
         tableNoGaps.resizeTable();
     }
 
     public static void writeTable() {
-        hssfData.writeHSSFJournal(matrix);
+        HSSFData.writeHSSFJournal(matrix);
     }
 
     public static void writeOther() {
@@ -148,7 +123,7 @@ public class MainData {
     }
 
     public static void addBodyBag(YX xy) {
-        String[] string = getForconsList().getSelectedValue().split(",");
+        String[] string = ForconsList.getSelectedValue().split(",");
         if (bodyBagMap.get(string[1]) == null) {
             ArrayList<YX> array = new ArrayList<>();
             array.add(xy);
@@ -179,7 +154,7 @@ public class MainData {
                     bodyBagMap.put(name, array);
                 }
             }
-            changeUpElements();
+            UpElementsPanel.changeElements();
         } catch (FileNotFoundException e) {
             System.out.println("Ошибка чтения списка форсонов");
         }
@@ -202,19 +177,6 @@ public class MainData {
     public static TableNoGaps getTableNoGaps() {
         return tableNoGaps;
     }
-
-    //    ///для проверок
-//    private ArrayList<ArrayList<Mark>> createMatrix(int startRow, int countRow,int startColumn, int countColumn) {
-//        ArrayList<ArrayList<Mark>> matrix2 = new ArrayList<>();
-//        for (int i = startRow; i < countRow; i++) {
-//            ArrayList<Mark> marks = new ArrayList<>();
-//            for (int j = startColumn; j < countColumn; j++) {
-//                marks.add(matrix.get(i).get(j));
-//            }
-//            matrix2.add(marks);
-//        }
-//        return matrix2;
-//    }
 
     private static void addSkillMap() {
         Map<Integer, Skill> baSkillMap = new HashMap<>();

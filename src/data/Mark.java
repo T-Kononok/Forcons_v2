@@ -58,14 +58,14 @@ public class Mark {
     public void set(int mark) {
         if (this.mark != 0) {
             setBites(bites + this.mark - mark);
-            this.mark -= inRange( this.mark - mark,0,4);
+            this.mark -= inRange( this.mark - mark, 4);
         } else
-            this.mark = inRange(mark,0,10);
+            this.mark = inRange(mark, 10);
         setBoolean = (mark == this.mark);
     }
 
     public void setBites(int bites) {
-        this.bites = inRange(bites,0,4);
+        this.bites = inRange(bites, 4);
     }
 
     public void setBodyBag(String bodyBag) {
@@ -117,13 +117,13 @@ public class Mark {
 
     //другое
     public void plus(int plusValue) {
-        mark = inRange(mark + plusValue, 0, 10);
-        bites -= inRange(plusValue,0,bites);
+        mark = inRange(mark + plusValue, 10);
+        bites -= inRange(plusValue, bites);
     }
 
     public void minus(int minusValue) {
-        minusValue = inRange(minusValue, 0, 3 - bites);
-        mark = inRange(mark - minusValue, 0, 10);
+        minusValue = inRange(minusValue, 3 - bites);
+        mark = inRange(mark - minusValue, 10);
         bites += minusValue;
     }
 
@@ -160,11 +160,11 @@ public class Mark {
         return style;
     }
 
-    private int inRange(int value, int min, int max) {
+    private int inRange(int value, int max) {
         if (value > max && max > 0)
             value = max;
         else
-            value = Math.max(value, min);
+            value = Math.max(value, 0);
         return value;
     }
 
@@ -180,7 +180,7 @@ public class Mark {
         String number = findNumber(string);
         if (!number.equals(""))
             mark = Integer.parseInt(string);
-        this.string = string.replace(number,"");;
+        this.string = string.replace(number,"");
     }
     private String findNumber(String string) {
         for (int i = 0; i <= 10; i++) {

@@ -3,21 +3,11 @@ package frame;
 import auxiliary.Auxiliary;
 import data.ForconsList;
 import data.MainData;
-import data.Mark;
 import elements.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import elements.skills.SkillButtonActionListener;
-import org.apache.batik.swing.JSVGCanvas;
 
 public class MainFrame extends JFrame {
 
@@ -25,29 +15,38 @@ public class MainFrame extends JFrame {
     private static final int HEIGHT = 720;
     private static final ImagePanel panelFull = new ImagePanel("image/begin_fon.jpg",false);
     private final TableNoGaps tableNoGaps = new TableNoGaps(0,35,1035,580);
-    private static final ForconsList forconsList = new ForconsList();
-    private final UpElementsPanel upElementsPanel = new UpElementsPanel(this);
-    private static final DownElementsPanel downElementsPanel = new DownElementsPanel(forconsList);
 
     private static JFileChooser fileChooser = null;
+    private static JButton cancelButton;
 
 
     private MainFrame() {
-        MainData.setMainFrame(this);
+        MainData.setTableNoGaps(tableNoGaps);
 
         panelFull.setSize(WIDTH,HEIGHT);
         panelFull.setLayout(null);
 
-        downElementsPanel.addIn(panelFull,0,0);
-        downElementsPanel.setVisible(false);
-        upElementsPanel.addIn(panelFull,0,0);
-        upElementsPanel.setVisible(false);
+        DownElementsPanel.addIn(panelFull,0,0);
+        DownElementsPanel.setVisible(false);
+        UpElementsPanel.addIn(panelFull,0,0);
+        UpElementsPanel.setVisible(false);
 
         addTableNoGaps();
+
+        cancelButton = addCancelButton();
 
         addOpenButton(addOpenPanel(), addForconsListScroll());
 
         getContentPane().add(panelFull);
+    }
+
+    private JButton addCancelButton() {
+        JButton cancelButton = Auxiliary.addButton(panelFull,25,25,1250,5);
+        cancelButton.addActionListener(ev -> {
+            tableNoGaps.stopThread();
+            dispose();
+        });
+        return cancelButton;
     }
 
     private static ImagePanel addOpenPanel() {
@@ -64,7 +63,7 @@ public class MainFrame extends JFrame {
     }
 
     private static JScrollPane addForconsListScroll() {
-        JScrollPane forconsListScroll = new JScrollPane(forconsList.getList());
+        JScrollPane forconsListScroll = new JScrollPane(ForconsList.getList());
         Auxiliary.toPlace(panelFull,forconsListScroll,220,585,1060,35);
         forconsListScroll.setOpaque(false);
         forconsListScroll.getViewport().setOpaque(false);
@@ -85,15 +84,16 @@ public class MainFrame extends JFrame {
         openButton.addActionListener(ev -> {
             MainData.readTable(selectionFile("Открыть жунал"));
 //            MainData.readTable("D:\\Джава\\Forcons_v2\\10_FM-3.xls");
-            forconsList.read(selectionFile("Открыть форсонов"));
+            ForconsList.read(selectionFile("Открыть форсонов"));
             openButton.setVisible(false);
             openPanel.setVisible(false);
             tableNoGaps.setVisible(true);
-            upElementsPanel.setVisible(true);
+            UpElementsPanel.setVisible(true);
+            cancelButton.setVisible(true);
             scrollPane.setVisible(true);
             tableNoGaps.startThread();
             panelFull.setImageFile("image/fon2.jpg");
-            forconsList.checkTsundere();
+            ForconsList.checkTsundere();
         });
     }
 
@@ -115,26 +115,6 @@ public class MainFrame extends JFrame {
         }
         return null;
     }
-
-    public TableNoGaps getTableNoGaps() {
-        return tableNoGaps;
-    }
-
-    public static DownElementsPanel getDownElementsPanel() {
-        return downElementsPanel;
-    }
-
-    public static ForconsList getForconsList() {
-        return forconsList;
-    }
-
-    public UpElementsPanel getUpElementsPanel() {
-        return upElementsPanel;
-    }
-
-//    public UpElementsPanel getUpElementsPanel() {
-//        return upElementsPanel;
-//    }
 
     public static void main(String[] args) {
         MainFrame frame = new MainFrame();

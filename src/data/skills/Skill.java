@@ -1,8 +1,10 @@
 package data.skills;
 
+import data.ForconsList;
 import data.MainData;
 import data.Mark;
 import data.YX;
+import elements.UpElementsPanel;
 import elements.skills.SkillEffect;
 
 import java.io.IOException;
@@ -68,9 +70,9 @@ public class Skill {
     }
 
     protected void deathAndCoin() {
-        if (MainData.getLevel() > 1) {
+        if (ForconsList.getLevel() > 1) {
             coins++;
-            MainData.changeUpElements();
+            UpElementsPanel.changeElements();
         }
         if (Math.random() < 0.05)
             MainData.minusAllPoint();

@@ -1,26 +1,18 @@
 package elements;
 
 import auxiliary.Auxiliary;
-import data.HSSFData;
 import data.Mark;
 import org.apache.batik.swing.JSVGCanvas;
-import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.*;
 
 public class JournalTableCellRenderer implements TableCellRenderer {
 
     private final JPanel panel = new JPanel();
-    private final ImagePanel fon = new ImagePanel();
     private final Map<String, JSVGCanvas> mapSVG = new HashMap<>();
     private final JLabel label;
 

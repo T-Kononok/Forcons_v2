@@ -1,14 +1,12 @@
 package elements;
 
 import auxiliary.Auxiliary;
-import data.MainData;
+import data.ForconsList;
 import frame.MainFrame;
 import org.apache.batik.swing.JSVGCanvas;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -80,7 +78,7 @@ public class ForconsRenderer implements ListCellRenderer<String> {
         rendLevel(subStr[2]);
         rendPoint(subStr[3]);
 
-        if (MainFrame.getForconsList().isTwoSelected(index))
+        if (ForconsList.isTwoSelected(index))
             fon2.setBackground(new Color(0, 0, 0, 255));
         else
             fon2.setBackground(new Color(0, 0, 0, 0));

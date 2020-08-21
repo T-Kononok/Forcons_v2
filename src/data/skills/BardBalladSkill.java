@@ -1,6 +1,7 @@
 package data.skills;
 
 import data.MainData;
+import elements.UpElementsPanel;
 
 public class BardBalladSkill extends Skill{
 
@@ -9,7 +10,7 @@ public class BardBalladSkill extends Skill{
         if (!MainData.minusPoint(1))
             return;
         buffAttack += 0.2;
-        MainData.changeUpElements();
+        UpElementsPanel.changeElements();
 //        System.out.println(buffAttack + " " + Math.round(buffAttack));
         deathAndCoin();
     }

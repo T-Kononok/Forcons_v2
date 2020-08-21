@@ -15,13 +15,6 @@ public class ImagePanel extends JPanel {
     private boolean speed = true;
     private RenderingHints renderingHints;
 
-    private boolean cut = false;
-    private int number;
-    private int leftX;
-    private int leftY;
-    private int rightX;
-    private int rightY;
-
     public ImagePanel(String imageFile, Boolean resize, Boolean speed) {
         super();
         setImageFile(imageFile);
@@ -80,40 +73,8 @@ public class ImagePanel extends JPanel {
     }
     // не забыть хранение пикчи
 
-    public void onCut(int number) {
-        cut = true;
-        this.number = number;
-    }
-
-    public void offCut() {
-        cut = false;
-    }
-
     public void setResize(boolean resize) {
         this.resize = resize;
-    }
-
-    private void setCut(BufferedImage image) {
-        cut = true;
-        int thirdWidth = image.getWidth() / 3;
-        int thirdHeight = image.getHeight() / 3;
-        leftX = (number % 3) * thirdWidth;
-        rightX = leftX + thirdWidth;
-        switch (number) {
-            case 0: case 1: case 2:
-                leftY = 0;
-                rightY = leftY + thirdHeight;
-                break;
-            case 3: case 4: case 5:
-                leftY = thirdHeight;
-                rightY = leftY + thirdHeight;
-                break;
-            case 6: case 7: case 8:
-                leftY = 2 * thirdHeight;
-                rightY = leftY + thirdHeight;
-                break;
-        }
-//        System.out.println(number + ": " + leftX + " " + leftY + " " + rightX + " " + rightY);
     }
 
     @Override
@@ -140,33 +101,13 @@ public class ImagePanel extends JPanel {
         }
     }
 
-//    if (resize) {
-//        ImageIcon icon = new ImageIcon(new ImageIcon(imageFile).getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
-//        g.drawImage(icon.getImage(), 0, 0, null);
-//    } else {
-//        g.drawImage(new ImageIcon(imageFile).getImage(), 0, 0, null);
-//    }
-
     private BufferedImage getImage() throws IOException {
         if (imageFile == null)
             return null;
 
         File file = new File(imageFile);
-        BufferedImage image = ImageIO.read(file);
 
-        if (!cut)
-            return image;
-
-        setCut(image);
-        int type = (image.getTransparency() == Transparency.OPAQUE) ?
-                BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB;
-        BufferedImage tmp = new BufferedImage(getWidth(), getHeight(), type);
-        Graphics2D g2 = tmp.createGraphics();
-        g2.addRenderingHints(renderingHints);
-        g2.drawImage(image, 0,0, getWidth(), getHeight(),
-                leftX, leftY, rightX, rightY, null);
-        g2.dispose();
-        return tmp;
+        return ImageIO.read(file);
     }
 
     public BufferedImage getScaledInstance(BufferedImage img) {

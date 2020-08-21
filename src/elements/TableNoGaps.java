@@ -67,13 +67,13 @@ public class TableNoGaps extends JPanel{
         component.add(this);
     }
 
-    public JournalTableCellRenderer getRenderer() {
-        return renderer;
-    }
+//    public JournalTableCellRenderer getRenderer() {
+//        return renderer;
+//    }
 
-    public int getRowCount() {
-        return table.getRowCount();
-    }
+//    public int getRowCount() {
+//        return table.getRowCount();
+//    }
 
     public int getCellSize(){
         return cellSize;

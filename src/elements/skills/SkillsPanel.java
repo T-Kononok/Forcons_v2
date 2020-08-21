@@ -18,9 +18,6 @@ public class SkillsPanel extends JPanel {
         setOpaque(false);
     }
 
-    public TableNoGaps getTable() {
-        return tableNoGaps;
-    }
 
     public void startThread() {
         skillsThread = new SkillsThread(this);

@@ -2,41 +2,38 @@ package data;
 
 import data.skills.SamurTsundereSkill;
 import elements.ForconsRenderer;
-import frame.MainFrame;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ForconsList {
-    private final ForsonsListModel forconsListModel = new ForsonsListModel();
-    private final JList<String> forconsList = new JList<>();
-    private int firstIndex = -1;
-    private int secondIndex = -1;
+    private static final ForsonsListModel forconsListModel = new ForsonsListModel();
+    private static final JList<String> forconsList = new JList<>();
+    private static int firstIndex = -1;
+    private static int secondIndex = -1;
 
-    public ForconsList() {
+    static {
         forconsList.setModel(forconsListModel);
         setMultipleSelection(true);
         forconsList.setCellRenderer(new ForconsRenderer());
         forconsList.setOpaque(false);
     }
 
-    public void setMultipleSelection(boolean bol) {
+    public static void setMultipleSelection(boolean bol) {
         if (bol)
             forconsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         else
             forconsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
-    public JList<String> getList(){
+    public static JList<String> getList(){
         return forconsList;
     }
 
-    public int getSelectedIndex() {
+    public static int getSelectedIndex() {
         if (forconsList.getSelectedIndices().length == 1) {
             firstIndex = forconsList.getSelectedIndex();
             secondIndex = -1;
@@ -50,29 +47,29 @@ public class ForconsList {
         return firstIndex;
     }
 
-    public String getSelectedValue() {
+    public static String getSelectedValue() {
         return forconsListModel.get(getSelectedIndex());
     }
 
-    public boolean isTwoSelected(int index) {
+    public static boolean isTwoSelected(int index) {
         return (index == firstIndex || index == secondIndex);
     }
 
-    public void add(int index, String string) {
+    public static void add(int index, String string) {
         forconsListModel.add(index, string);
         forconsList.validate();
     }
 
-    public void set(int index, String string) {
+    public static void set(int index, String string) {
         forconsListModel.set(index,string);
     }
 
-    public void sortPoint() {
+    public static void sortPoint() {
         forconsList.clearSelection();
         forconsListModel.sortPoint();
     }
 
-    public void sortClass() {
+    public static void sortClass() {
         forconsList.clearSelection();
         forconsListModel.sortClass();
     }
@@ -84,7 +81,7 @@ public class ForconsList {
 //        return point >= 0;
 //    }
 
-    public boolean minusPoint(int value) {
+    public static boolean minusPoint(int value) {
         String string = getSelectedValue();
         int point = Integer.parseInt(string.substring(string.lastIndexOf(",")+1));
         point -= value;
@@ -95,18 +92,18 @@ public class ForconsList {
         return true;
     }
 
-    public void minusAllPoint() {
+    public static void minusAllPoint() {
         String string = getSelectedValue();
         int point = Integer.parseInt(string.substring(string.lastIndexOf(",")+1));
         minusPoint(point);
     }
 
-    public int getLevel() {
+    public static int getLevel() {
         String string = getSelectedValue();
         return Integer.parseInt(string.substring(string.indexOf(",",3)+1,string.lastIndexOf(",")));
     }
 
-    public void read(String filename) {
+    public static void read(String filename) {
         try {
             Scanner scanner = new Scanner(new File(filename));
             while (scanner.hasNextLine())
@@ -120,7 +117,7 @@ public class ForconsList {
         }
     }
 
-    private void checkOvercoming () {
+    private static void checkOvercoming () {
         for (int i = 0; i < forconsListModel.getArray().size(); i++) {
             String string = forconsListModel.getArray().get(i);
             String[] subStrs = string.split(",");
@@ -133,7 +130,7 @@ public class ForconsList {
         }
     }
 
-    private void checkBodyBag() {
+    private static void checkBodyBag() {
         forconsListModel.getArray().forEach((s) -> {
             String[] subStrs = s.split(",");
             if (MainData.getBodyBagMap().get(subStrs[1]) != null)
@@ -145,7 +142,7 @@ public class ForconsList {
         MainData.getTableNoGaps().repaint();
     }
 
-    public void checkTsundere() {
+    public static void checkTsundere() {
         SamurTsundereSkill skill = new SamurTsundereSkill();
         forconsListModel.getArray().forEach((s) -> {
             String[] subStrs = s.split(",");

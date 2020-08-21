@@ -1,7 +1,5 @@
 package elements;
 
-import org.apache.batik.swing.JSVGCanvas;
-
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;

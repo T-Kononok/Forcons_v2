@@ -114,10 +114,24 @@ public class ForconsList {
             while (scanner.hasNextLine())
                 forconsListModel.add(scanner.nextLine());
             checkBodyBag();
+            checkOvercoming();
             sortPoint();
             sortClass();
         } catch (FileNotFoundException e) {
             System.out.println("Ошибка чтения списка форсонов");
+        }
+    }
+
+    private void checkOvercoming () {
+        for (int i = 0; i < forconsListModel.getArray().size(); i++) {
+            String string = forconsListModel.getArray().get(i);
+            String[] subStrs = string.split(",");
+            if (subStrs[0].equals("sa") && subStrs[2].equals("3") && Integer.parseInt(subStrs[3]) < 7) {
+                int point = Integer.parseInt(string.substring(string.lastIndexOf(",")+1));
+                point++;
+                String sub = string.substring(0,string.lastIndexOf(",")+1);
+                forconsListModel.set(i,sub+point);
+            }
         }
     }
 

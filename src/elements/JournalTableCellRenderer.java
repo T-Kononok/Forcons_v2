@@ -1,5 +1,6 @@
 package elements;
 
+import auxiliary.Auxiliary;
 import data.HSSFData;
 import data.Mark;
 import org.apache.batik.swing.JSVGCanvas;
@@ -19,9 +20,9 @@ import java.util.*;
 public class JournalTableCellRenderer implements TableCellRenderer {
 
     private final JPanel panel = new JPanel();
-    private ImagePanel fon = new ImagePanel();
+    private final ImagePanel fon = new ImagePanel();
     private final Map<String, JSVGCanvas> mapSVG = new HashMap<>();
-    private final JLabel label = new JLabel();
+    private final JLabel label;
 
     private final Map<String, HSSFCellStyle> map;
 //
@@ -30,42 +31,17 @@ public class JournalTableCellRenderer implements TableCellRenderer {
         this.map = map;
         panel.setLayout(null);
         panel.setBackground(new Color(0,0,0,0));
-        try {
-            Font font = Font.createFont(Font.TRUETYPE_FONT, new BufferedInputStream(
-                    new FileInputStream("American TextC Regular.ttf"))).
-                    deriveFont(Font.PLAIN, 15);
-            label.setFont(font);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        label.setForeground(Color.BLACK);
-        label.setVerticalAlignment(JLabel.CENTER);
-        label.setHorizontalAlignment(JLabel.CENTER);
-        label.setLocation(0,0);
-        fon.setBackground(new Color(0, 0, 0, 0));
-        fon.setSize(15,15);
-        fon.setLocation(0,0);
-        panel.add(fon);
+
+        label = Auxiliary.addLabel(panel,15,15,0,0,"American TextC Regular.ttf",15);
         panel.add(label);
         addSVG();
-
     }
 
     private void addSVG() {
-        map.forEach((s,cs) -> mapSVG.put(s, addOneSVG()));
+        map.forEach((s,cs) -> mapSVG.put(s, Auxiliary.addCanvas(panel,5,5,0,0,false)));
         for(Map.Entry<String, JSVGCanvas> entry: mapSVG.entrySet()) {
             mapSVG.get(entry.getKey()).setURI("file:image/svg/"+entry.getKey()+".svg");
         }
-    }
-
-    private JSVGCanvas addOneSVG() {
-        JSVGCanvas canvas = new JSVGCanvas();
-        canvas.setBackground(new Color(0, 0, 0, 0));
-        canvas.setSize(5, 5);
-        canvas.setLocation(0,0);
-        panel.add(canvas);
-        canvas.setVisible(false);
-        return canvas;
     }
 
     public void setSize(int size) {
@@ -73,15 +49,7 @@ public class JournalTableCellRenderer implements TableCellRenderer {
             mapSVG.get(entry.getKey()).setSize(size,size);
         }
         label.setSize(size,size);
-        fon.setSize(size,size);
     }
-
-//    public void setMatrixSize(int row, int column) {
-//        countRow = row;
-//        countColumn = column;
-//        addMatrixSVG();
-//        setSize(15);
-//    }
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
@@ -96,13 +64,13 @@ public class JournalTableCellRenderer implements TableCellRenderer {
     }
 
     private void showCanvas(String string) {
-        falseVisible();
-        mapSVG.get(string).setVisible(true);
+        mapSVG.forEach((s,c) -> c.setVisible(s.equals(string)));
     }
 
     private void falseVisible() {
-        for(Map.Entry<String, JSVGCanvas> entry: mapSVG.entrySet()) {
-            mapSVG.get(entry.getKey()).setVisible(false);
-        }
+//        for(Map.Entry<String, JSVGCanvas> entry: mapSVG.entrySet()) {
+//            mapSVG.get(entry.getKey()).setVisible(false);
+//        }
+
     }
 }

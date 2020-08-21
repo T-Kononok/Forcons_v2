@@ -4,16 +4,12 @@ import data.MainData;
 
 public class BardDefenseSkill extends Skill{
 
-    public BardDefenseSkill(MainData mainData) {
-        super(mainData);
-    }
-
     @Override
     public void begin() {
-        if (!mainData.minusPoint(1))
+        if (!MainData.minusPoint(1))
             return;
         buffDefense += 2;
-        mainData.changeUpElements();
+        MainData.changeUpElements();
 //        System.out.println(buffAttack + " " + Math.round(buffAttack));
         deathAndCoin();
     }

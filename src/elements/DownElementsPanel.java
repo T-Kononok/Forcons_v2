@@ -1,5 +1,6 @@
 package elements;
 
+import auxiliary.Auxiliary;
 import data.ForconsList;
 import data.MainData;
 import elements.skills.SkillButtonActionListener;
@@ -17,7 +18,6 @@ public class DownElementsPanel{
 
     private final ImagePanel fon = new ImagePanel("image/parchmentBig.png",false);
     private final ForconsList forconsList;
-    private final MainData mainData;
     private final Map<String, JSVGCanvas> classCanvases;
     private final ReSizeLabel nameLabel;
     private final Map<Integer, JButton> skillButtons;
@@ -27,8 +27,7 @@ public class DownElementsPanel{
     private final ReSizeLabel pointsLabel;
     private final ArrayList<String> classNames = new ArrayList<>();
 
-    public DownElementsPanel(ForconsList forconsList, MainData mainData) {
-        this.mainData = mainData;
+    public DownElementsPanel(ForconsList forconsList) {
         this.forconsList = forconsList;
 
         fon.setSize(1280,720);
@@ -39,7 +38,7 @@ public class DownElementsPanel{
 
         classCanvases = addClassCanvases();
 
-        nameLabel = addLabel(225,100,110,620);
+        nameLabel = Auxiliary.addLabel(fon,225,100,110,620, 50);
 
         int initialX = 340;
         int size = 100;
@@ -48,11 +47,12 @@ public class DownElementsPanel{
         actionListeners = addActionListeners(skillButtons);
 
         pointsCanvases = addPointsCanvases();
-        pointsLabel = addLabel(
+        pointsLabel = Auxiliary.addLabel(fon,
                 pointsCanvases.get(0).getWidth(),
                 pointsCanvases.get(0).getHeight(),
                 pointsCanvases.get(0).getX(),
-                pointsCanvases.get(0).getY());
+                pointsCanvases.get(0).getY(),
+                50);
 
         addForconsListListener();
     }
@@ -102,7 +102,7 @@ public class DownElementsPanel{
                 c.setVisible(s.equals(subStr[0]) && i + 1 <= countSkill )));
 
         for (int i = 0; i < countSkill; i++)
-            actionListeners.get(i).setSkill(mainData.getSkill(subStr[0],(i+1)));
+            actionListeners.get(i).setSkill(MainData.getSkill(subStr[0],(i+1)));
 
         int pointCount = Integer.parseInt(subStr[3]);
         if (pointCount < 8) {
@@ -114,29 +114,6 @@ public class DownElementsPanel{
         }
     }
 
-    private JSVGCanvas addCanvas(int width, int height, int x, int y) {
-        JSVGCanvas canvas = new JSVGCanvas();
-        toPlace(canvas,width,height,x,y);
-        canvas.setBackground(new Color(0,0,0,0));
-        return canvas;
-    }
-
-    private ReSizeLabel addLabel(int width, int height, int x, int y) {
-        Font font = null;
-        try {
-            font = Font.createFont(Font.TRUETYPE_FONT, new BufferedInputStream(
-                    new FileInputStream("Fortuna Gothic FlorishC.ttf"))).
-                    deriveFont(Font.PLAIN, 50);
-        } catch (Exception ignored) { }
-        ReSizeLabel label = new ReSizeLabel(font);
-        label.setForeground(Color.BLACK);
-        label.setVerticalAlignment(JLabel.CENTER);
-        label.setHorizontalAlignment(JLabel.CENTER);
-        toPlace(label,width,height,x,y);
-
-        return label;
-    }
-
     private Map<String, JSVGCanvas> addClassCanvases() {
         Map<String, JSVGCanvas> classCanvases = new HashMap<>();
         classNames.forEach(s -> classCanvases.put(
@@ -144,7 +121,7 @@ public class DownElementsPanel{
         return classCanvases;
     }
     private JSVGCanvas getClassCanvas(String fileName) {
-        JSVGCanvas canvas = addCanvas(100, 100, 5, 620);
+        JSVGCanvas canvas = Auxiliary.addCanvas(fon,100, 100, 5, 620);
         canvas.setURI("file:/D:/Джава/Forcons_v2/image/svg/" + fileName + ".svg");
         canvas.setVisible(false);
         return canvas;
@@ -153,19 +130,11 @@ public class DownElementsPanel{
     private Map<Integer, JButton> addSkillButtons(int initialX, int size) {
         Map<Integer, JButton> skillButtons = new HashMap<>();
         for (int i = 0; i < 6; i++) {
-            skillButtons.put(i, getSkillButton(size,initialX + size * i));
+            skillButtons.put(i, Auxiliary.addButton(fon,size,size,initialX + size * i, 620));
         }
         return skillButtons;
     }
-    private JButton getSkillButton(int size, int x) {
-        JButton skillButton = new JButton();
-        toPlace(skillButton,size,size,x, 620);
-        //совместить в один метод создание кнопки с сотировками
-        skillButton.setBorderPainted(false);
-        skillButton.setContentAreaFilled(false);
-        skillButton.setVisible(false);
-        return skillButton;
-    }
+
     private ArrayList<SkillButtonActionListener> addActionListeners(Map<Integer,JButton> skillButtons) {
         ArrayList<SkillButtonActionListener> actionListeners = new ArrayList<>();
         for (int i = 0; i < 6; i++)
@@ -186,7 +155,7 @@ public class DownElementsPanel{
         return skillCanvases;
     }
     private JSVGCanvas getOneSkillCanvases(int size, int x, int y, String fileName, int number) {
-        JSVGCanvas canvas = addCanvas(size, size, x, y);
+        JSVGCanvas canvas = Auxiliary.addCanvas(fon,size, size, x, y);
         canvas.setURI("file:/D:/Джава/Forcons_v2/image/svg/" + fileName + "Skill" + number + ".svg");
         canvas.setVisible(false);
         return canvas;
@@ -199,16 +168,10 @@ public class DownElementsPanel{
         return  pointsCanvases;
     }
     private JSVGCanvas getPointCanvas(int number) {
-        JSVGCanvas canvas = addCanvas(285,100,940,620);
+        JSVGCanvas canvas = Auxiliary.addCanvas(fon,285,100,940,620);
         canvas.setURI("file:/D:/Джава/Forcons_v2/image/svg/point" + number + ".svg");
         canvas.setVisible(false);
         return canvas;
-    }
-
-    private void toPlace(JComponent component,int width, int height, int x, int y) {
-        component.setSize(width,height);
-        component.setLocation(x,y);
-        fon.add(component);
     }
 
     public void setVisible(boolean flag) {

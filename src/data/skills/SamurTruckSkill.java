@@ -10,21 +10,17 @@ import java.util.Random;
 
 public class SamurTruckSkill extends Skill{
 
-    public SamurTruckSkill(MainData mainData) {
-        super(mainData);
-    }
-
     @Override
     public void begin() throws IOException {
-        if (!mainData.minusPoint(2))
+        if (!MainData.minusPoint(2))
                 return;
         int col = 0;
         Mark mark;
         boolean empty = true;
         while (empty) {
-            col = new Random().nextInt(mainData.getRowSize());
-            for (int i = 0; i < mainData.getSize(); i++) {
-                mark = mainData.getMark(i, col);
+            col = new Random().nextInt(MainData.getRowSize());
+            for (int i = 0; i < MainData.getSize(); i++) {
+                mark = MainData.getMark(i, col);
                 if (!mark.canBite())
                     break;
                 if (mark.get() != 0)
@@ -32,8 +28,8 @@ public class SamurTruckSkill extends Skill{
             }
         }
 
-        for (int i = 0; i < mainData.getSize(); i++) {
-            mark = mainData.getMark(i, col);
+        for (int i = 0; i < MainData.getSize(); i++) {
+            mark = MainData.getMark(i, col);
             if (mark.get() != 0) {
 //                System.out.print(mark.get() + "->");
                 if (Math.random() < 0.75) {

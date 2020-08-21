@@ -11,14 +11,9 @@ import java.util.Random;
 
 public class Skill {
 
-    protected  MainData mainData;
     protected static double buffAttack = 0;
     protected static int buffDefense = 0;
     protected static int coins = 0;
-
-    protected Skill(MainData mainData) {
-        this.mainData = mainData;
-    }
 
     public static double getBuffAttack() {
         return buffAttack;
@@ -43,14 +38,14 @@ public class Skill {
     protected YX getRandomYX() {
         Random rand = new Random();
         Integer row = getRandomRow();
-        return new YX(row, rand.nextInt(mainData.getRowSize()));
+        return new YX(row, rand.nextInt(MainData.getRowSize()));
     }
 
     protected Integer getRandomRow() {
         Random rand = new Random();
-        int row = rand.nextInt(mainData.getSize()+mainData.getLight().size());
-        if (row >= mainData.getSize()) {
-            row = mainData.getLight().get(row - mainData.getSize());
+        int row = rand.nextInt(MainData.getSize()+ MainData.getLight().size());
+        if (row >= MainData.getSize()) {
+            row = MainData.getLight().get(row - MainData.getSize());
 //            System.out.println("light");
         }
         return row;
@@ -62,8 +57,8 @@ public class Skill {
         yx.setY(getRandomRow());
         Random rand = new Random();
         do {
-            yx.setX(rand.nextInt(mainData.getRowSize()));
-            mark = mainData.getMark(yx);
+            yx.setX(rand.nextInt(MainData.getRowSize()));
+            mark = MainData.getMark(yx);
         } while (mark.get() == 0 || !mark.canBite());
 //        System.out.println("row "+ yx.getY() + " col "+ yx.getX());
         return yx;
@@ -73,33 +68,33 @@ public class Skill {
     }
 
     protected void deathAndCoin() {
-        if (mainData.getLevel() > 1) {
+        if (MainData.getLevel() > 1) {
             coins++;
-            mainData.changeUpElements();
+            MainData.changeUpElements();
         }
         if (Math.random() < 0.05)
-            mainData.minusAllPoint();
+            MainData.minusAllPoint();
     }
 
     protected void startFon(YX rowCol, String skillName) throws IOException {
-        mainData.getSkillsPanel().addEffect(getStandardSizeEffect(rowCol, skillName));
+        MainData.getSkillsPanel().addEffect(getStandardSizeEffect(rowCol, skillName));
     }
 
     protected void startFon(YX rowCol, String skillName, int time) throws IOException {
         SkillEffect skillEffect = getStandardSizeEffect(rowCol, skillName);
         skillEffect.setTime(time);
-        mainData.getSkillsPanel().addEffect(skillEffect);
+        MainData.getSkillsPanel().addEffect(skillEffect);
     }
 
     protected void startFon(YX rowCol, String skillName, boolean endlessly) throws IOException {
         SkillEffect skillEffect = getStandardSizeEffect(rowCol, skillName);
         if (endlessly)
             skillEffect.onEndlessly();
-        mainData.getSkillsPanel().addEffect(skillEffect);
+        MainData.getSkillsPanel().addEffect(skillEffect);
     }
 
     protected SkillEffect getStandardSizeEffect(YX rowCol, String skillName) throws IOException {
-        int size = mainData.getTableNoGaps().getCellSize();
+        int size = MainData.getTableNoGaps().getCellSize();
         int y = rowCol.getY() * size;
         int x = rowCol.getX() * size + size;
         return new SkillEffect("image/skills/" + skillName + ".png",
@@ -107,13 +102,13 @@ public class Skill {
     }
 
     protected void startFon(YX rowCol, String skillName, int width, int height, boolean endlessly) throws IOException {
-        int size = mainData.getTableNoGaps().getCellSize();
+        int size = MainData.getTableNoGaps().getCellSize();
         int y = rowCol.getY() * size + size;
         int x = rowCol.getX() * size + size * 2;
         SkillEffect skillEffect = new SkillEffect("image/skills/" + skillName + ".png",
                 x,y,size*width,size*height);
         if (endlessly)
             skillEffect.onEndlessly();
-        mainData.getSkillsPanel().addEffect(skillEffect);
+        MainData.getSkillsPanel().addEffect(skillEffect);
     }
 }

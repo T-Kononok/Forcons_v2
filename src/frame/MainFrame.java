@@ -1,5 +1,6 @@
 package frame;
 
+import auxiliary.Auxiliary;
 import data.ForconsList;
 import data.MainData;
 import data.Mark;
@@ -22,18 +23,17 @@ public class MainFrame extends JFrame {
 
     private static final int WIDTH = 1280;
     private static final int HEIGHT = 720;
-    private final ImagePanel panelFull = new ImagePanel("image/begin_fon.jpg",false);
+    private static final ImagePanel panelFull = new ImagePanel("image/begin_fon.jpg",false);
     private final TableNoGaps tableNoGaps = new TableNoGaps(0,35,1035,580);
-    private final MainData mainData = new MainData(this);
-    private final ForconsList forconsList = new ForconsList(mainData);
-    private final UpElementsPanel upElementsPanel = new UpElementsPanel(this,mainData);
-    private final DownElementsPanel downElementsPanel = new DownElementsPanel(forconsList, mainData);
+    private static final ForconsList forconsList = new ForconsList();
+    private final UpElementsPanel upElementsPanel = new UpElementsPanel(this);
+    private static final DownElementsPanel downElementsPanel = new DownElementsPanel(forconsList);
 
-    private JFileChooser fileChooser = null;
-    private ArrayList<ImagePanel> leftImageArray = null;
+    private static JFileChooser fileChooser = null;
 
 
-    private MainFrame() throws IOException {
+    private MainFrame() {
+        MainData.setMainFrame(this);
 
         panelFull.setSize(WIDTH,HEIGHT);
         panelFull.setLayout(null);
@@ -50,9 +50,9 @@ public class MainFrame extends JFrame {
         getContentPane().add(panelFull);
     }
 
-    private ImagePanel addOpenPanel() {
+    private static ImagePanel addOpenPanel() {
         ImagePanel openPanel = new ImagePanel("image/begin_fon_highlighted.png",false);
-        toPlace(openPanel,WIDTH,HEIGHT,0,0);
+        Auxiliary.toPlace(panelFull,openPanel,WIDTH,HEIGHT,0,0);
         openPanel.setVisible(false);
         openPanel.setOpaque(false);
         return openPanel;
@@ -63,9 +63,9 @@ public class MainFrame extends JFrame {
         tableNoGaps.setVisible(false);
     }
 
-    private JScrollPane addForconsListScroll() {
+    private static JScrollPane addForconsListScroll() {
         JScrollPane forconsListScroll = new JScrollPane(forconsList.getList());
-        toPlace(forconsListScroll,220,585,1060,35);
+        Auxiliary.toPlace(panelFull,forconsListScroll,220,585,1060,35);
         forconsListScroll.setOpaque(false);
         forconsListScroll.getViewport().setOpaque(false);
         forconsListScroll.setVisible(false);
@@ -79,12 +79,12 @@ public class MainFrame extends JFrame {
 
     private void addOpenButton(ImagePanel openPanel, JScrollPane scrollPane) {
         OvalButton openButton = new OvalButton(OvalButton.SHAPE_OVAL,OvalButton.VERTICAL);
-        toPlace(openButton,210,235, 537,260);
+        Auxiliary.toPlace(panelFull,openButton,210,235, 537,260);
         openButton.setPanel(openPanel);
         openButton.setMessageImage(addBeginMessageImage());
         openButton.addActionListener(ev -> {
-            mainData.readTable(selectionFile("Открыть жунал"));
-//            mainData.readTable("D:\\Джава\\Forcons_v2\\10_FM-3.xls");
+            MainData.readTable(selectionFile("Открыть жунал"));
+//            MainData.readTable("D:\\Джава\\Forcons_v2\\10_FM-3.xls");
             forconsList.read(selectionFile("Открыть форсонов"));
             openButton.setVisible(false);
             openPanel.setVisible(false);
@@ -97,40 +97,34 @@ public class MainFrame extends JFrame {
         });
     }
 
-    private ImagePanel addBeginMessageImage() {
+    private static ImagePanel addBeginMessageImage() {
         ImagePanel messageImage = new ImagePanel("image/begin_fon_message.png",true,false);
-        toPlace(messageImage,450,250,720,70);
+        Auxiliary.toPlace(panelFull,messageImage,450,250,720,70);
         return messageImage;
     }
 
-    private String selectionFile(String string) {
+    private static String selectionFile(String string) {
         if (fileChooser==null) {
             fileChooser = new JFileChooser();
             fileChooser.setCurrentDirectory(new File("."));
         }
         fileChooser.setDialogTitle(string);
-        if (fileChooser.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
+        if (fileChooser.showOpenDialog(panelFull) == JFileChooser.APPROVE_OPTION) {
 //            System.out.println(fileChooser.getSelectedFile().getPath());
             return fileChooser.getSelectedFile().getPath();
         }
         return null;
     }
 
-    private void toPlace(JComponent component,int width, int height, int x, int y) {
-        component.setSize(width,height);
-        component.setLocation(x,y);
-        panelFull.add(component);
-    }
-
     public TableNoGaps getTableNoGaps() {
         return tableNoGaps;
     }
 
-    public DownElementsPanel getDownElementsPanel() {
+    public static DownElementsPanel getDownElementsPanel() {
         return downElementsPanel;
     }
 
-    public ForconsList getForconsList() {
+    public static ForconsList getForconsList() {
         return forconsList;
     }
 
@@ -142,18 +136,18 @@ public class MainFrame extends JFrame {
 //        return upElementsPanel;
 //    }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         MainFrame frame = new MainFrame();
 
         frame.setUndecorated(true);
         frame.setExtendedState(MAXIMIZED_BOTH);
         frame.setVisible(true);
         //костыль дабы не было иногда прозрачного экрана
-        frame.setImageKost();
+        setImageKost();
     }
 
     //костыль дабы не было иногда прозрачного экрана
-    public void setImageKost() {
+    public static void setImageKost() {
         panelFull.setImageFile("image/begin_fon.jpg");
     }
 }

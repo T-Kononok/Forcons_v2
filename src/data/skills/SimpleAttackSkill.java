@@ -14,8 +14,7 @@ public class SimpleAttackSkill extends Skill {
     private final double critChance;
     private final String skillName;
 
-    public SimpleAttackSkill(MainData mainData, String skillName, int damage, double chance) {
-        super(mainData);
+    public SimpleAttackSkill(String skillName, int damage, double chance) {
         this.damage = damage;
         this.chance = chance;
         this.critDamage = 0;
@@ -23,8 +22,7 @@ public class SimpleAttackSkill extends Skill {
         this.skillName = skillName;
     }
 
-    public SimpleAttackSkill(MainData mainData, String skillName, int damage, double chance, int critDamage, double critChance) {
-        super(mainData);
+    public SimpleAttackSkill(String skillName, int damage, double chance, int critDamage, double critChance) {
         this.damage = damage;
         this.chance = chance;
         this.critDamage = critDamage;
@@ -34,10 +32,10 @@ public class SimpleAttackSkill extends Skill {
 
     @Override
     public void begin() throws IOException {
-        if (!mainData.minusPoint(1))
+        if (!MainData.minusPoint(1))
             return;
         YX yx = getRandomMarkYX();
-        Mark mark = mainData.getMark(yx);
+        Mark mark = MainData.getMark(yx);
         boolean noMiss = Math.random() < chance;
         if (noMiss) {
 //            System.out.print(skillName + " " + mark.get() + "->");

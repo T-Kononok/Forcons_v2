@@ -7,21 +7,17 @@ import java.io.IOException;
 
 public class SmotrLightSkill extends Skill{
 
-    public SmotrLightSkill(MainData mainData) {
-        super(mainData);
-    }
-
     @Override
     public void begin() throws IOException {
-        if (!mainData.minusPoint(3))
+        if (!MainData.minusPoint(3))
             return;
-        if (mainData.getLight().size() == 24)
+        if (MainData.getLight().size() == 24)
             return;
         int row;
         do {
             row = getRandomRow();
-        } while (mainData.lightContains(row));
-        mainData.addLight(row);
+        } while (MainData.lightContains(row));
+        MainData.addLight(row);
         startFon(new YX(row,-2), "smotrLight",2,1,true);
 //        System.out.println("addLight" + row);
     }

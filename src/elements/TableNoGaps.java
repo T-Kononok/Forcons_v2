@@ -26,7 +26,7 @@ public class TableNoGaps extends JPanel{
 
     private JournalTableCellRenderer renderer;
 
-    public TableNoGaps(int initialX, int initialY, int initialWidth, int initialHeight) throws IOException {
+    public TableNoGaps(int initialX, int initialY, int initialWidth, int initialHeight) {
         super();
         this.initialX = initialX;
         this.initialY = initialY;

@@ -17,13 +17,11 @@ public class ForconsList {
     private final JList<String> forconsList = new JList<>();
     private int firstIndex = -1;
     private int secondIndex = -1;
-    private final MainData mainData;
 
-    public ForconsList(MainData mainData) {
-        this.mainData = mainData;
+    public ForconsList() {
         forconsList.setModel(forconsListModel);
         setMultipleSelection(true);
-        forconsList.setCellRenderer(new ForconsRenderer(mainData));
+        forconsList.setCellRenderer(new ForconsRenderer());
         forconsList.setOpaque(false);
     }
 
@@ -138,17 +136,17 @@ public class ForconsList {
     private void checkBodyBag() {
         forconsListModel.getArray().forEach((s) -> {
             String[] subStrs = s.split(",");
-            if (mainData.getBodyBagMap().get(subStrs[1]) != null)
+            if (MainData.getBodyBagMap().get(subStrs[1]) != null)
                 if (Integer.parseInt(subStrs[3])>=7)
-                    mainData.noExiled(subStrs[1]);
+                    MainData.noExiled(subStrs[1]);
                 else
-                    mainData.exiled(subStrs[1]);
+                    MainData.exiled(subStrs[1]);
         });
-        mainData.getTableNoGaps().repaint();
+        MainData.getTableNoGaps().repaint();
     }
 
     public void checkTsundere() {
-        SamurTsundereSkill skill = new SamurTsundereSkill(mainData);
+        SamurTsundereSkill skill = new SamurTsundereSkill();
         forconsListModel.getArray().forEach((s) -> {
             String[] subStrs = s.split(",");
             if (subStrs[0].equals("sa")) {

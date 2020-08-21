@@ -12,16 +12,12 @@ import java.util.Random;
 
 public class SamurComplementSkill extends Skill{
 
-    public SamurComplementSkill(MainData mainData) {
-        super(mainData);
-    }
-
     private int getAverageScore(int row) {
         Mark mark;
         double sum = 0;
         int count = 0;
-        for (int i = 0; i < mainData.getRowSize(); i++){
-            mark = mainData.getMark(row,i);
+        for (int i = 0; i < MainData.getRowSize(); i++){
+            mark = MainData.getMark(row,i);
             if (mark.get() != 0) {
                 sum += mark.get();
                 count++;
@@ -34,12 +30,12 @@ public class SamurComplementSkill extends Skill{
         Mark mark;
         double sum = 0;
         int count = 0;
-        for (int i = 0; i < mainData.getRowSize(); i++){
+        for (int i = 0; i < MainData.getRowSize(); i++){
             if (i == col) {
                 sum += value;
                 count++;
             } else {
-                mark = mainData.getMark(row, i);
+                mark = MainData.getMark(row, i);
                 if (mark.get() != 0) {
                     sum += mark.get();
                     count++;
@@ -52,8 +48,8 @@ public class SamurComplementSkill extends Skill{
     private int getMedian(int row) {
         ArrayList<Integer> array = new ArrayList<>();
         Mark mark;
-        for (int i = 0; i < mainData.getRowSize(); i++){
-            mark = mainData.getMark(row,i);
+        for (int i = 0; i < MainData.getRowSize(); i++){
+            mark = MainData.getMark(row,i);
             if (mark.get() != 0)
                 array.add(mark.get());
         }
@@ -63,11 +59,11 @@ public class SamurComplementSkill extends Skill{
     private int getNewMedian(int row, int col, int value) {
         ArrayList<Integer> array = new ArrayList<>();
         Mark mark;
-        for (int i = 0; i < mainData.getRowSize(); i++){
+        for (int i = 0; i < MainData.getRowSize(); i++){
             if (i == col) {
                 array.add(value);
             } else {
-                mark = mainData.getMark(row, i);
+                mark = MainData.getMark(row, i);
                 if (mark.get() != 0)
                     array.add(mark.get());
             }
@@ -87,7 +83,7 @@ public class SamurComplementSkill extends Skill{
 
     @Override
     public void begin() throws IOException {
-        if (!mainData.minusPoint(1))
+        if (!MainData.minusPoint(1))
             return;
 
         int row = getRandomRow();
@@ -101,8 +97,8 @@ public class SamurComplementSkill extends Skill{
         double maxBenefit = 0;
         int max = 0;
         Mark mark;
-        for (int i = 0; i < mainData.getRowSize(); i++) {
-            mark = mainData.getMark(row,i);
+        for (int i = 0; i < MainData.getRowSize(); i++) {
+            mark = MainData.getMark(row,i);
             if (mark.get() != 0 && mark.canBite()) {
                 newMedian = getNewMedian(row, i, averageScore);
 //                System.out.println("row " + row + " i " + i + " newMedian " + newMedian);
@@ -123,7 +119,7 @@ public class SamurComplementSkill extends Skill{
         else
             col = colMax;
 
-        mark = mainData.getMark(row, col);
+        mark = MainData.getMark(row, col);
 //        int old = mark.get();
         mark.set(averageScore);
 //        System.out.println("row " + row + " col " + col + " " + old + "->" + mark.get());

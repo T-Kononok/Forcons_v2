@@ -227,7 +227,7 @@ public class MainData {
 
         Map<Integer, Skill> inSkillMap = new HashMap<>();
         inSkillMap.put(1,new SimpleAttackSkill(this,"inseClaws", 2, 0.5));
-        inSkillMap.put(2,null);
+        inSkillMap.put(2,null); //цундере
         inSkillMap.put(3,null);
         inSkillMap.put(4,null);
         inSkillMap.put(5,null);

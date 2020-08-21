@@ -91,9 +91,9 @@ public class MainFrame extends JFrame {
             tableNoGaps.setVisible(true);
             upElementsPanel.setVisible(true);
             scrollPane.setVisible(true);
-
             tableNoGaps.startThread();
             panelFull.setImageFile("image/fon2.jpg");
+            forconsList.checkTsundere();
         });
     }
 

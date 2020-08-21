@@ -90,6 +90,12 @@ public class Skill {
         mainData.getSkillsPanel().addEffect(getStandardSizeEffect(rowCol, skillName));
     }
 
+    protected void startFon(YX rowCol, String skillName, int time) throws IOException {
+        SkillEffect skillEffect = getStandardSizeEffect(rowCol, skillName);
+        skillEffect.setTime(time);
+        mainData.getSkillsPanel().addEffect(skillEffect);
+    }
+
     protected void startFon(YX rowCol, String skillName, boolean endlessly) throws IOException {
         SkillEffect skillEffect = getStandardSizeEffect(rowCol, skillName);
         if (endlessly)

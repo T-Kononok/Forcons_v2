@@ -39,23 +39,8 @@ public class SkillEffect {
         g2.dispose();
     }
 
-    public SkillEffect(String filename, int x, int y, int width, int height, int time) throws IOException {
-        StatNumber++;
-        number = StatNumber;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+    public void setTime(int time) {
         this.time = time;
-        BufferedImage readImage = ImageIO.read(new File(filename));
-        image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2 = image.createGraphics();
-        g2.setRenderingHint(RenderingHints.KEY_RENDERING,
-                RenderingHints.VALUE_RENDER_SPEED);
-        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-                RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-        g2.drawImage(readImage, 0, 0, width, height, null);
-        g2.dispose();
     }
 
     public int getWidth(){

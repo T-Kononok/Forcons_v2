@@ -1,5 +1,6 @@
 package data;
 
+import data.skills.SamurTsundereSkill;
 import elements.ForconsRenderer;
 import frame.MainFrame;
 
@@ -130,6 +131,20 @@ public class ForconsList {
                     mainData.exiled(subStrs[1]);
         });
         mainData.getTableNoGaps().repaint();
+    }
+
+    public void checkTsundere() {
+        SamurTsundereSkill skill = new SamurTsundereSkill(mainData);
+        forconsListModel.getArray().forEach((s) -> {
+            String[] subStrs = s.split(",");
+            if (subStrs[0].equals("sa")) {
+                try {
+                    skill.begin();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 }

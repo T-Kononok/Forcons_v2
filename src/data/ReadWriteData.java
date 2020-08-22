@@ -1,5 +1,8 @@
 package data;
 
+import data.skills.BardBodyBagSkill;
+import data.skills.BardCoinsSkill;
+import data.skills.BardDefenseSkill;
 import elements.UpElementsPanel;
 import elements.TableNoGaps;
 
@@ -30,9 +33,9 @@ public class ReadWriteData {
         try {
             Scanner scanner = new Scanner(new File("Другое.txt"));
             String string = scanner.nextLine();
-            SkillsMap.getDefenseSkill().setField(Integer.parseInt(string.substring(string.indexOf(": ")+2)));
+            BardDefenseSkill.set(Integer.parseInt(string.substring(string.indexOf(": ")+2)));
             string = scanner.nextLine();
-            SkillsData.setCoins(Integer.parseInt(string.substring(string.indexOf(": ")+2)));
+            BardCoinsSkill.set(Integer.parseInt(string.substring(string.indexOf(": ")+2)));
             if (scanner.hasNextLine()) {
                 scanner.nextLine();
                 string = scanner.nextLine();
@@ -45,7 +48,7 @@ public class ReadWriteData {
                             break;
                         array.add(new YX(string));
                     }
-                    SkillsData.getBodyBagMap().put(name, array);
+                    BardBodyBagSkill.getBodyBagMap().put(name, array);
                 }
             }
             UpElementsPanel.changeElements();
@@ -59,11 +62,11 @@ public class ReadWriteData {
         {
             FileWriter writer = new FileWriter("Другое.txt", false);
 
-            writer.write("Защита: " + SkillsMap.getDefenseSkill().getIntField() + "\n");
-            writer.write("Долг: " + SkillsData.getCoins() + "\n");
-            if (SkillsData.getBodyBagMap().size() > 0) {
+            writer.write("Защита: " + BardDefenseSkill.get() + "\n");
+            writer.write("Долг: " + BardCoinsSkill.get() + "\n");
+            if (BardBodyBagSkill.getBodyBagMap().size() > 0) {
                 writer.write("Бадибэг: " + "\n");
-                SkillsData.getBodyBagMap().forEach((s, array) -> {
+                BardBodyBagSkill.getBodyBagMap().forEach((s, array) -> {
                     try {
                         writer.write(s + "\n");
                         for (YX yx : array)

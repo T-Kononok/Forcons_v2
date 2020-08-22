@@ -5,6 +5,9 @@ import data.ForconsList;
 import data.ReadWriteData;
 import data.SkillsData;
 import data.SkillsMap;
+import data.skills.BardBalladSkill;
+import data.skills.BardCoinsSkill;
+import data.skills.BardDefenseSkill;
 
 import javax.swing.*;
 
@@ -63,9 +66,9 @@ public class UpElementsPanel{
     }
 
     public static void changeElements() {
-        attackLabel.setText("+ " + String.format("%.1f",SkillsMap.getBalladSkill().getDoubleField()) + " урона");
-        defenseLabel.setText("+ " + SkillsMap.getDefenseSkill().getIntField()  + "% защиты" );
-        coinsLabel.setText("+ " + SkillsData.getCoins() + " долг");
+        attackLabel.setText("+ " + String.format("%.1f", BardBalladSkill.getDouble()) + " урона");
+        defenseLabel.setText("+ " + BardDefenseSkill.get()  + "% защиты" );
+        coinsLabel.setText("+ " + BardCoinsSkill.get() + " долг");
     }
 
     public static void setVisible(boolean flag) {

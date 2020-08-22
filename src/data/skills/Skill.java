@@ -10,38 +10,27 @@ import java.util.Random;
 
 public class Skill {
 
-    public Object getObjField() {
-        return null;
+    public boolean isActive() {
+        return true;
     }
 
-    public int getIntField() {
-        return 0;
-    }
-
-    public double getDoubleField() {
-        return 0.0;
-    }
-
-    public void setField(Object object) {
-    }
-
-    protected YX getRandomYX() {
+    protected  static YX getRandomYX() {
         Random rand = new Random();
         Integer row = getRandomRow();
         return new YX(row, rand.nextInt(MarksData.getColumnCount()));
     }
 
-    protected Integer getRandomRow() {
+    protected static Integer getRandomRow() {
         Random rand = new Random();
-        int row = rand.nextInt(MarksData.getRowCount()+ SkillsData.getLight().size());
+        int row = rand.nextInt(MarksData.getRowCount()+ SmotrLightSkill.getLight().size());
         if (row >= MarksData.getRowCount()) {
-            row = SkillsData.getLight().get(row - MarksData.getRowCount());
+            row = SmotrLightSkill.getLight().get(row - MarksData.getRowCount());
 //            System.out.println("light");
         }
         return row;
     }
 
-    protected YX getRandomMarkYX() {
+    protected static YX getRandomMarkYX() {
         Mark mark;
         YX yx = new YX();
         yx.setY(getRandomRow());
@@ -57,26 +46,24 @@ public class Skill {
     public void begin() throws IOException {
     }
 
-    public void passive() {}
-
-    protected void startFon(YX rowCol, String skillName) throws IOException {
+    protected static void startFon(YX rowCol, String skillName) throws IOException {
         TableNoGaps.getSkillsPanel().addEffect(getStandardSizeEffect(rowCol, skillName));
     }
 
-    protected void startFon(YX rowCol, String skillName, int time) throws IOException {
+    protected static void startFon(YX rowCol, String skillName, int time) throws IOException {
         SkillEffect skillEffect = getStandardSizeEffect(rowCol, skillName);
         skillEffect.setTime(time);
         TableNoGaps.getSkillsPanel().addEffect(skillEffect);
     }
 
-    protected void startFon(YX rowCol, String skillName, boolean endlessly) throws IOException {
+    protected static void startFon(YX rowCol, String skillName, boolean endlessly) throws IOException {
         SkillEffect skillEffect = getStandardSizeEffect(rowCol, skillName);
         if (endlessly)
             skillEffect.onEndlessly();
         TableNoGaps.getSkillsPanel().addEffect(skillEffect);
     }
 
-    protected SkillEffect getStandardSizeEffect(YX rowCol, String skillName) throws IOException {
+    protected static SkillEffect getStandardSizeEffect(YX rowCol, String skillName) throws IOException {
         int size = TableNoGaps.getCellSize();
         int y = rowCol.getY() * size;
         int x = rowCol.getX() * size + size;
@@ -84,7 +71,7 @@ public class Skill {
                 x,y,size*3,size*3);
     }
 
-    protected void startFon(YX rowCol, String skillName, int width, int height, boolean endlessly) throws IOException {
+    protected static void startFon(YX rowCol, String skillName, int width, int height, boolean endlessly) throws IOException {
         int size = TableNoGaps.getCellSize();
         int y = rowCol.getY() * size + size;
         int x = rowCol.getX() * size + size * 2;

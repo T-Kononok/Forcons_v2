@@ -42,7 +42,7 @@ public class SimpleAttackSkill extends Skill {
                 mark.minus(critDamage);
                 startFon(yx, skillName + "Crit");
             } else {
-                mark.minus(damage + SkillsMap.getBalladSkill().getIntField());
+                mark.minus(damage + BardBalladSkill.get());
                 startFon(yx, skillName);
             }
 //            System.out.println(mark.get());
@@ -51,6 +51,6 @@ public class SimpleAttackSkill extends Skill {
             startFon(yx,skillName + "Miss");
         }
         if (skillName.equals("bardChain"))
-            SkillsData.deathAndCoin();
+            BardDeathSkill.checkDeath();
     }
 }

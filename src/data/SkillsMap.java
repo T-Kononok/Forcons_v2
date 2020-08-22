@@ -20,8 +20,8 @@ public class SkillsMap {
         Map<Integer, Skill> baSkillMap = new HashMap<>();
         baSkillMap.put(1,new SimpleAttackSkill("bardChain", 1, 0.75));
         baSkillMap.put(2,new BardBalladSkill());
-        baSkillMap.put(3,null); //внезапная смерть
-        baSkillMap.put(4,null); //чеканная монета
+        baSkillMap.put(3,new BardDeathSkill());
+        baSkillMap.put(4,new BardCoinsSkill());
         baSkillMap.put(5,new BardBodyBagSkill());
         baSkillMap.put(6,new BardDefenseSkill());
         allSkillMap.put("ba",baSkillMap);
@@ -41,7 +41,7 @@ public class SkillsMap {
     private static void addSaSkills() {
         Map<Integer, Skill> saSkillMap = new HashMap<>();
         saSkillMap.put(1,new SimpleAttackSkill("samuKatana", 1, 1.0));
-        saSkillMap.put(2,null);  //цундере
+        saSkillMap.put(2,new SamurTsundereSkill());
         saSkillMap.put(3,new SamurComplementSkill());
         saSkillMap.put(4,new SamurTruckSkill());
         saSkillMap.put(5,null);
@@ -64,23 +64,4 @@ public class SkillsMap {
         return allSkillMap.get(className).get(number);
     }
 
-    public static Skill getBalladSkill() {
-        return getSkill("ba",2);
-    }
-
-    public static Skill getDefenseSkill() {
-        return getSkill("ba",6);
-    }
-
-    public static Skill getCoinsSkill() {
-        return getSkill("ba",4);
-    }
-
-    public static Skill getDeadSkill() {
-        return getSkill("ba",3);
-    }
-
-    public static Skill getTsundereSkill() {
-        return getSkill("sa",2);
-    }
 }

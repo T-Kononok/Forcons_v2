@@ -30,11 +30,11 @@ public class SamurTruckSkill extends Skill{
             if (mark.get() != 0) {
 //                System.out.print(mark.get() + "->");
                 if (Math.random() < 0.75) {
-                    mark.minus(1 + SkillsMap.getBalladSkill().getIntField());
+                    mark.minus(1 + BardBalladSkill.get());
                     startFon(new YX(i, col), "samurTruck");
                 }
                 else {
-                    mark.plus(1 + SkillsMap.getBalladSkill().getIntField());
+                    mark.plus(1 + BardBalladSkill.get());
                     startFon(new YX(i, col), "samurTruckHealing");
                 }
 //                System.out.println(mark.get());

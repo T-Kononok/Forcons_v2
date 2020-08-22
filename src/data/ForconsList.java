@@ -1,5 +1,7 @@
 package data;
 
+import data.skills.BardBodyBagSkill;
+import data.skills.SamurOvercomingSkill;
 import data.skills.SamurTsundereSkill;
 import elements.DownElementsPanel;
 import elements.ForconsRenderer;
@@ -62,6 +64,10 @@ public class ForconsList {
         forconsList.validate();
     }
 
+    public static ForsonsListModel getForconsListModel() {
+        return forconsListModel;
+    }
+
     public static void set(int index, String string) {
         forconsListModel.set(index,string);
     }
@@ -111,52 +117,12 @@ public class ForconsList {
             Scanner scanner = new Scanner(new File(filename));
             while (scanner.hasNextLine())
                 forconsListModel.add(scanner.nextLine());
-            checkBodyBag();
-            checkOvercoming();
+            BardBodyBagSkill.checkBodyBag();
+            SamurOvercomingSkill.checkOvercoming();
             sortPoint();
             sortClass();
         } catch (FileNotFoundException e) {
             System.out.println("Ошибка чтения списка форсонов");
         }
     }
-
-    private static void checkOvercoming () {
-        for (int i = 0; i < forconsListModel.getArray().size(); i++) {
-            String string = forconsListModel.getArray().get(i);
-            String[] subStrs = string.split(",");
-            if (subStrs[0].equals("sa") && subStrs[2].equals("3") && Integer.parseInt(subStrs[3]) < 7) {
-                int point = Integer.parseInt(string.substring(string.lastIndexOf(",")+1));
-                point++;
-                String sub = string.substring(0,string.lastIndexOf(",")+1);
-                forconsListModel.set(i,sub+point);
-            }
-        }
-    }
-
-    private static void checkBodyBag() {
-        forconsListModel.getArray().forEach((s) -> {
-            String[] subStrs = s.split(",");
-            if (SkillsData.getBodyBagMap().get(subStrs[1]) != null)
-                if (Integer.parseInt(subStrs[3])>=7)
-                    SkillsData.noExiled(subStrs[1]);
-                else
-                    SkillsData.exiled(subStrs[1]);
-        });
-        TableNoGaps.getSkillsPanel().repaint();
-    }
-
-    public static void checkTsundere() {
-        SamurTsundereSkill skill = new SamurTsundereSkill();
-        forconsListModel.getArray().forEach((s) -> {
-            String[] subStrs = s.split(",");
-            if (subStrs[0].equals("sa")) {
-                try {
-                    skill.begin();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
 }

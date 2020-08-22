@@ -8,28 +8,21 @@ public class BardBalladSkill extends Skill{
 
     private static double buffAttack = 0;
 
-    @Override
-    public void setField(Object object) {
-        buffAttack = (Double) object;
-    }
-
-    @Override
-    public int getIntField() {
+    public static int get() {
         return (int) Math.round(buffAttack);
     }
 
-    @Override
-    public double getDoubleField() {
+    public static double getDouble() {
         return buffAttack;
     }
 
-    @Override
     public void begin() {
         if (!ForconsList.minusPoint(1))
             return;
         buffAttack += 0.2;
         UpElementsPanel.changeElements();
 //        System.out.println(buffAttack + " " + Math.round(buffAttack));
-        SkillsData.deathAndCoin();
+        BardCoinsSkill.checkCoin();
+        BardDeathSkill.checkDeath();
     }
 }

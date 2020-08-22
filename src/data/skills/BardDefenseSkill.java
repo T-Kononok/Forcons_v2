@@ -8,13 +8,11 @@ public class BardDefenseSkill extends Skill{
 
     private static int buffDefense = 0;
 
-    @Override
-    public void setField(Object object) {
+    public static void set(Object object) {
         buffDefense = (Integer) object;
     }
 
-    @Override
-    public int getIntField() {
+    public static int get() {
         return buffDefense;
     }
 
@@ -25,6 +23,7 @@ public class BardDefenseSkill extends Skill{
         buffDefense += 2;
         UpElementsPanel.changeElements();
 //        System.out.println(buffAttack + " " + Math.round(buffAttack));
-        SkillsData.deathAndCoin();
+        BardCoinsSkill.checkCoin();
+        BardDeathSkill.checkDeath();
     }
 }

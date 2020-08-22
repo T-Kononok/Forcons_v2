@@ -8,11 +8,9 @@ import java.awt.*;
 public class SkillsPanel extends JPanel {
 
     private SkillsThread skillsThread;
-    private final TableNoGaps tableNoGaps;
 
-    public SkillsPanel(TableNoGaps tableNoGaps) {
+    public SkillsPanel() {
         super();
-        this.tableNoGaps = tableNoGaps;
         setBorder(BorderFactory.createEmptyBorder());
         setBackground(new Color(0, 0, 0, 0));
         setOpaque(false);
@@ -20,7 +18,7 @@ public class SkillsPanel extends JPanel {
 
 
     public void startThread() {
-        skillsThread = new SkillsThread(this);
+        skillsThread = new SkillsThread();
         skillsThread.start();
     }
 
@@ -30,7 +28,7 @@ public class SkillsPanel extends JPanel {
 
     public void addEffect(SkillEffect skillEffect) {
         skillsThread.addEffect(skillEffect);
-        repaint(skillEffect.getX(),skillEffect.getY(),skillEffect.getWidth(),tableNoGaps.getSkillsPanel().getHeight()-skillEffect.getY());
+        repaint(skillEffect.getX(),skillEffect.getY(),skillEffect.getWidth(),TableNoGaps.getSkillsPanel().getHeight()-skillEffect.getY());
     }
 
     public void paintComponent(Graphics g) {

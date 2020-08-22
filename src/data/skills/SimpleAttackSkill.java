@@ -1,9 +1,6 @@
 package data.skills;
 
-import data.ForconsList;
-import data.MarksData;
-import data.Mark;
-import data.YX;
+import data.*;
 
 import java.io.IOException;
 
@@ -45,7 +42,7 @@ public class SimpleAttackSkill extends Skill {
                 mark.minus(critDamage);
                 startFon(yx, skillName + "Crit");
             } else {
-                mark.minus(damage + getIntBuffAttack());
+                mark.minus(damage + SkillsMap.getBalladSkill().getIntField());
                 startFon(yx, skillName);
             }
 //            System.out.println(mark.get());
@@ -54,6 +51,6 @@ public class SimpleAttackSkill extends Skill {
             startFon(yx,skillName + "Miss");
         }
         if (skillName.equals("bardChain"))
-            deathAndCoin();
+            SkillsData.deathAndCoin();
     }
 }

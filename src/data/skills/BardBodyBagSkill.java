@@ -4,6 +4,8 @@ import data.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class BardBodyBagSkill extends Skill {
@@ -25,7 +27,6 @@ public class BardBodyBagSkill extends Skill {
                         max = mark.get();
                         arrayList.clear();
                         arrayList.add(new YX(i, j));
-
                     }
                 }
             }
@@ -40,6 +41,8 @@ public class BardBodyBagSkill extends Skill {
         }
         else
             startFon(arrayList.get(randIndex), "bardBodyBagMiss");
+        SkillsData.deathAndCoin();
+        SkillsData.deathAndCoin();
     }
 }
 

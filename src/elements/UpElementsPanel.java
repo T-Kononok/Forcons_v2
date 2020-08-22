@@ -2,9 +2,9 @@ package elements;
 
 import auxiliary.Auxiliary;
 import data.ForconsList;
-import data.MainData;
-import data.skills.Skill;
-import frame.MainFrame;
+import data.ReadWriteData;
+import data.SkillsData;
+import data.SkillsMap;
 
 import javax.swing.*;
 
@@ -39,8 +39,8 @@ public class UpElementsPanel{
     private static JButton addSaveButton() {
         JButton cancelButton = Auxiliary.addButton(fon,200,30,0,0);
         cancelButton.addActionListener(ev -> {
-            MainData.writeTable();
-            MainData.writeOther();
+            ReadWriteData.writeTable();
+            ReadWriteData.writeOther();
         });
         return cancelButton;
     }
@@ -63,9 +63,9 @@ public class UpElementsPanel{
     }
 
     public static void changeElements() {
-        attackLabel.setText("+ " + String.format("%.1f",Skill.getBuffAttack()) + " урона");
-        defenseLabel.setText("+ " + Skill.getBuffDefense()  + "% защиты" );
-        coinsLabel.setText("+ " + Skill.getCoins() + " долг");
+        attackLabel.setText("+ " + String.format("%.1f",SkillsMap.getBalladSkill().getDoubleField()) + " урона");
+        defenseLabel.setText("+ " + SkillsMap.getDefenseSkill().getIntField()  + "% защиты" );
+        coinsLabel.setText("+ " + SkillsData.getCoins() + " долг");
     }
 
     public static void setVisible(boolean flag) {

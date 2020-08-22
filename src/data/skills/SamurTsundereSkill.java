@@ -13,6 +13,6 @@ public class SamurTsundereSkill extends Skill {
         YX yx = getRandomMarkYX();
         Mark mark = MarksData.getMark(yx);
         mark.minus(1);
-        startFon(yx, "samuTsundere",500);
+        startFon(yx, "samuTsundere",400);
     }
 }

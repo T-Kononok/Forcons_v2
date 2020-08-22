@@ -1,12 +1,27 @@
 package data.skills;
 
 import data.ForconsList;
-import data.MainData;
-import data.MarksData;
 import data.SkillsData;
 import elements.UpElementsPanel;
 
 public class BardBalladSkill extends Skill{
+
+    private static double buffAttack = 0;
+
+    @Override
+    public void setField(Object object) {
+        buffAttack = (Double) object;
+    }
+
+    @Override
+    public int getIntField() {
+        return (int) Math.round(buffAttack);
+    }
+
+    @Override
+    public double getDoubleField() {
+        return buffAttack;
+    }
 
     @Override
     public void begin() {
@@ -15,6 +30,6 @@ public class BardBalladSkill extends Skill{
         buffAttack += 0.2;
         UpElementsPanel.changeElements();
 //        System.out.println(buffAttack + " " + Math.round(buffAttack));
-        deathAndCoin();
+        SkillsData.deathAndCoin();
     }
 }

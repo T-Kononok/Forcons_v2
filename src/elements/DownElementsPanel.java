@@ -2,8 +2,6 @@ package elements;
 
 import auxiliary.Auxiliary;
 import data.ForconsList;
-import data.MainData;
-import data.SkillsData;
 import data.SkillsMap;
 import elements.skills.SkillButtonActionListener;
 import org.apache.batik.swing.JSVGCanvas;

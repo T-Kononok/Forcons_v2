@@ -1,9 +1,6 @@
 package data.skills;
 
-import data.ForconsList;
-import data.MarksData;
-import data.Mark;
-import data.YX;
+import data.*;
 
 import java.io.IOException;
 import java.util.Random;
@@ -33,11 +30,11 @@ public class SamurTruckSkill extends Skill{
             if (mark.get() != 0) {
 //                System.out.print(mark.get() + "->");
                 if (Math.random() < 0.75) {
-                    mark.minus(1 + getIntBuffAttack());
+                    mark.minus(1 + SkillsMap.getBalladSkill().getIntField());
                     startFon(new YX(i, col), "samurTruck");
                 }
                 else {
-                    mark.plus(1 + getIntBuffAttack());
+                    mark.plus(1 + SkillsMap.getBalladSkill().getIntField());
                     startFon(new YX(i, col), "samurTruckHealing");
                 }
 //                System.out.println(mark.get());

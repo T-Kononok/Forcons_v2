@@ -1,6 +1,7 @@
 package data.skills;
 
 import data.*;
+import elements.TableNoGaps;
 import elements.UpElementsPanel;
 import elements.skills.SkillEffect;
 
@@ -9,28 +10,19 @@ import java.util.Random;
 
 public class Skill {
 
-    protected static double buffAttack = 0;
-    protected static int buffDefense = 0;
-    protected static int coins = 0;
-
-    public static double getBuffAttack() {
-        return buffAttack;
-    }
-    protected static int getIntBuffAttack() {
-        return (int)Math.round(buffAttack);
-    }
-    public static int getBuffDefense() {
-        return buffDefense;
-    }
-    public static int getCoins() {
-        return coins;
+    public Object getObjField() {
+        return null;
     }
 
-    public static void setBuffDefense(int buffDefense) {
-        Skill.buffDefense = buffDefense;
+    public int getIntField() {
+        return 0;
     }
-    public static void setCoins(int coins) {
-        Skill.coins = coins;
+
+    public double getDoubleField() {
+        return 0.0;
+    }
+
+    public void setField(Object object) {
     }
 
     protected YX getRandomYX() {
@@ -65,34 +57,27 @@ public class Skill {
     public void begin() throws IOException {
     }
 
-    protected void deathAndCoin() {
-        if (ForconsList.getLevel() > 1) {
-            coins++;
-            UpElementsPanel.changeElements();
-        }
-        if (Math.random() < 0.05)
-            ForconsList.minusAllPoint();
-    }
+    public void passive() {}
 
     protected void startFon(YX rowCol, String skillName) throws IOException {
-        MainData.getSkillsPanel().addEffect(getStandardSizeEffect(rowCol, skillName));
+        TableNoGaps.getSkillsPanel().addEffect(getStandardSizeEffect(rowCol, skillName));
     }
 
     protected void startFon(YX rowCol, String skillName, int time) throws IOException {
         SkillEffect skillEffect = getStandardSizeEffect(rowCol, skillName);
         skillEffect.setTime(time);
-        MainData.getSkillsPanel().addEffect(skillEffect);
+        TableNoGaps.getSkillsPanel().addEffect(skillEffect);
     }
 
     protected void startFon(YX rowCol, String skillName, boolean endlessly) throws IOException {
         SkillEffect skillEffect = getStandardSizeEffect(rowCol, skillName);
         if (endlessly)
             skillEffect.onEndlessly();
-        MainData.getSkillsPanel().addEffect(skillEffect);
+        TableNoGaps.getSkillsPanel().addEffect(skillEffect);
     }
 
     protected SkillEffect getStandardSizeEffect(YX rowCol, String skillName) throws IOException {
-        int size = MainData.getTableNoGaps().getCellSize();
+        int size = TableNoGaps.getCellSize();
         int y = rowCol.getY() * size;
         int x = rowCol.getX() * size + size;
         return new SkillEffect("image/skills/" + skillName + ".png",
@@ -100,13 +85,13 @@ public class Skill {
     }
 
     protected void startFon(YX rowCol, String skillName, int width, int height, boolean endlessly) throws IOException {
-        int size = MainData.getTableNoGaps().getCellSize();
+        int size = TableNoGaps.getCellSize();
         int y = rowCol.getY() * size + size;
         int x = rowCol.getX() * size + size * 2;
         SkillEffect skillEffect = new SkillEffect("image/skills/" + skillName + ".png",
                 x,y,size*width,size*height);
         if (endlessly)
             skillEffect.onEndlessly();
-        MainData.getSkillsPanel().addEffect(skillEffect);
+        TableNoGaps.getSkillsPanel().addEffect(skillEffect);
     }
 }

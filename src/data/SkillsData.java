@@ -1,6 +1,7 @@
 package data;
 
 import data.skills.*;
+import elements.UpElementsPanel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +10,10 @@ import java.util.Map;
 public class SkillsData {
 
     private static final Map<String,ArrayList<YX>> bodyBagMap = new HashMap<>();
+
     private static final ArrayList<Integer> light = new ArrayList<>();
+
+    private static int coins = 0;
 
     public static Map<String, ArrayList<YX>> getBodyBagMap() {
         return bodyBagMap;
@@ -18,6 +22,25 @@ public class SkillsData {
     public static ArrayList<Integer> getLight() {
         return light;
     }
+
+    public static int getCoins() {
+        return coins;
+    }
+
+    public static void setCoins(int coins) {
+        SkillsData.coins = coins;
+    }
+
+    public static void deathAndCoin() {
+        if (ForconsList.getLevel() > 1) {
+            coins++;
+            UpElementsPanel.changeElements();
+        }
+        if (Math.random() < 0.05)
+            ForconsList.minusAllPoint();
+    }
+
+
 
     public static void noExiled(String name) {
         bodyBagMap.get(name).forEach((xy) -> MarksData.getMark(xy).minus(1));

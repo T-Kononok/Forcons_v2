@@ -3,6 +3,7 @@ package elements;
 import data.JournalTableModel;
 import data.Mark;
 import elements.skills.SkillsPanel;
+import frame.MainFrame;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 
 import javax.swing.*;
@@ -10,90 +11,83 @@ import javax.swing.table.TableModel;
 import java.awt.*;
 import java.util.Map;
 
-public class TableNoGaps extends JPanel{
+public class TableNoGaps{
 
-    private final JTable table = new JTable(new JournalTableModel());
-    private final SkillsPanel skillsPanel = new SkillsPanel(this);
+    private static final JTable table = new JTable(new JournalTableModel());
+    private static final SkillsPanel skillsPanel = new SkillsPanel();
+    private static final JPanel fon = new JPanel();
 
-    private final int initialX;
-    private final int initialY;
-    private final int initialWidth;
-    private final int initialHeight;
+    private static int initialX;
+    private static int initialY;
+    private static int initialWidth;
+    private static int initialHeight;
 
-    private int cellSize = 0;
+    private static int cellSize = 0;
 
-    private JournalTableCellRenderer renderer;
+    private static JournalTableCellRenderer renderer;
 
-    public TableNoGaps(int initialX, int initialY, int initialWidth, int initialHeight) {
-        super();
-        this.initialX = initialX;
-        this.initialY = initialY;
-        this.initialWidth = initialWidth;
-        this.initialHeight = initialHeight;
+    public static void addTableNoGaps(MainFrame component, int x, int y, int w, int h) {
+        initialX = x;
+        initialY = y;
+        initialWidth = w;
+        initialHeight = h;
 
-        setLayout(null);
+        fon.setLayout(null);
 
         setSize(initialWidth, initialHeight);
-        setComponent(this,initialX,initialY);
+        setComponent(fon,initialX,initialY);
         setComponent(skillsPanel,initialX,initialY);
         setComponent(table,0,0);
-        add(table);
+        fon.add(table);
 
+        component.add(fon);
 
         table.setShowGrid(false);
         table.setIntercellSpacing(new Dimension(0, 0));
     }
 
-    public void addRenderer(Map<String, HSSFCellStyle> map) {
+    public static void addRenderer(Map<String, HSSFCellStyle> map) {
         renderer = new JournalTableCellRenderer(map);
         table.setDefaultRenderer(Mark.class, renderer);
     }
 
-    private void setComponent(JComponent component, int x, int y) {
+    private static void setComponent(JComponent component, int x, int y) {
         component.setLocation(x,y);
         component.setBorder(BorderFactory.createEmptyBorder());
 //        component.setBorder(BorderFactory.createLineBorder(Color.RED));
         component.setOpaque(false);
     }
 
-    public SkillsPanel getSkillsPanel(){
+    public static SkillsPanel getSkillsPanel(){
         return skillsPanel;
     }
 
-    public void addIn(JComponent component) {
+    public static void addIn(JComponent component) {
         component.add(getSkillsPanel());
-        component.add(this);
+        component.add(fon);
     }
 
-//    public JournalTableCellRenderer getRenderer() {
-//        return renderer;
-//    }
-
-//    public int getRowCount() {
-//        return table.getRowCount();
-//    }
-
-    public int getCellSize(){
+    public static int getCellSize(){
         return cellSize;
     }
 
-    public void setModel(TableModel dataModel){
+    public static void setModel(TableModel dataModel){
         table.setModel(dataModel);
     }
 
-    public void setSize(int width, int height) {
-        super.setSize(width,height);
+    public static void setSize(int width, int height) {
+        fon.setSize(width,height);
         table.setSize(width,height);
         skillsPanel.setSize(width+cellSize*3,height+cellSize*2);
     }
 
-    public void setLocation(int x, int y) {
-        super.setLocation(x,y);
+    public static void setLocation(int x, int y) {
+        fon.setLocation(x,y);
         skillsPanel.setLocation(x - cellSize * 2,y - cellSize);
     }
 
-    public void setVisible(boolean bol){
-        super.setVisible(bol);
+    public static void setVisible(boolean bol){
+        fon.setVisible(bol);
         skillsPanel.setVisible(bol);
     }
 
@@ -105,15 +99,15 @@ public class TableNoGaps extends JPanel{
 //        }
 //    }
 
-    public void resizeTable(){
+    public static void resizeTable(){
         if (table.getColumnCount() * initialHeight > table.getRowCount() * (initialWidth - cellSize)) {
             cellSize = (initialWidth - cellSize) / table.getColumnCount();
             setSize(initialWidth, cellSize * table.getRowCount());
-            setLocation(initialX+cellSize, initialY + initialHeight/2 - getHeight()/2);
+            setLocation(initialX+cellSize, initialY + initialHeight/2 - fon.getHeight()/2);
         } else {
             cellSize = initialHeight / table.getRowCount();
             setSize(cellSize * table.getColumnCount(), initialHeight);
-            setLocation(initialX + initialWidth/2 - getWidth() / 2 + cellSize, initialY);
+            setLocation(initialX + initialWidth/2 - fon.getWidth() / 2 + cellSize, initialY);
         }
         table.setRowHeight(cellSize);
         for (int i = 0; i < table.getColumnCount(); i++)
@@ -122,11 +116,11 @@ public class TableNoGaps extends JPanel{
         renderer.setSize(cellSize);
     }
 
-    public void startThread(){
+    public static void startThread(){
         skillsPanel.startThread();
     }
 
-    public void stopThread(){
+    public static void stopThread(){
         skillsPanel.stopThread();
     }
 

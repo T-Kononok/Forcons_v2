@@ -14,10 +14,10 @@ public class HSSFData {
 
     private static String fileName;
     private static HSSFWorkbook workbook;
-    private static final Map<String, HSSFCellStyle> map = new HashMap<>();
+    private static final Map<String, HSSFCellStyle> styleMap = new HashMap<>();
 
-    public static Map<String, HSSFCellStyle> getMap() {
-        return map;
+    public static Map<String, HSSFCellStyle> getStyleMap() {
+        return styleMap;
     }
 
     public static void writeHSSFJournal(ArrayList<ArrayList<Mark>> matrix) {
@@ -27,7 +27,7 @@ public class HSSFData {
             for (int j = 0; j < matrix.get(0).size(); j++) {
                 HSSFCell cell = row.getCell(j+2);
                 Mark mark = matrix.get(i).get(j);
-                cell.setCellStyle(map.get(mark.toStyle()));
+                cell.setCellStyle(styleMap.get(mark.toStyle()));
                 if (mark.get()==0) {
                     cell.setCellValue(mark.toString());
                 }
@@ -72,7 +72,7 @@ public class HSSFData {
             HSSFRow styleRow = styleSheet.getRow(i);
             HSSFCell nameCell = styleRow.getCell(0);
             HSSFCell styleCell = styleRow.getCell(1);
-            map.put(nameCell.getStringCellValue(),styleCell.getCellStyle());
+            styleMap.put(nameCell.getStringCellValue(),styleCell.getCellStyle());
         }
     }
 

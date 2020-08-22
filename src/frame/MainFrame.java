@@ -2,9 +2,8 @@ package frame;
 
 import auxiliary.Auxiliary;
 import data.ForconsList;
-import data.MainData;
+import data.ReadWriteData;
 import elements.*;
-import elements.skills.SkillsPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,14 +14,13 @@ public class MainFrame extends JFrame {
     private static final int WIDTH = 1280;
     private static final int HEIGHT = 720;
     private static final ImagePanel panelFull = new ImagePanel("image/begin_fon.jpg",false);
-    private final TableNoGaps tableNoGaps = new TableNoGaps(0,35,1035,580);
 
     private static JFileChooser fileChooser = null;
     private static JButton cancelButton;
 
 
     private MainFrame() {
-        MainData.setTableNoGaps(tableNoGaps);
+        TableNoGaps.addTableNoGaps(this,0,35,1035,580);
 
         panelFull.setSize(WIDTH,HEIGHT);
         panelFull.setLayout(null);
@@ -44,7 +42,7 @@ public class MainFrame extends JFrame {
     private JButton addCancelButton() {
         JButton cancelButton = Auxiliary.addButton(panelFull,25,25,1250,5);
         cancelButton.addActionListener(ev -> {
-            tableNoGaps.stopThread();
+            TableNoGaps.stopThread();
             dispose();
         });
         return cancelButton;
@@ -59,8 +57,8 @@ public class MainFrame extends JFrame {
     }
 
     private void addTableNoGaps() {
-        tableNoGaps.addIn(panelFull);
-        tableNoGaps.setVisible(false);
+        TableNoGaps.addIn(panelFull);
+        TableNoGaps.setVisible(false);
     }
 
     private static JScrollPane addForconsListScroll() {
@@ -83,16 +81,16 @@ public class MainFrame extends JFrame {
         openButton.setPanel(openPanel);
         openButton.setMessageImage(addBeginMessageImage());
         openButton.addActionListener(ev -> {
-            MainData.readTable(selectionFile("Открыть жунал"));
+            ReadWriteData.readTable(selectionFile("Открыть жунал"));
 //            MainData.readTable("D:\\Джава\\Forcons_v2\\10_FM-3.xls");
             ForconsList.read(selectionFile("Открыть форсонов"));
             openButton.setVisible(false);
             openPanel.setVisible(false);
-            tableNoGaps.setVisible(true);
+            TableNoGaps.setVisible(true);
             UpElementsPanel.setVisible(true);
             cancelButton.setVisible(true);
             scrollPane.setVisible(true);
-            tableNoGaps.startThread();
+            TableNoGaps.startThread();
             panelFull.setImageFile("image/fon2.jpg");
             ForconsList.checkTsundere();
         });

@@ -30,7 +30,7 @@ public class SkillsMap {
     private static void addInSkills() {
         Map<Integer, Skill> inSkillMap = new HashMap<>();
         inSkillMap.put(1,new SimpleAttackSkill("inseClaws", 2, 0.5));
-        inSkillMap.put(2,null); //цундере
+        inSkillMap.put(2,null);
         inSkillMap.put(3,null);
         inSkillMap.put(4,null);
         inSkillMap.put(5,null);
@@ -41,7 +41,7 @@ public class SkillsMap {
     private static void addSaSkills() {
         Map<Integer, Skill> saSkillMap = new HashMap<>();
         saSkillMap.put(1,new SimpleAttackSkill("samuKatana", 1, 1.0));
-        saSkillMap.put(2,null);
+        saSkillMap.put(2,null);  //цундере
         saSkillMap.put(3,new SamurComplementSkill());
         saSkillMap.put(4,new SamurTruckSkill());
         saSkillMap.put(5,null);
@@ -62,5 +62,25 @@ public class SkillsMap {
 
     public static Skill getSkill(String className, int number) {
         return allSkillMap.get(className).get(number);
+    }
+
+    public static Skill getBalladSkill() {
+        return getSkill("ba",2);
+    }
+
+    public static Skill getDefenseSkill() {
+        return getSkill("ba",6);
+    }
+
+    public static Skill getCoinsSkill() {
+        return getSkill("ba",4);
+    }
+
+    public static Skill getDeadSkill() {
+        return getSkill("ba",3);
+    }
+
+    public static Skill getTsundereSkill() {
+        return getSkill("sa",2);
     }
 }

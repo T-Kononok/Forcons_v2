@@ -3,6 +3,7 @@ package data;
 import data.skills.SamurTsundereSkill;
 import elements.DownElementsPanel;
 import elements.ForconsRenderer;
+import elements.TableNoGaps;
 
 import javax.swing.*;
 import java.io.File;
@@ -141,7 +142,7 @@ public class ForconsList {
                 else
                     SkillsData.exiled(subStrs[1]);
         });
-        MainData.getTableNoGaps().repaint();
+        TableNoGaps.getSkillsPanel().repaint();
     }
 
     public static void checkTsundere() {

@@ -1,13 +1,10 @@
 package elements.skills;
+import elements.TableNoGaps;
+
 import java.util.ArrayList;
 
 public class SkillsThread extends Thread {
     private final ArrayList<SkillEffect> effects = new ArrayList<>();
-    private final SkillsPanel skillsPanel;
-
-    public SkillsThread(SkillsPanel skillsPanel) {
-        this.skillsPanel = skillsPanel;
-    }
 
     public void addEffect(SkillEffect skillEffect){
         effects.add(skillEffect);
@@ -37,10 +34,10 @@ public class SkillsThread extends Thread {
                         x = effects.get(i).getX();
                         y = effects.get(i).getY();
                         width = effects.get(i).getWidth();
-                        height = skillsPanel.getHeight()-effects.get(i).getY();
+                        height = TableNoGaps.getSkillsPanel().getHeight()-effects.get(i).getY();
                         effects.remove(effects.get(i));
 //                        System.out.println("repaint");
-                        skillsPanel.repaint(x,y,width,height);
+                        TableNoGaps.getSkillsPanel().repaint(x,y,width,height);
                     }
                 }
             }

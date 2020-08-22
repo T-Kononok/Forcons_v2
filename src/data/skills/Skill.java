@@ -38,7 +38,7 @@ public class Skill {
         do {
             yx.setX(rand.nextInt(MarksData.getColumnCount()));
             mark = MarksData.getMark(yx);
-        } while (mark.get() == 0 || !mark.canBite());
+        } while (!mark.canBite());
 //        System.out.println("row "+ yx.getY() + " col "+ yx.getX());
         return yx;
     }

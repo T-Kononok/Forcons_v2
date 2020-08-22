@@ -50,8 +50,20 @@ public class Mark {
         return setBoolean;
     }
 
+    public boolean isCrorKr() {
+        return cr || kr;
+    }
+
+    public boolean isEmpty() {
+        return get() == 0;
+    }
+
+    public boolean canInteract() {
+        return !isEmpty() && !isCrorKr();
+    }
+
     public boolean canBite() {
-        return !(cr || kr);
+        return bites < 3 && canInteract();
     }
 
     //сеттеры

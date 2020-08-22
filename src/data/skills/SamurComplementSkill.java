@@ -96,7 +96,7 @@ public class SamurComplementSkill extends Skill{
         Mark mark;
         for (int i = 0; i < MarksData.getColumnCount(); i++) {
             mark = MarksData.getMark(row,i);
-            if (mark.get() != 0 && mark.canBite()) {
+            if (mark.canInteract()) {
                 newMedian = getNewMedian(row, i, averageScore);
 //                System.out.println("row " + row + " i " + i + " newMedian " + newMedian);
                 if ((median - newMedian) > maxBenefit) {

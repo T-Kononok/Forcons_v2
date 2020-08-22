@@ -44,8 +44,8 @@ public class SkillsMap {
         saSkillMap.put(2,new SamurTsundereSkill());
         saSkillMap.put(3,new SamurComplementSkill());
         saSkillMap.put(4,new SamurTruckSkill());
-        saSkillMap.put(5,null);
-        saSkillMap.put(6,null);
+        saSkillMap.put(5,new SamurKillerQueenSkill());
+        saSkillMap.put(6,new SamurOvercomingSkill());
         allSkillMap.put("sa",saSkillMap);
     }
 

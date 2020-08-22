@@ -75,20 +75,20 @@ public class ForsonsListModel extends AbstractListModel<String>
                         return 0;
                     else
                         return -1;
-                case ("sa"):
+                case ("in"):
                     switch (sub2){
                         case ("ba"):
                             return 1;
-                        case ("sa"):
+                        case ("in"):
                             return 0;
                         default:
                             return -1;
                     }
-                case ("in"):
+                case ("sa"):
                     switch (sub2) {
                         case ("sm"):
                             return -1;
-                        case ("in"):
+                        case ("sa"):
                             return 0;
                         default:
                             return 1;

@@ -14,8 +14,14 @@ public class MarksData {
         return matrix;
     }
 
-    public static Mark getMark(int row, int column) {
-        return matrix.get(row).get(column);
+    public static Mark secureGetMark(int row, int col) {
+        if (row < 0 || row >= getRowCount() || col < 0 || col >= getColumnCount())
+            return null;
+        return getMark(row, col);
+    }
+
+    public static Mark getMark(int row, int col) {
+        return matrix.get(row).get(col);
     }
 
     public static Mark getMark(YX yx) {

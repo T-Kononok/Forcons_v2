@@ -1,6 +1,7 @@
 package data;
 
 import data.skills.SamurTsundereSkill;
+import elements.DownElementsPanel;
 import elements.ForconsRenderer;
 
 import javax.swing.*;
@@ -89,6 +90,7 @@ public class ForconsList {
             return false;
         String sub = string.substring(0,string.lastIndexOf(",")+1);
         forconsListModel.set(getSelectedIndex(),sub+point);
+        DownElementsPanel.changeElements();
         return true;
     }
 
@@ -133,11 +135,11 @@ public class ForconsList {
     private static void checkBodyBag() {
         forconsListModel.getArray().forEach((s) -> {
             String[] subStrs = s.split(",");
-            if (MainData.getBodyBagMap().get(subStrs[1]) != null)
+            if (SkillsData.getBodyBagMap().get(subStrs[1]) != null)
                 if (Integer.parseInt(subStrs[3])>=7)
-                    MainData.noExiled(subStrs[1]);
+                    SkillsData.noExiled(subStrs[1]);
                 else
-                    MainData.exiled(subStrs[1]);
+                    SkillsData.exiled(subStrs[1]);
         });
         MainData.getTableNoGaps().repaint();
     }

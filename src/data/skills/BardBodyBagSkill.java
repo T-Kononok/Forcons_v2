@@ -1,10 +1,6 @@
 package data.skills;
 
-import data.ForconsList;
-import data.MainData;
-import data.Mark;
-import data.YX;
-import frame.MainFrame;
+import data.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,14 +10,14 @@ public class BardBodyBagSkill extends Skill {
 
     @Override
     public void begin() throws IOException {
-        if (!MainData.minusPoint(2))
+        if (!ForconsList.minusPoint(2))
             return;
         ArrayList<YX> arrayList = new ArrayList<>();
         int max = 0;
         Mark mark;
-        for (int i = 0; i < MainData.getSize(); i++) {
-            for (int j = 0; j < MainData.getRowSize(); j++) {
-                mark = MainData.getMark(i,j);
+        for (int i = 0; i < MarksData.getRowCount(); i++) {
+            for (int j = 0; j < MarksData.getColumnCount(); j++) {
+                mark = MarksData.getMark(i,j);
                 if (mark.getBodyBag().equals("") && mark.canBite()) {
                     if (mark.get() == max)
                         arrayList.add(new YX(i, j));
@@ -36,10 +32,10 @@ public class BardBodyBagSkill extends Skill {
         }
         Random rand = new Random();
         int randIndex = rand.nextInt(arrayList.size());
-        mark = MainData.getMark(arrayList.get(randIndex));
-        if (Math.random() < 0.5 + MainData.getBodyBagMap().size() * 0.05) {
+        mark = MarksData.getMark(arrayList.get(randIndex));
+        if (Math.random() < 0.5 + SkillsData.getBodyBagMap().size() * 0.05) {
             mark.setBodyBag(ForconsList.getSelectedValue().split(",")[1]);
-            MainData.addBodyBag(arrayList.get(randIndex));
+            SkillsData.addBodyBag(arrayList.get(randIndex));
             startFon(arrayList.get(randIndex), "bardBodyBag");
         }
         else

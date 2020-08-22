@@ -1,9 +1,9 @@
 package data.skills;
 
-import data.MainData;
+import data.ForconsList;
+import data.MarksData;
 import data.Mark;
 import data.YX;
-import elements.skills.SkillEffect;
 
 import java.io.IOException;
 import java.util.Random;
@@ -12,15 +12,15 @@ public class SamurTruckSkill extends Skill{
 
     @Override
     public void begin() throws IOException {
-        if (!MainData.minusPoint(2))
+        if (!ForconsList.minusPoint(2))
                 return;
         int col = 0;
         Mark mark;
         boolean empty = true;
         while (empty) {
-            col = new Random().nextInt(MainData.getRowSize());
-            for (int i = 0; i < MainData.getSize(); i++) {
-                mark = MainData.getMark(i, col);
+            col = new Random().nextInt(MarksData.getColumnCount());
+            for (int i = 0; i < MarksData.getRowCount(); i++) {
+                mark = MarksData.getMark(i, col);
                 if (!mark.canBite())
                     break;
                 if (mark.get() != 0)
@@ -28,8 +28,8 @@ public class SamurTruckSkill extends Skill{
             }
         }
 
-        for (int i = 0; i < MainData.getSize(); i++) {
-            mark = MainData.getMark(i, col);
+        for (int i = 0; i < MarksData.getRowCount(); i++) {
+            mark = MarksData.getMark(i, col);
             if (mark.get() != 0) {
 //                System.out.print(mark.get() + "->");
                 if (Math.random() < 0.75) {

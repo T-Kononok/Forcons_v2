@@ -4,6 +4,7 @@ import auxiliary.Auxiliary;
 import data.ForconsList;
 import data.MainData;
 import elements.*;
+import elements.skills.SkillsPanel;
 
 import javax.swing.*;
 import java.awt.*;

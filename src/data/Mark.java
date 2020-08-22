@@ -169,8 +169,6 @@ public class Mark {
     }
 
 
-
-
     //на будущее для работы с условынми обозначениями АВ
     private String string = "";
     public String getString() {

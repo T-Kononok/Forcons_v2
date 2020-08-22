@@ -1,6 +1,7 @@
 package data.skills;
 
-import data.MainData;
+import data.ForconsList;
+import data.MarksData;
 import data.Mark;
 import data.YX;
 
@@ -32,10 +33,10 @@ public class SimpleAttackSkill extends Skill {
 
     @Override
     public void begin() throws IOException {
-        if (!MainData.minusPoint(1))
+        if (!ForconsList.minusPoint(1))
             return;
         YX yx = getRandomMarkYX();
-        Mark mark = MainData.getMark(yx);
+        Mark mark = MarksData.getMark(yx);
         boolean noMiss = Math.random() < chance;
         if (noMiss) {
 //            System.out.print(skillName + " " + mark.get() + "->");

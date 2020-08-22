@@ -3,6 +3,8 @@ package elements;
 import auxiliary.Auxiliary;
 import data.ForconsList;
 import data.MainData;
+import data.SkillsData;
+import data.SkillsMap;
 import elements.skills.SkillButtonActionListener;
 import org.apache.batik.swing.JSVGCanvas;
 
@@ -97,7 +99,7 @@ public class DownElementsPanel{
                 c.setVisible(s.equals(subStr[0]) && i + 1 <= countSkill )));
 
         for (int i = 0; i < countSkill; i++)
-            actionListeners.get(i).setSkill(MainData.getSkill(subStr[0],(i+1)));
+            actionListeners.get(i).setSkill(SkillsMap.getSkill(subStr[0],(i+1)));
 
         int pointCount = Integer.parseInt(subStr[3]);
         if (pointCount < 8) {

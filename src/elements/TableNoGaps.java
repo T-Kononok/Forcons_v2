@@ -8,8 +8,6 @@ import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.*;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Map;
 
 public class TableNoGaps extends JPanel{

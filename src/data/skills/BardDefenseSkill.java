@@ -1,13 +1,15 @@
 package data.skills;
 
+import data.ForconsList;
 import data.MainData;
+import data.MarksData;
 import elements.UpElementsPanel;
 
 public class BardDefenseSkill extends Skill{
 
     @Override
     public void begin() {
-        if (!MainData.minusPoint(1))
+        if (!ForconsList.minusPoint(1))
             return;
         buffDefense += 2;
         UpElementsPanel.changeElements();

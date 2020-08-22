@@ -1,14 +1,10 @@
 package data.skills;
 
-import data.ForconsList;
-import data.MainData;
-import data.Mark;
-import data.YX;
+import data.*;
 import elements.UpElementsPanel;
 import elements.skills.SkillEffect;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class Skill {
@@ -40,14 +36,14 @@ public class Skill {
     protected YX getRandomYX() {
         Random rand = new Random();
         Integer row = getRandomRow();
-        return new YX(row, rand.nextInt(MainData.getRowSize()));
+        return new YX(row, rand.nextInt(MarksData.getColumnCount()));
     }
 
     protected Integer getRandomRow() {
         Random rand = new Random();
-        int row = rand.nextInt(MainData.getSize()+ MainData.getLight().size());
-        if (row >= MainData.getSize()) {
-            row = MainData.getLight().get(row - MainData.getSize());
+        int row = rand.nextInt(MarksData.getRowCount()+ SkillsData.getLight().size());
+        if (row >= MarksData.getRowCount()) {
+            row = SkillsData.getLight().get(row - MarksData.getRowCount());
 //            System.out.println("light");
         }
         return row;
@@ -59,8 +55,8 @@ public class Skill {
         yx.setY(getRandomRow());
         Random rand = new Random();
         do {
-            yx.setX(rand.nextInt(MainData.getRowSize()));
-            mark = MainData.getMark(yx);
+            yx.setX(rand.nextInt(MarksData.getColumnCount()));
+            mark = MarksData.getMark(yx);
         } while (mark.get() == 0 || !mark.canBite());
 //        System.out.println("row "+ yx.getY() + " col "+ yx.getX());
         return yx;
@@ -75,7 +71,7 @@ public class Skill {
             UpElementsPanel.changeElements();
         }
         if (Math.random() < 0.05)
-            MainData.minusAllPoint();
+            ForconsList.minusAllPoint();
     }
 
     protected void startFon(YX rowCol, String skillName) throws IOException {

@@ -1,6 +1,6 @@
 package auxiliary;
 
-import elements.ReSizeLabel;
+import frontend.elements.ReSizeLabel;
 import org.apache.batik.swing.JSVGCanvas;
 
 import javax.swing.*;

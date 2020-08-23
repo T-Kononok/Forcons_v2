@@ -57,13 +57,6 @@ public class Skill {
         TableNoGaps.getSkillsPanel().addEffect(skillEffect);
     }
 
-    protected static void startFon(YX rowCol, String skillName, boolean endlessly) throws IOException {
-        SkillEffect skillEffect = getStandardSizeEffect(rowCol, skillName);
-        if (endlessly)
-            skillEffect.onEndlessly();
-        TableNoGaps.getSkillsPanel().addEffect(skillEffect);
-    }
-
     protected static SkillEffect getStandardSizeEffect(YX rowCol, String skillName) throws IOException {
         int size = TableNoGaps.getCellSize();
         int y = rowCol.getY() * size;

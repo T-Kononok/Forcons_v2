@@ -1,5 +1,7 @@
 package backend.marks;
 
+import java.io.IOException;
+
 public class AbstractMark {
 
     // поля
@@ -133,7 +135,7 @@ public class AbstractMark {
         bites -= inRange(plusValue, bites);
     }
 
-    public void minus(int minusValue) {
+    public void minus(int minusValue) throws IOException {
         minusValue = inRange(minusValue, 3 - bites);
         mark = inRange(mark - minusValue, 10);
         bites += minusValue;

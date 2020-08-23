@@ -57,15 +57,19 @@ public class SamurKillerQueenSkill extends Skill {
         return damage;
     }
 
-//    public static void blast(Mark mainMark) {
-//        for (int i = -1; i <= 1; i++) {
-//            for (int j = -1; j <= 1; j++) {
-//                Mark mark = MarksData.secureGetMark(row + i, col + j);
-//                if ((i == 0 && j == 0) || mark == null || !mark.canBite())
-//                    continue;
-//                mark.minus(1);
-//            }
-//        }
-//    }
+    public static void blast(Mark mainMark) throws IOException {
+        int row = mainMark.getRow();
+        int col = mainMark.getCol();
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                Mark mark = MarksData.secureGetMark(row + i, col + j);
+                if ((i == 0 && j == 0) || mark == null || !mark.canBite() || mark.isBomb())
+                    continue;
+                mark.minus(1);
+            }
+        }
+        startFon(new YX(row - 2, col - 1),"samurBombBlast",5,4,false);
+        mainMark.setBomb(false);
+    }
 
 }

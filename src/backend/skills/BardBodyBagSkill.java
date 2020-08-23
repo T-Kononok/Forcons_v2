@@ -20,7 +20,13 @@ public class BardBodyBagSkill extends Skill {
     }
 
     public static void noExiled(String name) {
-        bodyBagMap.get(name).forEach((xy) -> MarksData.getMark(xy).minus(1));
+        bodyBagMap.get(name).forEach((xy) -> {
+            try {
+                MarksData.getMark(xy).minus(1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public static void exiled(String name) {

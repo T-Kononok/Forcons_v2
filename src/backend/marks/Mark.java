@@ -1,6 +1,9 @@
 package backend.marks;
 
 import backend.YX;
+import backend.skills.SamurKillerQueenSkill;
+
+import java.io.IOException;
 
 public class Mark extends AbstractMark{
 
@@ -10,6 +13,13 @@ public class Mark extends AbstractMark{
     public Mark(int row, int col) {
         this.row = row;
         this.col = col;
+    }
+
+    @Override
+    public void minus(int minusValue) throws IOException {
+        super.minus(minusValue);
+        if(isBomb())
+            SamurKillerQueenSkill.blast(this);
     }
 
     public int getRow() {

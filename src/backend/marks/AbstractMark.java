@@ -15,7 +15,6 @@ public class AbstractMark {
     private boolean cr = false;
     private boolean kr = false;
     private boolean lr = false;
-    private boolean setBoolean = true;
 
     private String style = "cell";
 
@@ -48,20 +47,25 @@ public class AbstractMark {
     public boolean isLr() {
         return lr;
     }
-    public boolean isSetBoolean() {
-        return setBoolean;
-    }
 
     public boolean isCrorKr() {
         return cr || kr;
     }
 
     public boolean isEmpty() {
-        return get() == 0;
+        return get() == 0 && string.equals("");
+    }
+
+    public boolean isNumber() {
+        return get() != 0 && string.equals("");
+    }
+
+    public boolean canPut() {
+        return isEmpty() && !isCrorKr();
     }
 
     public boolean canInteract() {
-        return !isEmpty() && !isCrorKr();
+        return isNumber() && !isCrorKr();
     }
 
     public boolean canBite() {
@@ -75,7 +79,6 @@ public class AbstractMark {
             this.mark -= inRange( this.mark - mark, 4);
         } else
             this.mark = inRange(mark, 10);
-        setBoolean = (mark == this.mark);
     }
 
     public void setBites(int bites) {

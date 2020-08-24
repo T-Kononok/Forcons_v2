@@ -44,7 +44,25 @@ public class Skill {
         return yx;
     }
 
+    protected int getAverageScore(int row) {
+        Mark mark;
+        double sum = 0;
+        int count = 0;
+        for (int i = 0; i < MarksData.getColumnCount(); i++){
+            mark = MarksData.getMark(row,i);
+            if (mark.isNumber()) {
+                sum += mark.get();
+                count++;
+            }
+        }
+        return (int) Math.round((sum / count) - 0.0001);
+    }
+
     public void begin() throws IOException {
+    }
+
+    protected static void startFon(int row, int col, String skillName) throws IOException {
+        TableNoGaps.getSkillsPanel().addEffect(getStandardSizeEffect(new YX(row,col), skillName));
     }
 
     protected static void startFon(YX rowCol, String skillName) throws IOException {

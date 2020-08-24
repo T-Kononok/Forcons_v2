@@ -53,7 +53,7 @@ public class SkillsMap {
         Map<Integer, Skill> smSkillMap = new HashMap<>();
         smSkillMap.put(1,new SimpleAttackSkill("smotrGame", 1, 0.75, 3, 0.17));
         smSkillMap.put(2,null);
-        smSkillMap.put(3,null);
+        smSkillMap.put(3,new SmotrRemakeSkill());
         smSkillMap.put(4,null);
         smSkillMap.put(5,new SmotrLightSkill());
         smSkillMap.put(6,null);

@@ -5,6 +5,7 @@ import backend.models.JournalTableModel;
 import backend.skills.BaBodyBagSkill;
 import backend.skills.BaCoinsSkill;
 import backend.skills.BaDefenseSkill;
+import backend.skills.SmRaspberrySkill;
 import frontend.frame.UpElementsPanel;
 import frontend.frame.TableNoGaps;
 
@@ -38,8 +39,13 @@ public class ReadWriteData {
             BaDefenseSkill.set(Integer.parseInt(string.substring(string.indexOf(": ")+2)));
             string = scanner.nextLine();
             BaCoinsSkill.set(Integer.parseInt(string.substring(string.indexOf(": ")+2)));
-            if (scanner.hasNextLine()) {
-                scanner.nextLine();
+            if (scanner.hasNextLine() && scanner.nextLine().equals("Малина:")) {
+                string = scanner.nextLine();
+                String[] subStrings = string.split(" ");
+                for (String subString : subStrings)
+                    SmRaspberrySkill.getRaspberryArray().add(Integer.parseInt(subString));
+            }
+            if (scanner.hasNextLine() && scanner.nextLine().equals("Бадибэг:")) {
                 string = scanner.nextLine();
                 while (scanner.hasNextLine()) {
                     String name = string;
@@ -66,8 +72,19 @@ public class ReadWriteData {
 
             writer.write("Защита: " + BaDefenseSkill.get() + "\n");
             writer.write("Долг: " + BaCoinsSkill.get() + "\n");
+            if (SmRaspberrySkill.getRaspberryArray().size() > 0) {
+                writer.write("Малина:" + "\n");
+                SmRaspberrySkill.getRaspberryArray().forEach((i) -> {
+                    try {
+                        writer.write(i + " ");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                writer.write("\n");
+            }
             if (BaBodyBagSkill.getBodyBagMap().size() > 0) {
-                writer.write("Бадибэг: " + "\n");
+                writer.write("Бадибэг:" + "\n");
                 BaBodyBagSkill.getBodyBagMap().forEach((s, array) -> {
                     try {
                         writer.write(s + "\n");

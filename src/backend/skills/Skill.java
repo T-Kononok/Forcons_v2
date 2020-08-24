@@ -94,7 +94,7 @@ public class Skill {
     protected static SkillEffect getStandardSizeEffect(YX rowCol, String skillName) throws IOException {
         int size = TableNoGaps.getCellSize();
         int y = rowCol.getY() * size;
-        int x = rowCol.getX() * size + size;
+        int x = rowCol.getX() * size;
         return new SkillEffect("image/skills/" + skillName + ".png",
                 x,y,size*3,size*3);
     }
@@ -102,7 +102,7 @@ public class Skill {
     protected static void startFon(YX rowCol, String skillName, int width, int height, boolean endlessly) throws IOException {
         int size = TableNoGaps.getCellSize();
         int y = rowCol.getY() * size + size;
-        int x = rowCol.getX() * size + size * 2;
+        int x = rowCol.getX() * size + size;
         SkillEffect skillEffect = new SkillEffect("image/skills/" + skillName + ".png",
                 x,y,size*width,size*height);
         if (endlessly)

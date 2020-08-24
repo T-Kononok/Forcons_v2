@@ -78,26 +78,18 @@ public class TableNoGaps{
     public static void setSize(int width, int height) {
         fon.setSize(width,height);
         table.setSize(width,height);
-        skillsPanel.setSize(width+cellSize*3,height+cellSize*2);
+        skillsPanel.setSize(width+cellSize*2,height+cellSize*2);
     }
 
     public static void setLocation(int x, int y) {
         fon.setLocation(x,y);
-        skillsPanel.setLocation(x - cellSize * 2,y - cellSize);
+        skillsPanel.setLocation(x - cellSize,y - cellSize);
     }
 
     public static void setVisible(boolean bol){
         fon.setVisible(bol);
         skillsPanel.setVisible(bol);
     }
-
-//    public  ArrayList<ImagePanel> getLeftImages() {
-//        ArrayList<ImagePanel> leftImages = new ArrayList<>();
-//        int cellSize = tableNoGaps.getCellSize();
-//        for (int i = 0; i < tableNoGaps.getRowCount(); i++) {
-//            leftImageArray.add(addOneLeftImage(tableNoGaps.getX()-cellSize, tableNoGaps.getY()+5+i*cellSize,cellSize));
-//        }
-//    }
 
     public static void resizeTable(){
         if (table.getColumnCount() * initialHeight > table.getRowCount() * (initialWidth - cellSize)) {

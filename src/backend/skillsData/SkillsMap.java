@@ -54,7 +54,7 @@ public class SkillsMap {
         smSkillMap.put(1,new SimpleAttackSkill("smotrGame", 1, 0.75, 3, 0.17));
         smSkillMap.put(2,null);
         smSkillMap.put(3,new SmRemakeSkill());
-        smSkillMap.put(4,null);
+        smSkillMap.put(4,new SmRaspberrySkill());
         smSkillMap.put(5,new SmLightSkill());
         smSkillMap.put(6,new SmGoblinSkill());
         allSkillMap.put("sm",smSkillMap);

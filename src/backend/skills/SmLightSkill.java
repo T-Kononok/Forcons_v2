@@ -2,6 +2,7 @@ package backend.skills;
 
 import backend.*;
 import backend.marks.MarksData;
+import frontend.frame.TableNoGaps;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,13 +13,6 @@ public class SmLightSkill extends Skill{
 
     public static ArrayList<Integer> getLight() {
         return light;
-    }
-
-    private static void addLight(int number) {
-        if (number >= 0 && number < MarksData.getRowCount())
-            light.add(number);
-        else
-            System.out.println("Ошибка addLight");
     }
 
     public static boolean contains(int row) {
@@ -38,8 +32,7 @@ public class SmLightSkill extends Skill{
         do {
             row = getRandomRow();
         } while (contains(row));
-        addLight(row);
-        startFon(new YX(row,-2), "smotrLight",2,1,true);
-//        System.out.println("addLight" + row);
+        light.add(row);
+        startFon(new YX(row-1,0), "smLight", MarksData.getColumnCount(),3,true);
     }
 }

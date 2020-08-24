@@ -1,8 +1,8 @@
 package backend;
 
 import backend.models.ForsonsListModel;
-import backend.skills.BardBodyBagSkill;
-import backend.skills.SamurOvercomingSkill;
+import backend.skills.BaBodyBagSkill;
+import backend.skills.SaOvercomingSkill;
 import frontend.frame.DownElementsPanel;
 import frontend.renderer.ForconsRenderer;
 
@@ -115,8 +115,8 @@ public class ForconsList {
             Scanner scanner = new Scanner(new File(filename));
             while (scanner.hasNextLine())
                 forconsListModel.add(scanner.nextLine());
-            BardBodyBagSkill.checkBodyBag();
-            SamurOvercomingSkill.checkOvercoming();
+            BaBodyBagSkill.checkBodyBag();
+            SaOvercomingSkill.checkOvercoming();
             sortPoint();
             sortClass();
         } catch (FileNotFoundException e) {

@@ -2,9 +2,9 @@ package backend;
 
 import backend.marks.MarksData;
 import backend.models.JournalTableModel;
-import backend.skills.BardBodyBagSkill;
-import backend.skills.BardCoinsSkill;
-import backend.skills.BardDefenseSkill;
+import backend.skills.BaBodyBagSkill;
+import backend.skills.BaCoinsSkill;
+import backend.skills.BaDefenseSkill;
 import frontend.frame.UpElementsPanel;
 import frontend.frame.TableNoGaps;
 
@@ -35,9 +35,9 @@ public class ReadWriteData {
         try {
             Scanner scanner = new Scanner(new File("Другое.txt"));
             String string = scanner.nextLine();
-            BardDefenseSkill.set(Integer.parseInt(string.substring(string.indexOf(": ")+2)));
+            BaDefenseSkill.set(Integer.parseInt(string.substring(string.indexOf(": ")+2)));
             string = scanner.nextLine();
-            BardCoinsSkill.set(Integer.parseInt(string.substring(string.indexOf(": ")+2)));
+            BaCoinsSkill.set(Integer.parseInt(string.substring(string.indexOf(": ")+2)));
             if (scanner.hasNextLine()) {
                 scanner.nextLine();
                 string = scanner.nextLine();
@@ -50,7 +50,7 @@ public class ReadWriteData {
                             break;
                         array.add(new YX(string));
                     }
-                    BardBodyBagSkill.getBodyBagMap().put(name, array);
+                    BaBodyBagSkill.getBodyBagMap().put(name, array);
                 }
             }
             UpElementsPanel.changeElements();
@@ -64,11 +64,11 @@ public class ReadWriteData {
         {
             FileWriter writer = new FileWriter("Другое.txt", false);
 
-            writer.write("Защита: " + BardDefenseSkill.get() + "\n");
-            writer.write("Долг: " + BardCoinsSkill.get() + "\n");
-            if (BardBodyBagSkill.getBodyBagMap().size() > 0) {
+            writer.write("Защита: " + BaDefenseSkill.get() + "\n");
+            writer.write("Долг: " + BaCoinsSkill.get() + "\n");
+            if (BaBodyBagSkill.getBodyBagMap().size() > 0) {
                 writer.write("Бадибэг: " + "\n");
-                BardBodyBagSkill.getBodyBagMap().forEach((s, array) -> {
+                BaBodyBagSkill.getBodyBagMap().forEach((s, array) -> {
                     try {
                         writer.write(s + "\n");
                         for (YX yx : array)

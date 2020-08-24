@@ -7,7 +7,7 @@ import backend.marks.MarksData;
 import java.io.IOException;
 import java.util.Random;
 
-public class SamurTruckSkill extends Skill{
+public class SaTruckSkill extends Skill{
 
     @Override
     public void begin() throws IOException {
@@ -29,14 +29,14 @@ public class SamurTruckSkill extends Skill{
 
         for (int i = 0; i < MarksData.getRowCount(); i++) {
             mark = MarksData.getMark(i, col);
-            if (mark.get() != 0) {
+            if (mark.canBite()) {
 //                System.out.print(mark.get() + "->");
-                if (Math.random() < 0.75) {
-                    mark.minus(1 + BardBalladSkill.get());
+                if (checkChance(0.75,mark)) {
+                    mark.minus(1 + BaBalladSkill.get());
                     startFon(i, col, "samurTruck");
                 }
                 else {
-                    mark.plus(1 + BardBalladSkill.get());
+                    mark.plus(1 + BaBalladSkill.get());
                     startFon(i, col, "samurTruckHealing");
                 }
 //                System.out.println(mark.get());

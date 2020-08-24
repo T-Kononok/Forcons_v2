@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class SamurKillerQueenSkill extends Skill {
+public class SaKillerQueenSkill extends Skill {
 
     @Override
     public void begin() throws IOException {

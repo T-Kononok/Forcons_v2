@@ -15,6 +15,22 @@ public class Skill {
         return true;
     }
 
+    protected static boolean checkChance(double chance) {
+        return Math.random() < chance;
+    }
+
+    protected static boolean checkChance(double chance, int row) {
+        if (SmLightSkill.contains(row))
+            return true;
+        return checkChance(chance);
+    }
+
+    protected static boolean checkChance(double chance, Mark mark) {
+        if (SmLightSkill.contains(mark.getRow()))
+            return true;
+        return Math.random() < chance;
+    }
+
     protected  static YX getRandomYX() {
         Random rand = new Random();
         Integer row = getRandomRow();
@@ -23,9 +39,9 @@ public class Skill {
 
     protected static Integer getRandomRow() {
         Random rand = new Random();
-        int row = rand.nextInt(MarksData.getRowCount()+ SmotrLightSkill.getLight().size());
+        int row = rand.nextInt(MarksData.getRowCount()+ SmLightSkill.getLight().size());
         if (row >= MarksData.getRowCount()) {
-            row = SmotrLightSkill.getLight().get(row - MarksData.getRowCount());
+            row = SmLightSkill.getLight().get(row - MarksData.getRowCount());
 //            System.out.println("light");
         }
         return row;

@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class SamurComplementSkill extends Skill{
+public class SaComplementSkill extends Skill{
 
     private int getNewAverageScore(int row, int col, int value) {
         Mark mark;
@@ -20,7 +20,7 @@ public class SamurComplementSkill extends Skill{
                 count++;
             } else {
                 mark = MarksData.getMark(row, i);
-                if (mark.get() != 0) {
+                if (mark.isNumber()) {
                     sum += mark.get();
                     count++;
                 }
@@ -34,7 +34,7 @@ public class SamurComplementSkill extends Skill{
         Mark mark;
         for (int i = 0; i < MarksData.getColumnCount(); i++){
             mark = MarksData.getMark(row,i);
-            if (mark.get() != 0)
+            if (mark.isNumber())
                 array.add(mark.get());
         }
         return getArrayMedian(array);
@@ -48,7 +48,7 @@ public class SamurComplementSkill extends Skill{
                 array.add(value);
             } else {
                 mark = MarksData.getMark(row, i);
-                if (mark.get() != 0)
+                if (mark.isNumber())
                     array.add(mark.get());
             }
         }

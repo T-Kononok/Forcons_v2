@@ -36,15 +36,15 @@ public class SimpleAttackSkill extends Skill {
             return;
         YX yx = getRandomMarkYX();
         Mark mark = MarksData.getMark(yx);
-        boolean noMiss = Math.random() < chance;
+        boolean noMiss = checkChance(chance,mark);
         if (noMiss) {
 //            System.out.print(skillName + " " + mark.get() + "->");
-            if (Math.random() < critChance) {
+            if (checkChance(critChance,mark)) {
 //                System.out.print("(крит)");
                 mark.minus(critDamage);
                 startFon(yx, skillName + "Crit");
             } else {
-                mark.minus(damage + BardBalladSkill.get());
+                mark.minus(damage + BaBalladSkill.get());
                 startFon(yx, skillName);
             }
 //            System.out.println(mark.get());
@@ -53,6 +53,6 @@ public class SimpleAttackSkill extends Skill {
             startFon(yx,skillName + "Miss");
         }
         if (skillName.equals("bardChain"))
-            BardDeathSkill.checkDeath();
+            BaDeathSkill.checkDeath();
     }
 }

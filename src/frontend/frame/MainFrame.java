@@ -3,7 +3,7 @@ package frontend.frame;
 import auxiliary.Auxiliary;
 import backend.ForconsList;
 import backend.ReadWriteData;
-import backend.skills.SamurTsundereSkill;
+import backend.skills.SaTsundereSkill;
 import frontend.elements.*;
 
 import javax.swing.*;
@@ -93,7 +93,7 @@ public class MainFrame extends JFrame {
             scrollPane.setVisible(true);
             TableNoGaps.startThread();
             panelFull.setImageFile("image/fon2.jpg");
-            SamurTsundereSkill.checkTsundere();
+            SaTsundereSkill.checkTsundere();
         });
     }
 

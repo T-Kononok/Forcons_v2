@@ -7,7 +7,7 @@ import backend.YX;
 
 import java.io.IOException;
 
-public class SamurTsundereSkill extends Skill {
+public class SaTsundereSkill extends Skill {
 
     public static void checkTsundere() {
         ForconsList.getForconsListModel().getArray().forEach((s) -> {

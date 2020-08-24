@@ -19,11 +19,11 @@ public class SkillsMap {
     private static void addBaSkills() {
         Map<Integer, Skill> baSkillMap = new HashMap<>();
         baSkillMap.put(1,new SimpleAttackSkill("bardChain", 1, 0.75));
-        baSkillMap.put(2,new BardBalladSkill());
-        baSkillMap.put(3,new BardDeathSkill());
-        baSkillMap.put(4,new BardCoinsSkill());
-        baSkillMap.put(5,new BardBodyBagSkill());
-        baSkillMap.put(6,new BardDefenseSkill());
+        baSkillMap.put(2,new BaBalladSkill());
+        baSkillMap.put(3,new BaDeathSkill());
+        baSkillMap.put(4,new BaCoinsSkill());
+        baSkillMap.put(5,new BaBodyBagSkill());
+        baSkillMap.put(6,new BaDefenseSkill());
         allSkillMap.put("ba",baSkillMap);
     }
 
@@ -41,11 +41,11 @@ public class SkillsMap {
     private static void addSaSkills() {
         Map<Integer, Skill> saSkillMap = new HashMap<>();
         saSkillMap.put(1,new SimpleAttackSkill("samuKatana", 1, 1.0));
-        saSkillMap.put(2,new SamurTsundereSkill());
-        saSkillMap.put(3,new SamurComplementSkill());
-        saSkillMap.put(4,new SamurTruckSkill());
-        saSkillMap.put(5,new SamurKillerQueenSkill());
-        saSkillMap.put(6,new SamurOvercomingSkill());
+        saSkillMap.put(2,new SaTsundereSkill());
+        saSkillMap.put(3,new SaComplementSkill());
+        saSkillMap.put(4,new SaTruckSkill());
+        saSkillMap.put(5,new SaKillerQueenSkill());
+        saSkillMap.put(6,new SaOvercomingSkill());
         allSkillMap.put("sa",saSkillMap);
     }
 
@@ -53,10 +53,10 @@ public class SkillsMap {
         Map<Integer, Skill> smSkillMap = new HashMap<>();
         smSkillMap.put(1,new SimpleAttackSkill("smotrGame", 1, 0.75, 3, 0.17));
         smSkillMap.put(2,null);
-        smSkillMap.put(3,new SmotrRemakeSkill());
+        smSkillMap.put(3,new SmRemakeSkill());
         smSkillMap.put(4,null);
-        smSkillMap.put(5,new SmotrLightSkill());
-        smSkillMap.put(6,null);
+        smSkillMap.put(5,new SmLightSkill());
+        smSkillMap.put(6,new SmGoblinSkill());
         allSkillMap.put("sm",smSkillMap);
     }
 

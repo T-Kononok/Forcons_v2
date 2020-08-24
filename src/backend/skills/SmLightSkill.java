@@ -6,7 +6,7 @@ import backend.marks.MarksData;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class SmotrLightSkill extends Skill{
+public class SmLightSkill extends Skill{
 
     private static final ArrayList<Integer> light = new ArrayList<>();
 
@@ -14,14 +14,14 @@ public class SmotrLightSkill extends Skill{
         return light;
     }
 
-    private void addLight(int number) {
+    private static void addLight(int number) {
         if (number >= 0 && number < MarksData.getRowCount())
             light.add(number);
         else
             System.out.println("Ошибка addLight");
     }
 
-    private boolean lightContains(int row) {
+    public static boolean contains(int row) {
         for (Integer integer : light)
             if (integer == row)
                 return true;
@@ -37,7 +37,7 @@ public class SmotrLightSkill extends Skill{
         int row;
         do {
             row = getRandomRow();
-        } while (lightContains(row));
+        } while (contains(row));
         addLight(row);
         startFon(new YX(row,-2), "smotrLight",2,1,true);
 //        System.out.println("addLight" + row);

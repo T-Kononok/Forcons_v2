@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class BardBodyBagSkill extends Skill {
+public class BaBodyBagSkill extends Skill {
 
     private static final Map<String,ArrayList<YX>> bodyBagMap = new HashMap<>();
 
@@ -80,7 +80,7 @@ public class BardBodyBagSkill extends Skill {
         Random rand = new Random();
         int randIndex = rand.nextInt(arrayList.size());
         mark = MarksData.getMark(arrayList.get(randIndex));
-        if (Math.random() < 0.5 + bodyBagMap.size() * 0.05) {
+        if (checkChance(0.5 + bodyBagMap.size() * 0.05, mark)) {
             mark.setBodyBag(ForconsList.getSelectedValue().split(",")[1]);
             addBodyBag(arrayList.get(randIndex));
             startFon(arrayList.get(randIndex), "bardBodyBag");
@@ -88,8 +88,8 @@ public class BardBodyBagSkill extends Skill {
         else
             startFon(arrayList.get(randIndex), "bardBodyBagMiss");
         for (int i = 0; i < 2; i++) {
-            BardCoinsSkill.checkCoin();
-            BardDeathSkill.checkDeath();
+            BaCoinsSkill.checkCoin();
+            BaDeathSkill.checkDeath();
         }
     }
 }

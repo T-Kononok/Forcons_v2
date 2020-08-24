@@ -3,7 +3,7 @@ package backend.skills;
 import backend.ForconsList;
 import frontend.frame.UpElementsPanel;
 
-public class BardCoinsSkill extends Skill {
+public class BaCoinsSkill extends Skill {
 
     private static int coins = 0;
 
@@ -12,7 +12,7 @@ public class BardCoinsSkill extends Skill {
     }
 
     public static void set(int coins) {
-        BardCoinsSkill.coins = coins;
+        BaCoinsSkill.coins = coins;
     }
 
     public static void checkCoin() {

@@ -3,7 +3,7 @@ package backend.skills;
 import backend.ForconsList;
 import frontend.frame.UpElementsPanel;
 
-public class BardBalladSkill extends Skill{
+public class BaBalladSkill extends Skill{
 
     private static double buffAttack = 0;
 
@@ -21,7 +21,7 @@ public class BardBalladSkill extends Skill{
         buffAttack += 0.2;
         UpElementsPanel.changeElements();
 //        System.out.println(buffAttack + " " + Math.round(buffAttack));
-        BardCoinsSkill.checkCoin();
-        BardDeathSkill.checkDeath();
+        BaCoinsSkill.checkCoin();
+        BaDeathSkill.checkDeath();
     }
 }

@@ -3,7 +3,7 @@ package backend.skills;
 import backend.ForconsList;
 import backend.models.ForsonsListModel;
 
-public class SamurOvercomingSkill extends Skill{
+public class SaOvercomingSkill extends Skill{
 
     public static void checkOvercoming() {
         ForsonsListModel model = ForconsList.getForconsListModel();

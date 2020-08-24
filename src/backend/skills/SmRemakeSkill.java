@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class SmotrRemakeSkill extends Skill {
+public class SmRemakeSkill extends Skill {
 
     @Override
     public void begin() throws IOException {

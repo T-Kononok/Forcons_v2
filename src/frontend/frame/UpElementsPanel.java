@@ -3,9 +3,9 @@ package frontend.frame;
 import auxiliary.Auxiliary;
 import backend.ForconsList;
 import backend.ReadWriteData;
-import backend.skills.BardBalladSkill;
-import backend.skills.BardCoinsSkill;
-import backend.skills.BardDefenseSkill;
+import backend.skills.BaBalladSkill;
+import backend.skills.BaCoinsSkill;
+import backend.skills.BaDefenseSkill;
 import frontend.elements.ImagePanel;
 
 import javax.swing.*;
@@ -65,9 +65,9 @@ public class UpElementsPanel{
     }
 
     public static void changeElements() {
-        attackLabel.setText("+ " + String.format("%.1f", BardBalladSkill.getDouble()) + " урона");
-        defenseLabel.setText("+ " + BardDefenseSkill.get()  + "% защиты" );
-        coinsLabel.setText("+ " + BardCoinsSkill.get() + " долг");
+        attackLabel.setText("+ " + String.format("%.1f", BaBalladSkill.getDouble()) + " урона");
+        defenseLabel.setText("+ " + BaDefenseSkill.get()  + "% защиты" );
+        coinsLabel.setText("+ " + BaCoinsSkill.get() + " долг");
     }
 
     public static void setVisible(boolean flag) {

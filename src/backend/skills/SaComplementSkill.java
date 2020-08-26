@@ -1,8 +1,8 @@
 package backend.skills;
 
 import backend.*;
-import backend.marks.Mark;
-import backend.marks.MarksData;
+import backend.marks.Cell;
+import backend.marks.CellsData;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,17 +11,17 @@ import java.util.Collections;
 public class SaComplementSkill extends Skill{
 
     private int getNewAverageScore(int row, int col, int value) {
-        Mark mark;
+        Cell cell;
         double sum = 0;
         int count = 0;
-        for (int i = 0; i < MarksData.getColumnCount(); i++){
+        for (int i = 0; i < CellsData.getColumnCount(); i++){
             if (i == col) {
                 sum += value;
                 count++;
             } else {
-                mark = MarksData.getMark(row, i);
-                if (mark.isNumber()) {
-                    sum += mark.get();
+                cell = CellsData.getMark(row, i);
+                if (cell.isNumber()) {
+                    sum += cell.get();
                     count++;
                 }
             }
@@ -31,25 +31,25 @@ public class SaComplementSkill extends Skill{
 
     private int getMedian(int row) {
         ArrayList<Integer> array = new ArrayList<>();
-        Mark mark;
-        for (int i = 0; i < MarksData.getColumnCount(); i++){
-            mark = MarksData.getMark(row,i);
-            if (mark.isNumber())
-                array.add(mark.get());
+        Cell cell;
+        for (int i = 0; i < CellsData.getColumnCount(); i++){
+            cell = CellsData.getMark(row,i);
+            if (cell.isNumber())
+                array.add(cell.get());
         }
         return getArrayMedian(array);
     }
 
     private int getNewMedian(int row, int col, int value) {
         ArrayList<Integer> array = new ArrayList<>();
-        Mark mark;
-        for (int i = 0; i < MarksData.getColumnCount(); i++){
+        Cell cell;
+        for (int i = 0; i < CellsData.getColumnCount(); i++){
             if (i == col) {
                 array.add(value);
             } else {
-                mark = MarksData.getMark(row, i);
-                if (mark.isNumber())
-                    array.add(mark.get());
+                cell = CellsData.getMark(row, i);
+                if (cell.isNumber())
+                    array.add(cell.get());
             }
         }
         return getArrayMedian(array);
@@ -80,18 +80,18 @@ public class SaComplementSkill extends Skill{
         int newMedian;
         double maxBenefit = 0;
         int max = 0;
-        Mark mark;
-        for (int i = 0; i < MarksData.getColumnCount(); i++) {
-            mark = MarksData.getMark(row,i);
-            if (mark.canInteract()) {
+        Cell cell;
+        for (int i = 0; i < CellsData.getColumnCount(); i++) {
+            cell = CellsData.getMark(row,i);
+            if (cell.canInteract()) {
                 newMedian = getNewMedian(row, i, averageScore);
 //                System.out.println("row " + row + " i " + i + " newMedian " + newMedian);
                 if ((median - newMedian) > maxBenefit) {
                     maxBenefit = median - newMedian;
                     colBite = i;
                 }
-                if (mark.get() > max) {
-                    max = mark.get();
+                if (cell.get() > max) {
+                    max = cell.get();
                     colMax = i;
                 }
             }
@@ -103,9 +103,9 @@ public class SaComplementSkill extends Skill{
         else
             col = colMax;
 
-        mark = MarksData.getMark(row, col);
+        cell = CellsData.getMark(row, col);
 //        int old = mark.get();
-        mark.set(averageScore);
+        cell.set(averageScore);
 //        System.out.println("row " + row + " col " + col + " " + old + "->" + mark.get());
         startFon(new YX(row, col), "samurComplement");
     }

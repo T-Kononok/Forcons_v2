@@ -1,8 +1,8 @@
 package backend.skills;
 
 import backend.*;
-import backend.marks.Mark;
-import backend.marks.MarksData;
+import backend.marks.Cell;
+import backend.marks.CellsData;
 import frontend.frame.TableNoGaps;
 import backend.skillsData.SkillEffect;
 
@@ -25,49 +25,47 @@ public class Skill {
         return checkChance(chance);
     }
 
-    protected static boolean checkChance(double chance, Mark mark) {
-        if (SmLightSkill.contains(mark.getRow()))
-            return true;
-        return Math.random() < chance;
+    protected static boolean checkChance(double chance, Cell cell) {
+        return checkChance(chance, cell.getRow());
     }
 
-    protected  static YX getRandomYX() {
+    protected static YX getRandomYX() {
         Random rand = new Random();
         Integer row = getRandomRow();
-        return new YX(row, rand.nextInt(MarksData.getColumnCount()));
+        return new YX(row, rand.nextInt(CellsData.getColumnCount()));
     }
 
     protected static Integer getRandomRow() {
         Random rand = new Random();
-        int row = rand.nextInt(MarksData.getRowCount()+ SmLightSkill.getLight().size());
-        if (row >= MarksData.getRowCount()) {
-            row = SmLightSkill.getLight().get(row - MarksData.getRowCount());
+        int row = rand.nextInt(CellsData.getRowCount()+ SmLightSkill.getLight().size());
+        if (row >= CellsData.getRowCount()) {
+            row = SmLightSkill.getLight().get(row - CellsData.getRowCount());
 //            System.out.println("light");
         }
         return row;
     }
 
     protected static YX getRandomMarkYX() {
-        Mark mark;
+        Cell cell;
         YX yx = new YX();
         yx.setY(getRandomRow());
         Random rand = new Random();
         do {
-            yx.setX(rand.nextInt(MarksData.getColumnCount()));
-            mark = MarksData.getMark(yx);
-        } while (!mark.canBite());
+            yx.setX(rand.nextInt(CellsData.getColumnCount()));
+            cell = CellsData.getMark(yx);
+        } while (!cell.isCanBite());
 //        System.out.println("row "+ yx.getY() + " col "+ yx.getX());
         return yx;
     }
 
     protected int getAverageScore(int row) {
-        Mark mark;
+        Cell cell;
         double sum = 0;
         int count = 0;
-        for (int i = 0; i < MarksData.getColumnCount(); i++){
-            mark = MarksData.getMark(row,i);
-            if (mark.isNumber()) {
-                sum += mark.get();
+        for (int i = 0; i < CellsData.getColumnCount(); i++){
+            cell = CellsData.getMark(row,i);
+            if (cell.isNumber()) {
+                sum += cell.get();
                 count++;
             }
         }

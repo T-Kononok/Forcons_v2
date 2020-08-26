@@ -1,8 +1,8 @@
 package backend.skills;
 
 import backend.*;
-import backend.marks.Mark;
-import backend.marks.MarksData;
+import backend.marks.Cell;
+import backend.marks.CellsData;
 
 import java.io.IOException;
 import java.util.Random;
@@ -14,29 +14,29 @@ public class SaTruckSkill extends Skill{
         if (!ForconsList.minusPoint(2))
                 return;
         int col = 0;
-        Mark mark;
+        Cell cell;
         boolean empty = true;
         while (empty) {
-            col = new Random().nextInt(MarksData.getColumnCount());
-            for (int i = 0; i < MarksData.getRowCount(); i++) {
-                mark = MarksData.getMark(i, col);
-                if (mark.isCrorKr())
+            col = new Random().nextInt(CellsData.getColumnCount());
+            for (int i = 0; i < CellsData.getRowCount(); i++) {
+                cell = CellsData.getMark(i, col);
+                if (cell.isCr() || cell.isKr())
                     break;
-                if (!mark.isEmpty())
+                if (!cell.isEmpty())
                     empty = false;
             }
         }
 
-        for (int i = 0; i < MarksData.getRowCount(); i++) {
-            mark = MarksData.getMark(i, col);
-            if (mark.canBite()) {
+        for (int i = 0; i < CellsData.getRowCount(); i++) {
+            cell = CellsData.getMark(i, col);
+            if (cell.isCanBite()) {
 //                System.out.print(mark.get() + "->");
-                if (checkChance(0.75,mark)) {
-                    mark.minus(1 + BaBalladSkill.get());
+                if (checkChance(0.75, cell)) {
+                    cell.minusCheck(1 + BaBalladSkill.get());
                     startFon(i, col, "samurTruck");
                 }
                 else {
-                    mark.plus(1 + BaBalladSkill.get());
+                    cell.plusCheck(1 + BaBalladSkill.get());
                     startFon(i, col, "samurTruckHealing");
                 }
 //                System.out.println(mark.get());

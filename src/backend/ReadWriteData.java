@@ -1,6 +1,6 @@
 package backend;
 
-import backend.marks.MarksData;
+import backend.marks.CellsData;
 import backend.models.JournalTableModel;
 import backend.skills.BaBodyBagSkill;
 import backend.skills.BaCoinsSkill;
@@ -19,17 +19,17 @@ import java.util.Scanner;
 public class ReadWriteData {
 
     public static void readTable(String filename) {
-        MarksData.setMatrix(HSSFData.readHSSFJournal(filename));
+        CellsData.setMatrix(HSSFData.readHSSFJournal(filename));
         readOther();
         TableNoGaps.addRenderer(HSSFData.getStyleMap());
         JournalTableModel model = new JournalTableModel();
-        model.setMatrix(MarksData.getMatrix());
+        model.setMatrix(CellsData.getMatrix());
         TableNoGaps.setModel(model);
         TableNoGaps.resizeTable();
     }
 
     public static void writeTable() {
-        HSSFData.writeHSSFJournal(MarksData.getMatrix());
+        HSSFData.writeHSSFJournal(CellsData.getMatrix());
     }
 
     public static void readOther() {

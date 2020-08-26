@@ -1,15 +1,15 @@
 package backend.models;
 
-import backend.marks.Mark;
+import backend.marks.Cell;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 
 public class JournalTableModel extends AbstractTableModel {
 
-    private ArrayList<ArrayList<Mark>> matrix;
+    private ArrayList<ArrayList<Cell>> matrix;
 
-    public void setMatrix(ArrayList<ArrayList<Mark>> matrix) {
+    public void setMatrix(ArrayList<ArrayList<Cell>> matrix) {
         this.matrix = matrix;
     }
 
@@ -36,7 +36,7 @@ public class JournalTableModel extends AbstractTableModel {
     }
 
     public Class<?> getColumnClass(int col) {
-        return Mark.class;
+        return Cell.class;
     }
 
 }

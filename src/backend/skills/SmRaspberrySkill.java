@@ -2,7 +2,6 @@ package backend.skills;
 
 import backend.ForconsList;
 import backend.YX;
-import backend.marks.MarksData;
 
 import java.io.IOException;
 import java.util.ArrayList;

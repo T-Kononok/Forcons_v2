@@ -1,8 +1,7 @@
 package backend.skills;
 
 import backend.*;
-import backend.marks.MarksData;
-import frontend.frame.TableNoGaps;
+import backend.marks.CellsData;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,6 +32,6 @@ public class SmLightSkill extends Skill{
             row = getRandomRow();
         } while (contains(row));
         light.add(row);
-        startFon(new YX(row-1,0), "smLight", MarksData.getColumnCount(),3,true);
+        startFon(new YX(row-1,0), "smLight", CellsData.getColumnCount(),3,true);
     }
 }

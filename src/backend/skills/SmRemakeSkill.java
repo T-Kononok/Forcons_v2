@@ -2,8 +2,8 @@ package backend.skills;
 
 import backend.ForconsList;
 import backend.YX;
-import backend.marks.Mark;
-import backend.marks.MarksData;
+import backend.marks.Cell;
+import backend.marks.CellsData;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,23 +15,29 @@ public class SmRemakeSkill extends Skill {
     public void begin() throws IOException {
         if (!ForconsList.minusPoint(1))
             return;
-        Mark mark;
+        Cell cell;
         int row = getRandomRow();
         int col;
         int average = getAverageScore(row);
         ArrayList<Integer> array = new ArrayList<>();
                                                                 //проверить is-ы
-        for (int i = 0; i < MarksData.getColumnCount(); i++){
-            mark = MarksData.getMark(row,i);
-            if (mark.isNumber() && mark.get() < average)
-                array.add(mark.get());
+        for (int i = 0; i < CellsData.getColumnCount(); i++){
+            cell = CellsData.getMark(row,i);
+            if (cell.isNumber() && cell.get() < average) {
+                array.add(cell.get());
+            }
         }
         Random rand = new Random();
         do {
-            col = rand.nextInt(MarksData.getColumnCount());
-            mark = MarksData.getMark(row, col);
-        } while (!mark.canPut());
-        mark.set(array.get(rand.nextInt(array.size())));
-        startFon(row,col,"samurRemake");
+            col = rand.nextInt(CellsData.getColumnCount());
+            cell = CellsData.getMark(row, col);
+        } while (!cell.isEmpty() && !cell.isPoison());
+        boolean flag = cell.isPoison();
+        cell.set(array.get(rand.nextInt(array.size())));
+        if (flag) {
+            cell.minus(1);
+            startFon(new YX(row,col),"inPoison",200);
+        }
+        startFon(row,col,"smRemake");
     }
 }

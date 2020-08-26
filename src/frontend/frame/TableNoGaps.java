@@ -1,7 +1,7 @@
 package frontend.frame;
 
 import backend.models.JournalTableModel;
-import backend.marks.Mark;
+import backend.marks.Cell;
 import frontend.elements.SkillsPanel;
 import frontend.renderer.JournalTableCellRenderer;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -48,7 +48,7 @@ public class TableNoGaps{
 
     public static void addRenderer(Map<String, HSSFCellStyle> map) {
         renderer = new JournalTableCellRenderer(map);
-        table.setDefaultRenderer(Mark.class, renderer);
+        table.setDefaultRenderer(Cell.class, renderer);
     }
 
     private static void setComponent(JComponent component, int x, int y) {

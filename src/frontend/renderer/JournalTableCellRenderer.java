@@ -1,7 +1,7 @@
 package frontend.renderer;
 
 import auxiliary.Auxiliary;
-import backend.marks.Mark;
+import backend.marks.Cell;
 import org.apache.batik.swing.JSVGCanvas;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 
@@ -46,11 +46,11 @@ public class JournalTableCellRenderer implements TableCellRenderer {
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
                                                    boolean hasFocus, int row, int col) {
-        Mark mark = (Mark) value;
+        Cell cell = (Cell) value;
         falseVisible();
 //        System.out.println(mark.toStyle());
-        showCanvas(mark.toStyle());
-        label.setText(mark.toString());
+        showCanvas(cell.toStyle());
+        label.setText(cell.toString());
 //        fon.setImageFile(mark.getChangeFonFile());
         return panel;
     }

@@ -1,8 +1,8 @@
 package backend.skills;
 
 import backend.*;
-import backend.marks.Mark;
-import backend.marks.MarksData;
+import backend.marks.Cell;
+import backend.marks.CellsData;
 
 import java.io.IOException;
 
@@ -35,16 +35,16 @@ public class SimpleAttackSkill extends Skill {
         if (!ForconsList.minusPoint(1))
             return;
         YX yx = getRandomMarkYX();
-        Mark mark = MarksData.getMark(yx);
-        boolean noMiss = checkChance(chance,mark);
+        Cell cell = CellsData.getMark(yx);
+        boolean noMiss = checkChance(chance, cell);
         if (noMiss) {
 //            System.out.print(skillName + " " + mark.get() + "->");
-            if (checkChance(critChance,mark)) {
+            if (checkChance(critChance, cell)) {
 //                System.out.print("(крит)");
-                mark.minus(critDamage);
+                cell.minusCheck(critDamage);
                 startFon(yx, skillName + "Crit");
             } else {
-                mark.minus(damage + BaBalladSkill.get());
+                cell.minusCheck(damage + BaBalladSkill.get());
                 startFon(yx, skillName);
             }
 //            System.out.println(mark.get());

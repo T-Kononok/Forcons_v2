@@ -30,7 +30,7 @@ public class SkillsMap {
     private static void addInSkills() {
         Map<Integer, Skill> inSkillMap = new HashMap<>();
         inSkillMap.put(1,new SimpleAttackSkill("inseClaws", 2, 0.5));
-        inSkillMap.put(2,null);
+        inSkillMap.put(2,new InPoisonSkill());
         inSkillMap.put(3,null);
         inSkillMap.put(4,null);
         inSkillMap.put(5,null);
@@ -52,7 +52,7 @@ public class SkillsMap {
     private static void addSmSkills() {
         Map<Integer, Skill> smSkillMap = new HashMap<>();
         smSkillMap.put(1,new SimpleAttackSkill("smotrGame", 1, 0.75, 3, 0.17));
-        smSkillMap.put(2,null);
+        smSkillMap.put(2,new SmBadSkill());
         smSkillMap.put(3,new SmRemakeSkill());
         smSkillMap.put(4,new SmRaspberrySkill());
         smSkillMap.put(5,new SmLightSkill());

@@ -1,8 +1,8 @@
 package backend.skills;
 
 import backend.*;
-import backend.marks.Mark;
-import backend.marks.MarksData;
+import backend.marks.Cell;
+import backend.marks.CellsData;
 import frontend.frame.TableNoGaps;
 
 import java.io.IOException;
@@ -22,7 +22,7 @@ public class BaBodyBagSkill extends Skill {
     public static void noExiled(String name) {
         bodyBagMap.get(name).forEach((xy) -> {
             try {
-                MarksData.getMark(xy).minus(1);
+                CellsData.getMark(xy).minusCheck(1);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -30,7 +30,7 @@ public class BaBodyBagSkill extends Skill {
     }
 
     public static void exiled(String name) {
-        bodyBagMap.get(name).forEach((xy) -> MarksData.getMark(xy).setBodyBag(""));
+        bodyBagMap.get(name).forEach((xy) -> CellsData.getMark(xy).setBodyBag(false));
         bodyBagMap.remove(name);
     }
 
@@ -62,15 +62,15 @@ public class BaBodyBagSkill extends Skill {
             return;
         ArrayList<YX> arrayList = new ArrayList<>();
         int max = 0;
-        Mark mark;
-        for (int i = 0; i < MarksData.getRowCount(); i++) {
-            for (int j = 0; j < MarksData.getColumnCount(); j++) {
-                mark = MarksData.getMark(i,j);
-                if (mark.getBodyBag().equals("") && mark.canBite()) {
-                    if (mark.get() == max)
+        Cell cell;
+        for (int i = 0; i < CellsData.getRowCount(); i++) {
+            for (int j = 0; j < CellsData.getColumnCount(); j++) {
+                cell = CellsData.getMark(i,j);
+                if (cell.isNonBorder() && cell.isCanBite()) {
+                    if (cell.get() == max)
                         arrayList.add(new YX(i, j));
-                    if (mark.get() > max) {
-                        max = mark.get();
+                    if (cell.get() > max) {
+                        max = cell.get();
                         arrayList.clear();
                         arrayList.add(new YX(i, j));
                     }
@@ -79,9 +79,9 @@ public class BaBodyBagSkill extends Skill {
         }
         Random rand = new Random();
         int randIndex = rand.nextInt(arrayList.size());
-        mark = MarksData.getMark(arrayList.get(randIndex));
-        if (checkChance(0.5 + bodyBagMap.size() * 0.05, mark)) {
-            mark.setBodyBag(ForconsList.getSelectedValue().split(",")[1]);
+        cell = CellsData.getMark(arrayList.get(randIndex));
+        if (checkChance(0.5 + bodyBagMap.size() * 0.05, cell)) {
+            cell.setBodyBag(true);
             addBodyBag(arrayList.get(randIndex));
             startFon(arrayList.get(randIndex), "bardBodyBag");
         }

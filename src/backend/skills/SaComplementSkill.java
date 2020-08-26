@@ -19,7 +19,7 @@ public class SaComplementSkill extends Skill{
                 sum += value;
                 count++;
             } else {
-                cell = CellsData.getMark(row, i);
+                cell = CellsData.getCell(row, i);
                 if (cell.isNumber()) {
                     sum += cell.get();
                     count++;
@@ -33,7 +33,7 @@ public class SaComplementSkill extends Skill{
         ArrayList<Integer> array = new ArrayList<>();
         Cell cell;
         for (int i = 0; i < CellsData.getColumnCount(); i++){
-            cell = CellsData.getMark(row,i);
+            cell = CellsData.getCell(row,i);
             if (cell.isNumber())
                 array.add(cell.get());
         }
@@ -47,7 +47,7 @@ public class SaComplementSkill extends Skill{
             if (i == col) {
                 array.add(value);
             } else {
-                cell = CellsData.getMark(row, i);
+                cell = CellsData.getCell(row, i);
                 if (cell.isNumber())
                     array.add(cell.get());
             }
@@ -74,18 +74,15 @@ public class SaComplementSkill extends Skill{
         int colBite = 0;
         int colMax = 0;
         int median = getMedian(row);
-//        System.out.println("median " + median);
         int averageScore = getAverageScore(row);
-//        System.out.println("averageScore " + averageScore);
         int newMedian;
         double maxBenefit = 0;
         int max = 0;
         Cell cell;
         for (int i = 0; i < CellsData.getColumnCount(); i++) {
-            cell = CellsData.getMark(row,i);
+            cell = CellsData.getCell(row,i);
             if (cell.canInteract()) {
                 newMedian = getNewMedian(row, i, averageScore);
-//                System.out.println("row " + row + " i " + i + " newMedian " + newMedian);
                 if ((median - newMedian) > maxBenefit) {
                     maxBenefit = median - newMedian;
                     colBite = i;
@@ -103,10 +100,8 @@ public class SaComplementSkill extends Skill{
         else
             col = colMax;
 
-        cell = CellsData.getMark(row, col);
-//        int old = mark.get();
+        cell = CellsData.getCell(row, col);
         cell.set(averageScore);
-//        System.out.println("row " + row + " col " + col + " " + old + "->" + mark.get());
         startFon(new YX(row, col), "samurComplement");
     }
 

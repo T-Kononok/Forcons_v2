@@ -34,23 +34,18 @@ public class SimpleAttackSkill extends Skill {
     public void begin() throws IOException {
         if (!ForconsList.minusPoint(1))
             return;
-        YX yx = getRandomMarkYX();
-        Cell cell = CellsData.getMark(yx);
+        Cell cell = getRandomCanBiteCell();
         boolean noMiss = checkChance(chance, cell);
         if (noMiss) {
-//            System.out.print(skillName + " " + mark.get() + "->");
             if (checkChance(critChance, cell)) {
-//                System.out.print("(крит)");
                 cell.minusCheck(critDamage);
-                startFon(yx, skillName + "Crit");
+                startFon(cell.getYX(), skillName + "Crit");
             } else {
                 cell.minusCheck(damage + BaBalladSkill.get());
-                startFon(yx, skillName);
+                startFon(cell.getYX(), skillName);
             }
-//            System.out.println(mark.get());
         } else {
-//            System.out.println(skillName + " промах");
-            startFon(yx,skillName + "Miss");
+            startFon(cell.getYX(),skillName + "Miss");
         }
         if (skillName.equals("bardChain"))
             BaDeathSkill.checkDeath();

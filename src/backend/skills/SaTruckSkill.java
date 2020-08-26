@@ -19,7 +19,7 @@ public class SaTruckSkill extends Skill{
         while (empty) {
             col = new Random().nextInt(CellsData.getColumnCount());
             for (int i = 0; i < CellsData.getRowCount(); i++) {
-                cell = CellsData.getMark(i, col);
+                cell = CellsData.getCell(i, col);
                 if (cell.isCr() || cell.isKr())
                     break;
                 if (!cell.isEmpty())
@@ -28,7 +28,7 @@ public class SaTruckSkill extends Skill{
         }
 
         for (int i = 0; i < CellsData.getRowCount(); i++) {
-            cell = CellsData.getMark(i, col);
+            cell = CellsData.getCell(i, col);
             if (cell.isCanBite()) {
 //                System.out.print(mark.get() + "->");
                 if (checkChance(0.75, cell)) {

@@ -29,33 +29,29 @@ public class Skill {
         return checkChance(chance, cell.getRow());
     }
 
-    protected static YX getRandomYX() {
-        Random rand = new Random();
-        Integer row = getRandomRow();
-        return new YX(row, rand.nextInt(CellsData.getColumnCount()));
-    }
-
     protected static Integer getRandomRow() {
         Random rand = new Random();
         int row = rand.nextInt(CellsData.getRowCount()+ SmLightSkill.getLight().size());
-        if (row >= CellsData.getRowCount()) {
+        if (row >= CellsData.getRowCount())
             row = SmLightSkill.getLight().get(row - CellsData.getRowCount());
-//            System.out.println("light");
-        }
         return row;
     }
 
-    protected static YX getRandomMarkYX() {
+    protected static Cell getRandomCell() {
+        Integer row = getRandomRow();
+        return CellsData.getCell(row, new Random().nextInt(CellsData.getColumnCount()));
+    }
+
+    protected static Cell getRandomCanBiteCell() {
         Cell cell;
-        YX yx = new YX();
-        yx.setY(getRandomRow());
+        int row = getRandomRow();
+        int col;
         Random rand = new Random();
         do {
-            yx.setX(rand.nextInt(CellsData.getColumnCount()));
-            cell = CellsData.getMark(yx);
+            col = rand.nextInt(CellsData.getColumnCount());
+            cell = CellsData.getCell(row,col);
         } while (!cell.isCanBite());
-//        System.out.println("row "+ yx.getY() + " col "+ yx.getX());
-        return yx;
+        return cell;
     }
 
     protected int getAverageScore(int row) {
@@ -63,7 +59,7 @@ public class Skill {
         double sum = 0;
         int count = 0;
         for (int i = 0; i < CellsData.getColumnCount(); i++){
-            cell = CellsData.getMark(row,i);
+            cell = CellsData.getCell(row,i);
             if (cell.isNumber()) {
                 sum += cell.get();
                 count++;

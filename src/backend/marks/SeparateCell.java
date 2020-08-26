@@ -5,13 +5,11 @@ import java.io.PushbackInputStream;
 
 public class SeparateCell {
 
-    // поля
     private int mark = 0;
     private int bites = 0;
     private String back = "";
     private String border = "";
 
-    //геттеры
     public int get() {
         return mark;
     }
@@ -62,15 +60,17 @@ public class SeparateCell {
         return isNumber() && !isKr();
     }
 
-    //сеттеры
     public void set(int mark) {
         if (this.mark != 0) {
             setBites(bites + this.mark - mark);
             this.mark -= inRange( this.mark - mark, 3);
-        } else {
-            this.mark = inRange(mark, 10);
-            setBites(0);
-        }
+        } else
+            if (this.isEmpty() || this.isPoison()) {
+                setBites(0);
+                this.mark = inRange(mark, 10);
+            }
+            else
+                this.mark = inRange(mark, 10);
     }
 
     public void setBites(int bites) {
@@ -127,7 +127,7 @@ public class SeparateCell {
         bites -= inRange(plusValue, bites);
     }
 
-    public void minus(int minusValue) throws IOException {
+    public void minus(int minusValue) {
         minusValue = inRange(minusValue, 3 - bites);
         mark = inRange(mark - minusValue, 10);
         setBites(bites + minusValue);

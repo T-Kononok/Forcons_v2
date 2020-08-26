@@ -27,7 +27,7 @@ public class SaKillerQueenSkill extends Skill {
         double benefit;
         for (int row = 0; row < CellsData.getRowCount(); row++) {
             for (int col = 0; col < CellsData.getColumnCount(); col++) {
-                Cell cell = CellsData.getMark(row,col);
+                Cell cell = CellsData.getCell(row,col);
                 if (!cell.isNonBorder() || !cell.canInteract())
                     continue;
                 benefit = countBenefit(row, col);
@@ -40,7 +40,7 @@ public class SaKillerQueenSkill extends Skill {
             }
         }
         int randIndex = new Random().nextInt(array.size());
-        return CellsData.getMark(array.get(randIndex));
+        return CellsData.getCell(array.get(randIndex));
     }
 
     private static double countBenefit(int row, int col) {
@@ -49,7 +49,7 @@ public class SaKillerQueenSkill extends Skill {
             for (int j = -1; j <= 1; j++) {
                 if (i == 0 && j == 0)
                     continue;
-                Cell cell = CellsData.secureGetMark(row + i, col + j);
+                Cell cell = CellsData.secureGetCell(row + i, col + j);
                 if (cell != null && cell.isCanBite())
                     if (cell.getBites() < 3)
                         damage += 1;
@@ -65,7 +65,7 @@ public class SaKillerQueenSkill extends Skill {
         int col = mainCell.getCol();
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                Cell cell = CellsData.secureGetMark(row + i, col + j);
+                Cell cell = CellsData.secureGetCell(row + i, col + j);
                 if ((i == 0 && j == 0) || cell == null || !cell.isCanBite() || cell.isBomb())
                     continue;
                 cell.minusCheck(1);

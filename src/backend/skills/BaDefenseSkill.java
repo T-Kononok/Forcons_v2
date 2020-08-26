@@ -21,7 +21,6 @@ public class BaDefenseSkill extends Skill{
             return;
         buffDefense += 2;
         UpElementsPanel.changeElements();
-//        System.out.println(buffAttack + " " + Math.round(buffAttack));
         BaCoinsSkill.checkCoin();
         BaDeathSkill.checkDeath();
     }

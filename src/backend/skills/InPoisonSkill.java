@@ -21,7 +21,7 @@ public class InPoisonSkill extends Skill {
         while (poisonCount != 7) {
             int iterations = 0;
             do {
-                cell = CellsData.getMark(getRandomYX());
+                cell = getRandomCell();
                 iterations++;
                 if (iterations > 1000)
                     return;
@@ -39,7 +39,7 @@ public class InPoisonSkill extends Skill {
         for (int j = CellsData.getColumnCount()-1; j >= 0; j--) {
             int marksCount = 0;
             for (int i = 0; i < CellsData.getRowCount(); i++) {
-                if (CellsData.getMark(i,j).isNumber())
+                if (CellsData.getCell(i,j).isNumber())
                     marksCount++;
                 if (marksCount >= 2)
                     return j;

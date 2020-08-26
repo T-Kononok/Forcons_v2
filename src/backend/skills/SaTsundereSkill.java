@@ -14,10 +14,9 @@ public class SaTsundereSkill extends Skill {
             String[] subStrs = s.split(",");
             if (subStrs[0].equals("sa")) {
                 try {
-                    YX yx = getRandomMarkYX();
-                    Cell cell = CellsData.getMark(yx);
+                    Cell cell = getRandomCanBiteCell();
                     cell.minusCheck(1);
-                    startFon(yx, "samuTsundere",400);
+                    startFon(cell.getYX(), "samuTsundere",400);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

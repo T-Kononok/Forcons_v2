@@ -20,7 +20,6 @@ public class BaBalladSkill extends Skill{
             return;
         buffAttack += 0.2;
         UpElementsPanel.changeElements();
-//        System.out.println(buffAttack + " " + Math.round(buffAttack));
         BaCoinsSkill.checkCoin();
         BaDeathSkill.checkDeath();
     }

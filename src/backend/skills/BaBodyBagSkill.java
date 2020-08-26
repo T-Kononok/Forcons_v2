@@ -22,7 +22,7 @@ public class BaBodyBagSkill extends Skill {
     public static void noExiled(String name) {
         bodyBagMap.get(name).forEach((xy) -> {
             try {
-                CellsData.getMark(xy).minusCheck(1);
+                CellsData.getCell(xy).minusCheck(1);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -30,7 +30,7 @@ public class BaBodyBagSkill extends Skill {
     }
 
     public static void exiled(String name) {
-        bodyBagMap.get(name).forEach((xy) -> CellsData.getMark(xy).setBodyBag(false));
+        bodyBagMap.get(name).forEach((xy) -> CellsData.getCell(xy).setBodyBag(false));
         bodyBagMap.remove(name);
     }
 
@@ -65,7 +65,7 @@ public class BaBodyBagSkill extends Skill {
         Cell cell;
         for (int i = 0; i < CellsData.getRowCount(); i++) {
             for (int j = 0; j < CellsData.getColumnCount(); j++) {
-                cell = CellsData.getMark(i,j);
+                cell = CellsData.getCell(i,j);
                 if (cell.isNonBorder() && cell.isCanBite()) {
                     if (cell.get() == max)
                         arrayList.add(new YX(i, j));
@@ -79,7 +79,7 @@ public class BaBodyBagSkill extends Skill {
         }
         Random rand = new Random();
         int randIndex = rand.nextInt(arrayList.size());
-        cell = CellsData.getMark(arrayList.get(randIndex));
+        cell = CellsData.getCell(arrayList.get(randIndex));
         if (checkChance(0.5 + bodyBagMap.size() * 0.05, cell)) {
             cell.setBodyBag(true);
             addBodyBag(arrayList.get(randIndex));

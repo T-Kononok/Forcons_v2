@@ -20,9 +20,8 @@ public class SmRemakeSkill extends Skill {
         int col;
         int average = getAverageScore(row);
         ArrayList<Integer> array = new ArrayList<>();
-                                                                //проверить is-ы
         for (int i = 0; i < CellsData.getColumnCount(); i++){
-            cell = CellsData.getMark(row,i);
+            cell = CellsData.getCell(row,i);
             if (cell.isNumber() && cell.get() < average) {
                 array.add(cell.get());
             }
@@ -30,7 +29,7 @@ public class SmRemakeSkill extends Skill {
         Random rand = new Random();
         do {
             col = rand.nextInt(CellsData.getColumnCount());
-            cell = CellsData.getMark(row, col);
+            cell = CellsData.getCell(row, col);
         } while (!cell.isEmpty() && !cell.isPoison());
         boolean flag = cell.isPoison();
         cell.set(array.get(rand.nextInt(array.size())));

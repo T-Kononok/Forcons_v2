@@ -16,18 +16,18 @@ public class CellsData {
         return matrix;
     }
 
-    public static Cell secureGetMark(int row, int col) {
+    public static Cell secureGetCell(int row, int col) {
         if (row < 0 || row >= getRowCount() || col < 0 || col >= getColumnCount())
             return null;
-        return getMark(row, col);
+        return getCell(row, col);
     }
 
-    public static Cell getMark(int row, int col) {
+    public static Cell getCell(int row, int col) {
         return matrix.get(row).get(col);
     }
 
-    public static Cell getMark(YX yx) {
-        return getMark(yx.getY(),yx.getX());
+    public static Cell getCell(YX yx) {
+        return getCell(yx.getY(),yx.getX());
     }
 
     public static int getRowCount() {

@@ -28,7 +28,7 @@ public class SmBadSkill extends SaKillerQueenSkill{
             for (int j = -1; j <= 1; j++) {
                 if (i == 0 && j == 0)
                     continue;
-                Cell cell = CellsData.secureGetMark(row + i, col + j);
+                Cell cell = CellsData.secureGetCell(row + i, col + j);
                 if (cell != null && cell.isBad() && cell.isCanBite())
                     return cell;
             }

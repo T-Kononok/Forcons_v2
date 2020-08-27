@@ -3,6 +3,7 @@ package frontend.frame;
 import auxiliary.Auxiliary;
 import backend.ForconsList;
 import backend.ReadWriteData;
+import backend.skills.InDLCSkill;
 import backend.skills.SaTsundereSkill;
 import backend.skills.SmRaspberrySkill;
 import frontend.elements.*;
@@ -96,6 +97,7 @@ public class MainFrame extends JFrame {
             panelFull.setImageFile("image/fon2.jpg");
             SmRaspberrySkill.startFons();
             SaTsundereSkill.checkTsundere();
+            InDLCSkill.addDLC();
         });
     }
 

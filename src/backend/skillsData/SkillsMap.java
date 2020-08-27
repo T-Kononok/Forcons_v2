@@ -31,7 +31,7 @@ public class SkillsMap {
         Map<Integer, Skill> inSkillMap = new HashMap<>();
         inSkillMap.put(1,new SimpleAttackSkill("inseClaws", 2, 0.5));
         inSkillMap.put(2,new InPoisonSkill());
-        inSkillMap.put(3,null);
+        inSkillMap.put(3,new InDLCSkill());
         inSkillMap.put(4,null);
         inSkillMap.put(5,null);
         inSkillMap.put(6,null);

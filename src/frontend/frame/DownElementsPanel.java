@@ -78,7 +78,7 @@ public class DownElementsPanel{
 
     public static void changeElements() {
         String val = ForconsList.getSelectedValue();
-        String[] subStr = val.split(",");
+        String[] subStr = val.split("_");
 
         classCanvases.forEach((s,c) -> c.setVisible(s.equals(subStr[0])));
 

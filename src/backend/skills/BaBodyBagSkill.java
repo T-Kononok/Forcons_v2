@@ -35,7 +35,7 @@ public class BaBodyBagSkill extends Skill {
     }
 
     public static void addBodyBag(YX xy) {
-        String[] string = ForconsList.getSelectedValue().split(",");
+        String[] string = ForconsList.getSelectedValue().split("_");
         if (bodyBagMap.get(string[1]) == null) {
             ArrayList<YX> array = new ArrayList<>();
             array.add(xy);
@@ -46,7 +46,7 @@ public class BaBodyBagSkill extends Skill {
 
     public static void checkBodyBag() {
         ForconsList.getForconsListModel().getArray().forEach((s) -> {
-            String[] subStrs = s.split(",");
+            String[] subStrs = s.split("_");
             if (bodyBagMap.get(subStrs[1]) != null)
                 if (Integer.parseInt(subStrs[3])>=7)
                     noExiled(subStrs[1]);

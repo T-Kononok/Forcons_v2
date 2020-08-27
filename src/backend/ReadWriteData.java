@@ -2,10 +2,7 @@ package backend;
 
 import backend.marks.CellsData;
 import backend.models.JournalTableModel;
-import backend.skills.BaBodyBagSkill;
-import backend.skills.BaCoinsSkill;
-import backend.skills.BaDefenseSkill;
-import backend.skills.SmRaspberrySkill;
+import backend.skills.*;
 import frontend.frame.UpElementsPanel;
 import frontend.frame.TableNoGaps;
 
@@ -39,24 +36,40 @@ public class ReadWriteData {
             BaDefenseSkill.set(Integer.parseInt(string.substring(string.indexOf(": ")+2)));
             string = scanner.nextLine();
             BaCoinsSkill.set(Integer.parseInt(string.substring(string.indexOf(": ")+2)));
-            if (scanner.hasNextLine() && scanner.nextLine().equals("Малина:")) {
+            if (scanner.hasNextLine())
                 string = scanner.nextLine();
-                String[] subStrings = string.split(" ");
-                for (String subString : subStrings)
-                    SmRaspberrySkill.getRaspberryArray().add(Integer.parseInt(subString));
-            }
-            if (scanner.hasNextLine() && scanner.nextLine().equals("Бадибэг:")) {
-                string = scanner.nextLine();
-                while (scanner.hasNextLine()) {
-                    String name = string;
-                    ArrayList<YX> array = new ArrayList<>();
-                    while (scanner.hasNextLine()) {
+            while (scanner.hasNextLine()) {
+                switch (string) {
+                    case "Малина:" :
                         string = scanner.nextLine();
-                        if (!string.contains(","))
-                            break;
-                        array.add(new YX(string));
-                    }
-                    BaBodyBagSkill.getBodyBagMap().put(name, array);
+                        String[] subStrings = string.split(" ");
+                        for (String subString : subStrings)
+                            SmRaspberrySkill.getRaspberryArray().add(Integer.parseInt(subString));
+                        if (scanner.hasNextLine())
+                            string = scanner.nextLine();
+                        break;
+                    case "DLC:" :
+                        while (scanner.hasNextLine()) {
+                            string = scanner.nextLine();
+                            if (!string.contains("in_"))
+                                break;
+                            InDLCSkill.getDLCArray().add(string);
+                        }
+                        break;
+                    case "Бадибэг:" :
+                        string = scanner.nextLine();
+                        while (scanner.hasNextLine()) {
+                            String name = string;
+                            ArrayList<YX> array = new ArrayList<>();
+                            while (scanner.hasNextLine()) {
+                                string = scanner.nextLine();
+                                if (!string.contains(","))
+                                    break;
+                                array.add(new YX(string));
+                            }
+                            BaBodyBagSkill.getBodyBagMap().put(name, array);
+                        }
+                        break;
                 }
             }
             UpElementsPanel.changeElements();
@@ -82,6 +95,16 @@ public class ReadWriteData {
                     }
                 });
                 writer.write("\n");
+            }
+            if (InDLCSkill.getDLCArray().size() > 0) {
+                writer.write("DLC:" + "\n");
+                InDLCSkill.getDLCArray().forEach((string) -> {
+                    try {
+                        writer.write(string + "\n");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
             }
             if (BaBodyBagSkill.getBodyBagMap().size() > 0) {
                 writer.write("Бадибэг:" + "\n");

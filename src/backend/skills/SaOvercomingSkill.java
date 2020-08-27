@@ -9,11 +9,11 @@ public class SaOvercomingSkill extends Skill{
         ForsonsListModel model = ForconsList.getForconsListModel();
         for (int i = 0; i < model.getArray().size(); i++) {
             String string = model.getArray().get(i);
-            String[] subStrs = string.split(",");
+            String[] subStrs = string.split("_");
             if (subStrs[0].equals("sa") && subStrs[2].equals("3") && Integer.parseInt(subStrs[3]) < 7) {
-                int point = Integer.parseInt(string.substring(string.lastIndexOf(",")+1));
+                int point = Integer.parseInt(string.substring(string.lastIndexOf("_")+1));
                 point++;
-                String sub = string.substring(0,string.lastIndexOf(",")+1);
+                String sub = string.substring(0,string.lastIndexOf("_")+1);
                 model.set(i,sub+point);
             }
         }

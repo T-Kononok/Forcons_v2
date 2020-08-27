@@ -11,7 +11,7 @@ public class SaTsundereSkill extends Skill {
 
     public static void checkTsundere() {
         ForconsList.getForconsListModel().getArray().forEach((s) -> {
-            String[] subStrs = s.split(",");
+            String[] subStrs = s.split("_");
             if (subStrs[0].equals("sa")) {
                 try {
                     Cell cell = getRandomCanBiteCell();

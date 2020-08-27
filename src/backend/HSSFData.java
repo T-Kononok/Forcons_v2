@@ -22,7 +22,7 @@ public class HSSFData {
     }
 
     public static void writeHSSFJournal(ArrayList<ArrayList<Cell>> matrix) {
-        HSSFSheet sheet = workbook.getSheet("3 четверть"); ///
+        HSSFSheet sheet = workbook.getSheet("Оценки"); ///
         for (int i = 0; i < matrix.size(); i++) {
             HSSFRow row = sheet.getRow(i+1);
             for (int j = 0; j < matrix.get(0).size(); j++) {

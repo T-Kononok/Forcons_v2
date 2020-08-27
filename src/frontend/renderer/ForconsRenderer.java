@@ -72,7 +72,7 @@ public class ForconsRenderer implements ListCellRenderer<String> {
     @Override
     public Component getListCellRendererComponent(JList<? extends String> jList, String s, int index, boolean isSelected, boolean cellHasFocus) {
 
-        String[] subStr = s.split(",");
+        String[] subStr = s.split("_");
         numberLabel.setText((index+1)+"");
         rendClass(subStr[0]);
         nameLabel.setTextReSize(subStr[1]);

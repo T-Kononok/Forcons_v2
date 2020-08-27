@@ -51,8 +51,8 @@ public class ForsonsListModel extends AbstractListModel<String>
 
     public void sortPoint() {
         Comparator<String> comparatorPoint = (s1, s2) -> {
-            int pointS1 = Integer.parseInt(s1.substring(s1.lastIndexOf(",")+1));
-            int pointS2 = Integer.parseInt(s2.substring(s2.lastIndexOf(",")+1));
+            int pointS1 = Integer.parseInt(s1.substring(s1.lastIndexOf("_")+1));
+            int pointS2 = Integer.parseInt(s2.substring(s2.lastIndexOf("_")+1));
             if (pointS1 >= pointS2)
                 if (pointS1 == pointS2)
                     return 0;

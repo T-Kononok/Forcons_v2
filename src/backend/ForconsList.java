@@ -62,6 +62,11 @@ public class ForconsList {
         forconsList.validate();
     }
 
+    public static void add(String string) {
+        forconsListModel.add(string);
+        forconsList.validate();
+    }
+
     public static ForsonsListModel getForconsListModel() {
         return forconsListModel;
     }
@@ -89,11 +94,11 @@ public class ForconsList {
 
     public static boolean minusPoint(int value) {
         String string = getSelectedValue();
-        int point = Integer.parseInt(string.substring(string.lastIndexOf(",")+1));
+        int point = Integer.parseInt(string.substring(string.lastIndexOf("_")+1));
         point -= value;
         if (point < 0)
             return false;
-        String sub = string.substring(0,string.lastIndexOf(",")+1);
+        String sub = string.substring(0,string.lastIndexOf("_")+1);
         forconsListModel.set(getSelectedIndex(),sub+point);
         DownElementsPanel.changeElements();
         return true;
@@ -101,13 +106,13 @@ public class ForconsList {
 
     public static void minusAllPoint() {
         String string = getSelectedValue();
-        int point = Integer.parseInt(string.substring(string.lastIndexOf(",")+1));
+        int point = Integer.parseInt(string.substring(string.lastIndexOf("_")+1));
         minusPoint(point);
     }
 
     public static int getLevel() {
         String string = getSelectedValue();
-        return Integer.parseInt(string.substring(string.indexOf(",",3)+1,string.lastIndexOf(",")));
+        return Integer.parseInt(string.substring(string.indexOf("_",3)+1,string.lastIndexOf("_")));
     }
 
     public static void read(String filename) {

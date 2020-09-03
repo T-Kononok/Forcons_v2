@@ -2,6 +2,7 @@ package backend;
 
 import backend.models.ForsonsListModel;
 import backend.skills.BaBodyBagSkill;
+import backend.skills.InBugUseSkill;
 import backend.skills.SaOvercomingSkill;
 import frontend.frame.DownElementsPanel;
 import frontend.renderer.ForconsRenderer;
@@ -85,17 +86,17 @@ public class ForconsList {
         forconsListModel.sortClass();
     }
 
-//    public boolean canMinusPoint(int index, int value) {
-//        String string = forconsListModel.get(index);
-//        int point = Integer.parseInt(string.substring(string.lastIndexOf(",")+1));
-//        point -= value;
-//        return point >= 0;
-//    }
+    public static boolean canMinusPoint(int value) {
+        String string = getSelectedValue();
+        int point = Integer.parseInt(string.substring(string.lastIndexOf(",")+1));
+        point -= value;
+        return point >= 0;
+    }
 
-    public static boolean minusPoint(int value) {
+    private static boolean changeValue(int value) {
         String string = getSelectedValue();
         int point = Integer.parseInt(string.substring(string.lastIndexOf("_")+1));
-        point -= value;
+        point += value;
         if (point < 0)
             return false;
         String sub = string.substring(0,string.lastIndexOf("_")+1);
@@ -104,10 +105,18 @@ public class ForconsList {
         return true;
     }
 
+    public static boolean minusPoint(int value) {
+        return changeValue(-value);
+    }
+
     public static void minusAllPoint() {
         String string = getSelectedValue();
         int point = Integer.parseInt(string.substring(string.lastIndexOf("_")+1));
         minusPoint(point);
+    }
+
+    public static void plusPoint(int value) {
+        changeValue(value);
     }
 
     public static int getLevel() {

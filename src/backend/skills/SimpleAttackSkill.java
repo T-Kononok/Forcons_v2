@@ -49,5 +49,7 @@ public class SimpleAttackSkill extends Skill {
         }
         if (skillName.equals("bardChain"))
             BaDeathSkill.checkDeath();
+        if (skillName.equals("inseClaws"))
+            InBugUseSkill.addIfFirstBegin();
     }
 }

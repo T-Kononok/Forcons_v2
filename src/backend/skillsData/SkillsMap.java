@@ -34,7 +34,7 @@ public class SkillsMap {
         inSkillMap.put(3,new InDLCSkill());
         inSkillMap.put(4,null);
         inSkillMap.put(5,null);
-        inSkillMap.put(6,null);
+        inSkillMap.put(6,new InBugUseSkill());
         allSkillMap.put("in",inSkillMap);
     }
 

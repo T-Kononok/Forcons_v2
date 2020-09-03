@@ -12,6 +12,7 @@ public class InPoisonSkill extends Skill {
 
     @Override
     public void begin() throws IOException {
+        InBugUseSkill.addIfFirstBegin();
         if (!ForconsList.minusPoint(1))
             return;
         if (lastCount == 0)

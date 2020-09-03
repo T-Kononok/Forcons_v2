@@ -33,7 +33,7 @@ public class SkillsMap {
         inSkillMap.put(2,new InPoisonSkill());
         inSkillMap.put(3,new InDLCSkill());
         inSkillMap.put(4,null);
-        inSkillMap.put(5,null);
+        inSkillMap.put(5,new InComboSkill());
         inSkillMap.put(6,new InBugUseSkill());
         allSkillMap.put("in",inSkillMap);
     }

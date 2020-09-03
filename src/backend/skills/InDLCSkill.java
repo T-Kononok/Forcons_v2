@@ -15,7 +15,7 @@ public class InDLCSkill extends Skill {
 
     @Override
     public void begin() {
-        if (!ForconsList.minusPoint(2))
+        if (!InComboSkill.checkCombo(3) && !ForconsList.minusPoint(2))
             return;
         DLCArray.add(ForconsList.getSelectedValue());
         ForconsList.minusAllPoint();

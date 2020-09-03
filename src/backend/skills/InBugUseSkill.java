@@ -6,16 +6,16 @@ public class InBugUseSkill extends Skill {
 
     private static final ArrayList<String> arrayNoFirstBegin = new ArrayList<>();
 
-    public static boolean isFirstBegin(String name) {
+    public static boolean isNoFirstBegin(String name) {
         for (String string : arrayNoFirstBegin)
             if (string.equals(name))
-                return false;
-        return true;
+                return true;
+        return false;
     }
 
     public static void addIfFirstBegin() {
         String name = ForconsList.getSelectedValue().split("_")[1];
-        if (!isFirstBegin(name))
+        if (isNoFirstBegin(name))
             return;
         arrayNoFirstBegin.add(name);
     }
@@ -25,7 +25,7 @@ public class InBugUseSkill extends Skill {
         if (!ForconsList.canMinusPoint(1))
             return;
         String name = ForconsList.getSelectedValue().split("_")[1];
-        if (!isFirstBegin(name))
+        if (isNoFirstBegin(name))
             return;
         if (checkChance(0.5))
             ForconsList.plusPoint(5);

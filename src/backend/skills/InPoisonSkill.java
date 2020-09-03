@@ -13,7 +13,7 @@ public class InPoisonSkill extends Skill {
     @Override
     public void begin() throws IOException {
         InBugUseSkill.addIfFirstBegin();
-        if (!ForconsList.minusPoint(1))
+        if (!InComboSkill.checkCombo(2) && !ForconsList.minusPoint(1))
             return;
         if (lastCount == 0)
             lastCount = findLastCount();

@@ -120,7 +120,6 @@ public class ForconsList {
             Scanner scanner = new Scanner(new File(filename));
             while (scanner.hasNextLine())
                 forconsListModel.add(scanner.nextLine());
-            BaBodyBagSkill.checkBodyBag();
             SaOvercomingSkill.checkOvercoming();
             sortPoint();
             sortClass();

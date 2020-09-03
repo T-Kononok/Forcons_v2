@@ -28,7 +28,7 @@ public class Cell extends SeparateCell {
         if (cell != this)
             SmBadSkill.startTransferFon(cell.getYX());
         if (cell.isBomb())
-                SaKillerQueenSkill.blast(cell);
+            SaKillerQueenSkill.blast(cell);
     }
 
     public int getRow() {

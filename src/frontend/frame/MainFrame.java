@@ -3,6 +3,7 @@ package frontend.frame;
 import auxiliary.Auxiliary;
 import backend.ForconsList;
 import backend.ReadWriteData;
+import backend.skills.BaBodyBagSkill;
 import backend.skills.InDLCSkill;
 import backend.skills.SaTsundereSkill;
 import backend.skills.SmRaspberrySkill;
@@ -95,9 +96,10 @@ public class MainFrame extends JFrame {
             scrollPane.setVisible(true);
             TableNoGaps.startThread();
             panelFull.setImageFile("image/fon2.jpg");
-            SmRaspberrySkill.startFons();
-            SaTsundereSkill.checkTsundere();
+            BaBodyBagSkill.checkBodyBag();
             InDLCSkill.addDLC();
+            SaTsundereSkill.checkTsundere();
+            SmRaspberrySkill.startFons();
         });
     }
 

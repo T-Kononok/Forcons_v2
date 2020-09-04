@@ -3,6 +3,7 @@ package backend;
 import backend.models.ForsonsListModel;
 import backend.skills.BaBodyBagSkill;
 import backend.skills.InBugUseSkill;
+import backend.skills.InMicroTransactionSkill;
 import backend.skills.SaOvercomingSkill;
 import frontend.frame.DownElementsPanel;
 import frontend.renderer.ForconsRenderer;
@@ -15,21 +16,32 @@ import java.util.Scanner;
 public class ForconsList {
     private static final ForsonsListModel forconsListModel = new ForsonsListModel();
     private static final JList<String> forconsList = new JList<>();
+    private static boolean microTrans = false;
     private static int firstIndex = -1;
-    private static int secondIndex = -1;
 
     static {
         forconsList.setModel(forconsListModel);
-        setMultipleSelection(true);
+        forconsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         forconsList.setCellRenderer(new ForconsRenderer());
         forconsList.setOpaque(false);
+        forconsList.addListSelectionListener(evt -> {
+            if (evt.getValueIsAdjusting()) {
+                DownElementsPanel.onFon();
+                DownElementsPanel.changeElements();
+                if (microTrans) {
+                    if (!getSelectedValue().split("_")[0].equals("in")) {
+                        microTrans = false;
+                        InMicroTransactionSkill.inListener(getSelectedIndex());
+                    }
+                    forconsList.setSelectedIndex(firstIndex);
+                } else
+                    firstIndex = forconsList.getSelectedIndex();
+            }
+        });
     }
 
-    public static void setMultipleSelection(boolean bol) {
-        if (bol)
-            forconsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        else
-            forconsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    public static void setMicroTrans(boolean microTrans) {
+        ForconsList.microTrans = microTrans;
     }
 
     public static JList<String> getList(){
@@ -37,25 +49,15 @@ public class ForconsList {
     }
 
     public static int getSelectedIndex() {
-        if (forconsList.getSelectedIndices().length == 1) {
-            firstIndex = forconsList.getSelectedIndex();
-            secondIndex = -1;
-        }
-        if (forconsList.getSelectedIndices().length == 2) {
-            if (forconsList.getSelectedIndices()[1] == firstIndex)
-                secondIndex = forconsList.getSelectedIndices()[0];
-            else
-                secondIndex = forconsList.getSelectedIndices()[1];
-        }
+        return forconsList.getSelectedIndex();
+    }
+
+    public static int getFirstIndex() {
         return firstIndex;
     }
 
     public static String getSelectedValue() {
         return forconsListModel.get(getSelectedIndex());
-    }
-
-    public static boolean isTwoSelected(int index) {
-        return (index == firstIndex || index == secondIndex);
     }
 
     public static void add(int index, String string) {
@@ -117,6 +119,15 @@ public class ForconsList {
 
     public static void plusPoint(int value) {
         changeValue(value);
+    }
+
+    public static void plusPoint(int index, int value) {
+        String string = forconsListModel.get(index);
+        int point = Integer.parseInt(string.substring(string.lastIndexOf("_")+1));
+        point += value;
+        String sub = string.substring(0,string.lastIndexOf("_")+1);
+        forconsListModel.set(index,sub+point);
+        DownElementsPanel.changeElements();
     }
 
     public static int getLevel() {

@@ -68,12 +68,15 @@ public class DownElementsPanel{
 
     private static void addForconsListListener() {
         ForconsList.getList().addListSelectionListener(evt -> {
-            if (evt.getValueIsAdjusting() && ForconsList.getSelectedIndex() != -1) {
-                if (!fon.isVisible())
-                    fon.setVisible(true);
-                changeElements();
+            if (!evt.getValueIsAdjusting()) {
+                    changeElements();
             }
         });
+    }
+
+    public static void onFon() {
+        if (!fon.isVisible())
+            fon.setVisible(true);
     }
 
     public static void changeElements() {

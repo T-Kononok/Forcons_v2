@@ -79,7 +79,7 @@ public class ForconsRenderer implements ListCellRenderer<String> {
         rendLevel(subStr[2]);
         rendPoint(subStr[3]);
 
-        if (ForconsList.isTwoSelected(index))
+        if (ForconsList.getFirstIndex() == index)
             fon2.setBackground(new Color(0, 0, 0, 255));
         else
             fon2.setBackground(new Color(0, 0, 0, 0));

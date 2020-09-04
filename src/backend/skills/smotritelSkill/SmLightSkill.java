@@ -1,12 +1,13 @@
-package backend.skills;
+package backend.skills.smotritelSkill;
 
 import backend.*;
 import backend.marks.CellsData;
+import backend.skills.Skill;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class SmLightSkill extends Skill{
+public class SmLightSkill extends Skill {
 
     private static final ArrayList<Integer> light = new ArrayList<>();
 

@@ -1,8 +1,9 @@
-package backend.skills;
+package backend.skills.insectoidSkill;
 
 import backend.ForconsList;
+import backend.skills.Skill;
 
-public class InMicroTransactionSkill extends Skill{
+public class InMicroTransactionSkill extends Skill {
 
     public static void inListener(int index) {
         ForconsList.plusPoint(index, 1);

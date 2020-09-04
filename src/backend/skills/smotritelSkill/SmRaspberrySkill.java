@@ -1,7 +1,8 @@
-package backend.skills;
+package backend.skills.smotritelSkill;
 
 import backend.ForconsList;
 import backend.YX;
+import backend.skills.Skill;
 
 import java.io.IOException;
 import java.util.ArrayList;

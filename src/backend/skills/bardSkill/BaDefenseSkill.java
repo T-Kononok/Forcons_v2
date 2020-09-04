@@ -1,9 +1,10 @@
-package backend.skills;
+package backend.skills.bardSkill;
 
 import backend.ForconsList;
+import backend.skills.Skill;
 import frontend.frame.UpElementsPanel;
 
-public class BaDefenseSkill extends Skill{
+public class BaDefenseSkill extends Skill {
 
     private static int buffDefense = 0;
 

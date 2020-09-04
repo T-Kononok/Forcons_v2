@@ -1,8 +1,9 @@
-package backend.skills;
+package backend.skills.bardSkill;
 
 import backend.*;
 import backend.marks.Cell;
 import backend.marks.CellsData;
+import backend.skills.Skill;
 import frontend.frame.TableNoGaps;
 
 import java.io.IOException;

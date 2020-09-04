@@ -1,6 +1,7 @@
-package backend.skills;
+package backend.skills.bardSkill;
 
 import backend.ForconsList;
+import backend.skills.Skill;
 
 public class BaDeathSkill extends Skill {
 

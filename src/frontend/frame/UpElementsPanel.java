@@ -3,9 +3,9 @@ package frontend.frame;
 import auxiliary.Auxiliary;
 import backend.ForconsList;
 import backend.ReadWriteData;
-import backend.skills.BaBalladSkill;
-import backend.skills.BaCoinsSkill;
-import backend.skills.BaDefenseSkill;
+import backend.skills.bardSkill.BaBalladSkill;
+import backend.skills.bardSkill.BaCoinsSkill;
+import backend.skills.bardSkill.BaDefenseSkill;
 import frontend.elements.ImagePanel;
 
 import javax.swing.*;

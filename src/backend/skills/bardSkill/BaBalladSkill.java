@@ -1,9 +1,10 @@
-package backend.skills;
+package backend.skills.bardSkill;
 
 import backend.ForconsList;
+import backend.skills.Skill;
 import frontend.frame.UpElementsPanel;
 
-public class BaBalladSkill extends Skill{
+public class BaBalladSkill extends Skill {
 
     private static double buffAttack = 0;
 

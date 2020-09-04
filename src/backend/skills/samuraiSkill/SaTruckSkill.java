@@ -1,13 +1,15 @@
-package backend.skills;
+package backend.skills.samuraiSkill;
 
 import backend.*;
 import backend.marks.Cell;
 import backend.marks.CellsData;
+import backend.skills.Skill;
+import backend.skills.bardSkill.BaBalladSkill;
 
 import java.io.IOException;
 import java.util.Random;
 
-public class SaTruckSkill extends Skill{
+public class SaTruckSkill extends Skill {
 
     @Override
     public void begin() throws IOException {

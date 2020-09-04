@@ -1,9 +1,10 @@
-package backend.skills;
+package backend.skills.samuraiSkill;
 
 import backend.ForconsList;
 import backend.marks.Cell;
 import backend.marks.CellsData;
 import backend.YX;
+import backend.skills.Skill;
 
 import java.io.IOException;
 import java.util.ArrayList;

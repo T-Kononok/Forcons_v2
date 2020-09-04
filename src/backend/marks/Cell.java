@@ -1,8 +1,8 @@
 package backend.marks;
 
 import backend.YX;
-import backend.skills.SaKillerQueenSkill;
-import backend.skills.SmBadSkill;
+import backend.skills.samuraiSkill.SaKillerQueenSkill;
+import backend.skills.smotritelSkill.SmBadSkill;
 
 import java.io.IOException;
 

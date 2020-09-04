@@ -21,6 +21,10 @@ public class HSSFData {
         return styleMap;
     }
 
+    public static String getFileName() {
+        return fileName.substring(0,fileName.indexOf(".xls"));
+    }
+
     public static void writeHSSFJournal(ArrayList<ArrayList<Cell>> matrix) {
         HSSFSheet sheet = workbook.getSheet("Оценки"); ///
         for (int i = 0; i < matrix.size(); i++) {

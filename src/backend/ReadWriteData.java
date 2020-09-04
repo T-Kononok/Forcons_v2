@@ -2,7 +2,11 @@ package backend;
 
 import backend.marks.CellsData;
 import backend.models.JournalTableModel;
-import backend.skills.*;
+import backend.skills.bardSkill.BaBodyBagSkill;
+import backend.skills.bardSkill.BaCoinsSkill;
+import backend.skills.bardSkill.BaDefenseSkill;
+import backend.skills.insectoidSkill.InDLCSkill;
+import backend.skills.smotritelSkill.SmRaspberrySkill;
 import frontend.frame.UpElementsPanel;
 import frontend.frame.TableNoGaps;
 
@@ -31,7 +35,7 @@ public class ReadWriteData {
 
     public static void readOther() {
         try {
-            Scanner scanner = new Scanner(new File("Другое.txt"));
+            Scanner scanner = new Scanner(new File(HSSFData.getFileName() + " другое.txt"));
             String string = scanner.nextLine();
             BaDefenseSkill.set(Integer.parseInt(string.substring(string.indexOf(": ")+2)));
             string = scanner.nextLine();
@@ -81,7 +85,7 @@ public class ReadWriteData {
     public static void writeOther() {
         try
         {
-            FileWriter writer = new FileWriter("Другое.txt", false);
+            FileWriter writer = new FileWriter(HSSFData.getFileName() + " другое.txt", false);
 
             writer.write("Защита: " + BaDefenseSkill.get() + "\n");
             writer.write("Долг: " + BaCoinsSkill.get() + "\n");

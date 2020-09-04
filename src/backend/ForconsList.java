@@ -1,10 +1,8 @@
 package backend;
 
 import backend.models.ForsonsListModel;
-import backend.skills.BaBodyBagSkill;
-import backend.skills.InBugUseSkill;
-import backend.skills.InMicroTransactionSkill;
-import backend.skills.SaOvercomingSkill;
+import backend.skills.insectoidSkill.InMicroTransactionSkill;
+import backend.skills.samuraiSkill.SaOvercomingSkill;
 import frontend.frame.DownElementsPanel;
 import frontend.renderer.ForconsRenderer;
 

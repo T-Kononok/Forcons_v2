@@ -49,20 +49,14 @@ public class Auxiliary {
     }
 
     public static ReSizeLabel addLabel(JComponent parentComponent, int width, int height, int x, int y, int size) {
-        Font font = null;
-        try {
-            font = Font.createFont(Font.TRUETYPE_FONT, new BufferedInputStream(
-                    new FileInputStream("Fortuna Gothic FlorishC.ttf"))).
-                    deriveFont(Font.PLAIN, size);
-        } catch (Exception ignored) { }
-        return addLabel(parentComponent, width, height, x, y, font);
+        return addLabel(parentComponent, width, height, x, y, "Fortuna Gothic FlorishC.ttf", size);
     }
 
     public static ReSizeLabel addLabel(JComponent parentComponent, int width, int height, int x, int y, String fontName, int size) {
         Font font = null;
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, new BufferedInputStream(
-                    new FileInputStream(fontName))).
+                    new FileInputStream("font/" + fontName))).
                     deriveFont(Font.PLAIN, size);
         } catch (Exception ignored) { }
         return addLabel(parentComponent, width, height, x, y, font);

@@ -1,6 +1,10 @@
 package backend.skillsData;
 
 import backend.skills.*;
+import backend.skills.bardSkill.*;
+import backend.skills.insectoidSkill.*;
+import backend.skills.samuraiSkill.*;
+import backend.skills.smotritelSkill.*;
 
 import java.util.HashMap;
 import java.util.Map;

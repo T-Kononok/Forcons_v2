@@ -1,14 +1,15 @@
-package backend.skills;
+package backend.skills.samuraiSkill;
 
 import backend.*;
 import backend.marks.Cell;
 import backend.marks.CellsData;
+import backend.skills.Skill;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class SaComplementSkill extends Skill{
+public class SaComplementSkill extends Skill {
 
     private int getNewAverageScore(int row, int col, int value) {
         Cell cell;

@@ -1,13 +1,14 @@
-package backend.skills;
+package backend.skills.smotritelSkill;
 
 import backend.ForconsList;
 import backend.YX;
 import backend.marks.Cell;
 import backend.marks.CellsData;
+import backend.skills.samuraiSkill.SaKillerQueenSkill;
 
 import java.io.IOException;
 
-public class SmBadSkill extends SaKillerQueenSkill{
+public class SmBadSkill extends SaKillerQueenSkill {
 
     @Override
     public void begin() throws IOException {

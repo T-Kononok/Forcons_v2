@@ -36,11 +36,10 @@ public class ReSizeLabel extends JLabel {
     private void setNewFont(String fontName, int size) {
         try {
             Font newFont = Font.createFont(Font.TRUETYPE_FONT, new BufferedInputStream(
-                    new FileInputStream(fontName+".ttf"))).deriveFont(Font.PLAIN, size);
+                    new FileInputStream("font/" + fontName + ".ttf"))).deriveFont(Font.PLAIN, size);
             setFont(newFont);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 }

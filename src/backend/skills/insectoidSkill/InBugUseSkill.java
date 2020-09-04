@@ -1,5 +1,7 @@
-package backend.skills;
+package backend.skills.insectoidSkill;
 import backend.ForconsList;
+import backend.skills.Skill;
+
 import java.util.ArrayList;
 
 public class InBugUseSkill extends Skill {

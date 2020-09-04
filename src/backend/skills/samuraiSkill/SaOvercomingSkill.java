@@ -1,9 +1,10 @@
-package backend.skills;
+package backend.skills.samuraiSkill;
 
 import backend.ForconsList;
 import backend.models.ForsonsListModel;
+import backend.skills.Skill;
 
-public class SaOvercomingSkill extends Skill{
+public class SaOvercomingSkill extends Skill {
 
     public static void checkOvercoming() {
         ForsonsListModel model = ForconsList.getForconsListModel();

@@ -1,8 +1,9 @@
-package backend.skills;
+package backend.skills.insectoidSkill;
 
 import backend.ForconsList;
 import backend.marks.Cell;
 import backend.marks.CellsData;
+import backend.skills.Skill;
 
 import java.io.IOException;
 

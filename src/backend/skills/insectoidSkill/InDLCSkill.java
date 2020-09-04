@@ -1,8 +1,8 @@
-package backend.skills;
+package backend.skills.insectoidSkill;
 
 import backend.ForconsList;
+import backend.skills.Skill;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class InDLCSkill extends Skill {

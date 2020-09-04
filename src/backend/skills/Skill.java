@@ -3,6 +3,7 @@ package backend.skills;
 import backend.*;
 import backend.marks.Cell;
 import backend.marks.CellsData;
+import backend.skills.smotritelSkill.SmLightSkill;
 import frontend.frame.TableNoGaps;
 import backend.skillsData.SkillEffect;
 

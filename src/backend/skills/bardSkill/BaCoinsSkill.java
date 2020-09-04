@@ -1,6 +1,7 @@
-package backend.skills;
+package backend.skills.bardSkill;
 
 import backend.ForconsList;
+import backend.skills.Skill;
 import frontend.frame.UpElementsPanel;
 
 public class BaCoinsSkill extends Skill {

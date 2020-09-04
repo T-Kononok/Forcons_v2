@@ -3,7 +3,10 @@ package frontend.frame;
 import auxiliary.Auxiliary;
 import backend.ForconsList;
 import backend.ReadWriteData;
-import backend.skills.*;
+import backend.skills.bardSkill.BaBodyBagSkill;
+import backend.skills.insectoidSkill.InDLCSkill;
+import backend.skills.samuraiSkill.SaTsundereSkill;
+import backend.skills.smotritelSkill.SmRaspberrySkill;
 import frontend.elements.*;
 
 import javax.swing.*;

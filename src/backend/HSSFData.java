@@ -22,7 +22,7 @@ public class HSSFData {
     }
 
     public static String getFileName() {
-        return fileName.substring(0,fileName.indexOf(".xls"));
+        return fileName.substring(fileName.lastIndexOf("\\")+1,fileName.indexOf(".xls"));
     }
 
     public static void writeHSSFJournal(ArrayList<ArrayList<Cell>> matrix) {

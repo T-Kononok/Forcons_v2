@@ -35,7 +35,7 @@ public class ReadWriteData {
 
     public static void readOther() {
         try {
-            File file = new File(HSSFData.getFileName() + " другое.txt");
+            File file = new File("data/" + HSSFData.getFileName() + ".txt");
             if (!file.exists())
                 return;
             Scanner scanner = new Scanner(file);
@@ -98,7 +98,7 @@ public class ReadWriteData {
         try
         {
             FileWriter writer = new FileWriter(
-                    HSSFData.getFileName() + " другое.txt", false);
+                    "data/" + HSSFData.getFileName() + ".txt", false);
             writer.write("Защита:\n" + BaDefenseSkill.get() + "\n");
             writer.write("Долг:\n" + BaCoinsSkill.get() + "\n");
             if (SmRaspberrySkill.getRaspberryArray().size() > 0) {

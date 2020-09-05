@@ -10,6 +10,7 @@ import backend.skills.smotritelSkill.SmRaspberrySkill;
 import frontend.elements.*;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.io.File;
 
@@ -19,7 +20,7 @@ public class MainFrame extends JFrame {
     private static final int HEIGHT = 720;
     private static final ImagePanel panelFull = new ImagePanel("image/begin_fon.jpg",false);
 
-    private static JFileChooser fileChooser = new JFileChooser();
+    private static final JFileChooser fileChooser = new JFileChooser();
     private static JButton cancelButton;
 
 
@@ -38,7 +39,6 @@ public class MainFrame extends JFrame {
 
         cancelButton = addCancelButton();
 
-        fileChooser.setCurrentDirectory(new File("."));
         addOpenButton(addOpenPanel(), addForconsListScroll());
 
         getContentPane().add(panelFull);
@@ -83,10 +83,16 @@ public class MainFrame extends JFrame {
         openButton.setPanel(openPanel);
         openButton.setMessageImage(addBeginMessageImage());
         openButton.addActionListener(ev -> {
-            String fileName = selectionFile("Открыть жунал");
-            ReadWriteData.readTable(fileName);
-            fileName = selectionFile("Открыть форсонов");
-            ForconsList.read(fileName);
+            fileChooser.setCurrentDirectory(new File("journals"));
+            FileNameExtensionFilter filterExcel = new FileNameExtensionFilter(
+                    ".xls", "xls");
+            fileChooser.setFileFilter(filterExcel);
+            ReadWriteData.readTable(selectionFile("Открыть жунал"));
+            fileChooser.setCurrentDirectory(new File("forsonsLists"));
+            FileNameExtensionFilter filterTxt = new FileNameExtensionFilter(
+                    ".txt", "txt");
+            fileChooser.setFileFilter(filterTxt);
+            ForconsList.read(selectionFile("Открыть форсонов"));
             openButton.setVisible(false);
             openPanel.setVisible(false);
             TableNoGaps.setVisible(true);

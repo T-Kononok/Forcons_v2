@@ -32,6 +32,7 @@ public class HSSFData {
             for (int j = 0; j < matrix.get(0).size(); j++) {
                 HSSFCell cell = row.getCell(j+2);
                 Cell mark = matrix.get(i).get(j);
+//                System.out.println(mark.toStyle() + " " + mark.getRow() + " " + mark.getCol());
                 cell.setCellStyle(styleMap.get(mark.toStyle()));
                 if (mark.get()==0) {
                     cell.setCellValue(mark.toString());
@@ -131,14 +132,8 @@ public class HSSFData {
 
         mark.setStyle(cell.getCellStyle().getParentStyle().getUserStyleName());
 
-        if (cell.getCellType() == CellType.BLANK) {
-            return mark;
-        }
         if (cell.getCellType() == CellType.NUMERIC) {
             mark.set((int)cell.getNumericCellValue());
-            return mark;
-        }
-        if (cell.getCellType() == CellType.STRING) {
             return mark;
         }
         return mark;

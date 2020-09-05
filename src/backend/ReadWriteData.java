@@ -35,16 +35,28 @@ public class ReadWriteData {
 
     public static void readOther() {
         try {
-            Scanner scanner = new Scanner(new File(HSSFData.getFileName() + " другое.txt"));
+            File file = new File(HSSFData.getFileName() + " другое.txt");
+            if (!file.exists())
+                return;
+            Scanner scanner = new Scanner(file);
+            if (!scanner.hasNextLine())
+                return;
             String string = scanner.nextLine();
-            BaDefenseSkill.set(Integer.parseInt(string.substring(string.indexOf(": ")+2)));
-            string = scanner.nextLine();
-            BaCoinsSkill.set(Integer.parseInt(string.substring(string.indexOf(": ")+2)));
-            if (scanner.hasNextLine())
-                string = scanner.nextLine();
             while (scanner.hasNextLine()) {
                 switch (string) {
-                    case "Малина:" :
+                    case "Защита:":
+                        string = scanner.nextLine();
+                        BaDefenseSkill.set(Integer.parseInt(string));
+                        if (scanner.hasNextLine())
+                            string = scanner.nextLine();
+                        break;
+                    case "Долг:":
+                        string = scanner.nextLine();
+                        BaCoinsSkill.set(Integer.parseInt(string));
+                        if (scanner.hasNextLine())
+                            string = scanner.nextLine();
+                        break;
+                    case "Малина:":
                         string = scanner.nextLine();
                         String[] subStrings = string.split(" ");
                         for (String subString : subStrings)
@@ -52,7 +64,7 @@ public class ReadWriteData {
                         if (scanner.hasNextLine())
                             string = scanner.nextLine();
                         break;
-                    case "DLC:" :
+                    case "DLC:":
                         while (scanner.hasNextLine()) {
                             string = scanner.nextLine();
                             if (!string.contains("in_"))
@@ -60,7 +72,7 @@ public class ReadWriteData {
                             InDLCSkill.getDLCArray().add(string);
                         }
                         break;
-                    case "Бадибэг:" :
+                    case "Бадибэг:":
                         string = scanner.nextLine();
                         while (scanner.hasNextLine()) {
                             String name = string;
@@ -78,17 +90,17 @@ public class ReadWriteData {
             }
             UpElementsPanel.changeElements();
         } catch (FileNotFoundException e) {
-            System.out.println("Ошибка чтения списка форсонов");
+            System.out.println("Ошибка в readOther");
         }
     }
 
     public static void writeOther() {
         try
         {
-            FileWriter writer = new FileWriter(HSSFData.getFileName() + " другое.txt", false);
-
-            writer.write("Защита: " + BaDefenseSkill.get() + "\n");
-            writer.write("Долг: " + BaCoinsSkill.get() + "\n");
+            FileWriter writer = new FileWriter(
+                    HSSFData.getFileName() + " другое.txt", false);
+            writer.write("Защита:\n" + BaDefenseSkill.get() + "\n");
+            writer.write("Долг:\n" + BaCoinsSkill.get() + "\n");
             if (SmRaspberrySkill.getRaspberryArray().size() > 0) {
                 writer.write("Малина:" + "\n");
                 SmRaspberrySkill.getRaspberryArray().forEach((i) -> {

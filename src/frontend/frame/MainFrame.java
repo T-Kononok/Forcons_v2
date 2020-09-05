@@ -19,7 +19,7 @@ public class MainFrame extends JFrame {
     private static final int HEIGHT = 720;
     private static final ImagePanel panelFull = new ImagePanel("image/begin_fon.jpg",false);
 
-    private static JFileChooser fileChooser = null;
+    private static JFileChooser fileChooser = new JFileChooser();
     private static JButton cancelButton;
 
 
@@ -38,6 +38,7 @@ public class MainFrame extends JFrame {
 
         cancelButton = addCancelButton();
 
+        fileChooser.setCurrentDirectory(new File("."));
         addOpenButton(addOpenPanel(), addForconsListScroll());
 
         getContentPane().add(panelFull);
@@ -45,10 +46,7 @@ public class MainFrame extends JFrame {
 
     private JButton addCancelButton() {
         JButton cancelButton = Auxiliary.addButton(panelFull,25,25,1250,5);
-        cancelButton.addActionListener(ev -> {
-            TableNoGaps.stopThread();
-            dispose();
-        });
+        cancelButton.addActionListener(ev -> System.exit(0));
         return cancelButton;
     }
 
@@ -85,9 +83,10 @@ public class MainFrame extends JFrame {
         openButton.setPanel(openPanel);
         openButton.setMessageImage(addBeginMessageImage());
         openButton.addActionListener(ev -> {
-            ReadWriteData.readTable(selectionFile("Открыть жунал"));
-//            MainData.readTable("D:\\Джава\\Forcons_v2\\10_FM-3.xls");
-            ForconsList.read(selectionFile("Открыть форсонов"));
+            String fileName = selectionFile("Открыть жунал");
+            ReadWriteData.readTable(fileName);
+            fileName = selectionFile("Открыть форсонов");
+            ForconsList.read(fileName);
             openButton.setVisible(false);
             openPanel.setVisible(false);
             TableNoGaps.setVisible(true);
@@ -109,16 +108,12 @@ public class MainFrame extends JFrame {
         return messageImage;
     }
 
-    private static String selectionFile(String string) {
-        if (fileChooser==null) {
-            fileChooser = new JFileChooser();
-            fileChooser.setCurrentDirectory(new File("."));
-        }
+    private String selectionFile(String string) {
         fileChooser.setDialogTitle(string);
-        if (fileChooser.showOpenDialog(panelFull) == JFileChooser.APPROVE_OPTION) {
-//            System.out.println(fileChooser.getSelectedFile().getPath());
+        if (fileChooser.showOpenDialog(panelFull) == JFileChooser.APPROVE_OPTION)
             return fileChooser.getSelectedFile().getPath();
-        }
+        else
+            System.exit(0);
         return null;
     }
 
